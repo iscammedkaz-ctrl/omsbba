@@ -57,7 +57,7 @@
   .hero-card { background: white; border-radius: 28px; padding: 18px; box-shadow: var(--shadow); border: 1px solid var(--line); }
   .hero-card img { width: min(100%, 420px); margin: 0 auto; }
   .rule { height: 4px; width: 92px; border-radius: 99px; margin: 8px auto 0; background: linear-gradient(90deg, var(--orange), var(--teal-2)); }
-  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 8px 0 28px; }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 8px 0 28px; }
   .stat, .card { background: white; border: 1px solid var(--line); border-radius: 16px; padding: 14px; box-shadow: var(--shadow); }
   .stat b { display: block; font-size: 22px; color: var(--navy); }
   .stat span, .sub, .hint { color: var(--muted); }
@@ -155,7 +155,6 @@
       <div class="stat"><b>4</b><span data-i18n="st1">types de clients</span></div>
       <div class="stat"><b>6</b><span data-i18n="st2">créneaux / jour</span></div>
       <div class="stat"><b id="spaceCount">4</b><span data-i18n="st3">espaces</span></div>
-      <div class="stat"><b>AR · FR · EN</b><span data-i18n="st4">même salle, 3 langues</span></div>
     </div>
     <div id="discBlock">
       <h2 id="discTitle"></h2>
@@ -245,7 +244,7 @@ const I18N = {
     kicker: "Bordj El Bahri · Alger", h1: "La salle des clubs, des ligues et des privés.",
     lead: "Plateau, dojo et salle polyvalente à la cité Cosider. Les structures ont un canal. Les clients privés réservent à part. Le gérant vise.",
     ctaBook: "Réserver sur mon canal", ctaPrivate: "Réservation privée",
-    st1: "types de clients", st2: "créneaux / jour", st3: "espaces", st4: "même salle, 3 langues",
+    st1: "types de clients", st2: "créneaux / jour", st3: "espaces",
     discTitle: "Disciplines", discSub: "Le logo porte le plateau. La salle ouverte en 2022 accueille aussi le combat et la préparation.",
     spacesTitle: "Espaces à réserver", spacesSub: "Un créneau = un espace. Le visa du gérant ne retient que des places disponibles, club ou privé.",
     chTitle: "Un canal par structure", chSub: "La fédération, la ligue et le club ne partagent pas la même file. Le privé n’y entre pas.",
@@ -292,7 +291,7 @@ const I18N = {
     kicker: "برج البحري · الجزائر العاصمة", h1: "قاعة الأندية والرابطات والحرفاء الخواص.",
     lead: "ملعب وقاعة قتال وقاعة متعددة بحي كوسيدار. الهياكل لها قناة. الخواص يحجزون على حدة. المسيّر يؤشّر.",
     ctaBook: "احجز عبر قناتي", ctaPrivate: "حجز خاص",
-    st1: "أنواع الحرفاء", st2: "حصص في اليوم", st3: "فضاءات", st4: "قاعة واحدة، 3 لغات",
+    st1: "أنواع الحرفاء", st2: "حصص في اليوم", st3: "فضاءات",
     discTitle: "الاختصاصات", discSub: "الشعار يحمل القاعة. القاعة المفتوحة سنة 2022 تستقبل أيضا القتال والتحضير.",
     spacesTitle: "فضاءات الحجز", spacesSub: "حصة واحدة = فضاء واحد. التأشيرة تمنع الازدواج، ناديا كان أو خاصا.",
     chTitle: "قناة لكل هيكل", chSub: "الاتحاد والرابطة والنادي لا يتقاسمون الملف. الخاص لا يدخل هنا.",
@@ -339,7 +338,7 @@ const I18N = {
     kicker: "Bordj El Bahri · Algiers", h1: "The hall for clubs, leagues and private clients.",
     lead: "Court, dojo and multi-use room in Cité Cosider. Bodies have a channel. Private clients book apart. The manager signs off.",
     ctaBook: "Book on my channel", ctaPrivate: "Private booking",
-    st1: "client types", st2: "slots / day", st3: "spaces", st4: "one hall, 3 languages",
+    st1: "client types", st2: "slots / day", st3: "spaces",
     discTitle: "Disciplines", discSub: "The mark carries the court. The hall opened in 2022 also hosts combat sports and conditioning.",
     spacesTitle: "Spaces you can book", spacesSub: "One slot = one space. A visa blocks a double booking, club or private.",
     chTitle: "One channel per body", chSub: "Federation, league and club do not share a queue. Private clients are not in it.",
