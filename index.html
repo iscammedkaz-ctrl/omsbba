@@ -96,6 +96,41 @@
   .tab { background: white; border: 1px solid var(--line); padding: 8px 12px; font-weight: 700; color: var(--navy); }
   .tab.on { background: var(--navy); color: white; }
   .edit-lang button { min-width: 44px; }
+  .pill.recu { background: #E7F7EF; color: var(--ok); }
+  .pill.manquant { background: #FFF4E5; color: var(--wait); }
+  .pill.expire { background: #FDECEC; color: var(--no); }
+  .pill.soon { background: #FFF1E4; color: #C26412; }
+  .pill.free { background: #F3F7FA; color: var(--muted); font-weight: 600; }
+  .pill.busy { background: #E7F1FB; color: #1D4E89; }
+  .pill.resv { background: #FFF1E4; color: #C26412; }
+  .badge { display: inline-grid; place-items: center; min-width: 20px; height: 20px; padding: 0 6px; border-radius: 999px; background: var(--no); color: white; font-size: 11px; font-weight: 800; margin-inline-start: 6px; }
+  .tab.on .badge { background: var(--orange); }
+  .kpis { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin: 12px 0 0; }
+  .kpi { background: #F3F7FA; border-radius: 12px; padding: 8px 10px; }
+  .kpi b { display: block; font-size: 20px; color: var(--navy); }
+  .kpi span { color: var(--muted); font-size: 12px; }
+  .kpi.warn b { color: var(--no); }
+  tr.doc-exp td { background: #FDF3F3; }
+  tr.doc-soon td { background: #FFF8EE; }
+  .inline-sel { width: auto; min-height: 34px; padding: 5px 8px; border-radius: 10px; font-size: 13px; }
+  .card h4 { margin: 14px 0 6px; color: var(--navy); font-size: 14px; }
+  .muted { color: var(--muted); font-size: 12px; }
+  td.nw { white-space: nowrap; }
+  .plan-table { table-layout: fixed; min-width: 860px; }
+  .plan-table th, .plan-table td { text-align: center; padding: 6px 4px; font-size: 12px; min-width: 104px; }
+  .plan-table th:first-child, .plan-table td:first-child { min-width: 92px; position: sticky; inset-inline-start: 0; background: white; font-weight: 700; color: var(--navy); }
+  .plan-table th.today { background: #E7F6F8; color: #0C6E84; border-radius: 10px 10px 0 0; }
+  .plan-table td.past { opacity: .55; }
+  .cell-line { display: block; margin: 2px 0; }
+  .cell-line .pill { white-space: normal; text-align: center; justify-content: center; }
+  .cell-sp { display: block; color: var(--muted); font-size: 11px; }
+  .plan-days { display: none; }
+  .plan-day { margin-top: 10px; }
+  .plan-day.today { border-color: var(--teal); }
+  .plan-day h3 { display: flex; justify-content: space-between; gap: 8px; }
+  .plan-slot { display: flex; justify-content: space-between; gap: 10px; align-items: flex-start; border-top: 1px solid var(--line); padding: 8px 0; font-size: 14px; }
+  .plan-slot > b { white-space: nowrap; color: var(--navy); font-size: 13px; }
+  .plan-slot > div { text-align: end; }
   footer { border-top: 1px solid var(--line); padding: 22px 0 40px; color: var(--muted); font-size: 13px; }
   .menu-btn { display: none; border: 1px solid var(--line); background: white; border-radius: 12px; min-height: 44px; padding: 0 12px; font-weight: 700; }
   .toast { position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); background: var(--navy); color: white; padding: 12px 16px; border-radius: 12px; display: none; z-index: 40; max-width: min(92vw, 460px); }
@@ -106,6 +141,10 @@
     nav.main { display: none; position: absolute; top: 72px; inset-inline: 16px; background: white; border: 1px solid var(--line); border-radius: 16px; padding: 8px; flex-direction: column; box-shadow: var(--shadow); }
     nav.main.open { display: flex; }
     h1 { font-size: 34px; }
+    .kpis { grid-template-columns: repeat(2, 1fr); }
+    #docForm .row { grid-template-columns: 1fr; }
+    .plan-wide { display: none; }
+    .plan-days { display: block; }
   }
 </style>
 </head>
@@ -124,6 +163,7 @@
     <nav class="main" id="nav">
       <button type="button" data-go="salle" class="active" data-i18n="navHall">La salle</button>
       <button type="button" data-go="espaces" data-i18n="navSpaces">Espaces</button>
+      <button type="button" data-go="planning" data-i18n="navPlan">Planning</button>
       <button type="button" data-go="canaux" data-i18n="navChannels">Canaux</button>
       <button type="button" data-go="autres" data-i18n="navOther">Autres</button>
       <button type="button" data-go="contact" data-i18n="navContact">Contact</button>
@@ -168,6 +208,7 @@
     <p class="sub" id="spacesSub"></p>
     <div class="grid" id="spaces"></div>
   </section>
+  <section class="panel" id="view-planning"><div id="planApp"></div></section>
   <section class="panel" id="view-canaux">
     <h2 data-i18n="chTitle">Un canal par structure</h2>
     <p class="sub" data-i18n="chSub">La fédération, la ligue et le club ne partagent pas la même file.</p>
@@ -283,7 +324,18 @@ const I18N = {
     hello: "Bonjour", role: "Gérant", emptyLeads: "Aucune demande d’ouverture.",
     track: "Suivre une demande", trackBtn: "Voir l’état", pvOk: "Demande privée déposée. Gardez le code.",
     hide: "Masquer", show: "Afficher", del: "Retirer", up: "Monter", down: "Descendre",
-    blocs: "Blocs libres", texts: "Textes", lists: "Listes", announce: "Annonce", hours: "Horaires", address: "Adresse"
+    blocs: "Blocs libres", texts: "Textes", lists: "Listes", announce: "Annonce", hours: "Horaires", address: "Adresse",
+    navPlan: "Planning", planTitle: "Planning de la salle", planSub: "Seuls les créneaux visés par le gérant apparaissent. Les demandes en attente ne sont pas affichées.",
+    free: "Libre", busy: "Occupé", resv: "Réservé", prevWeek: "Semaine précédente", nextWeek: "Semaine suivante", thisWeek: "Cette semaine", weekOf: "Semaine du", allSpaces: "Tous les espaces",
+    suivi: "Suivi clients", pickClient: "Choisir un client", noClients: "Aucun client.", toFix: "document(s) manquant(s) ou expiré(s)",
+    upcoming: "À venir", past: "Passé", total: "Total", source: "Source", srcChannel: "Canal", srcPriv: "Autres (même téléphone)",
+    linkHint: "Demandes du canal du client, plus les réservations « Autres » faites avec le même numéro de téléphone.",
+    docs: "Documents", addDoc: "Ajouter un document", editDoc: "Modifier le document", docName: "Intitulé", expiry: "Expire le", file: "Fichier", fileLbl: "Fichier joint (1,5 Mo max)", open: "Ouvrir", edit: "Modifier", cancel: "Annuler",
+    dtConv: "Convention", dtAssur: "Assurance", dtLic: "Licence / Affiliation", dtMed: "Certificat médical", dtFact: "Facture", dtAutre: "Autre",
+    dsRecu: "Reçu", dsMiss: "Manquant", dsExp: "Expiré", soon: "Expire bientôt", noDocs: "Aucun document.", missingExp: "Manquants / expirés",
+    fileBig: "Fichier trop lourd (1,5 Mo maximum). Non joint.", quota: "Stockage du navigateur plein : rien n’a été enregistré.", confirmDel: "Supprimer ce document ?", docSaved: "Document enregistré.",
+    keepFile: "Sans nouveau fichier, le fichier actuel est conservé.", rmFile: "Retirer le fichier",
+    docsHint: "Les documents et fichiers restent dans ce navigateur, sur cet appareil uniquement (1,5 Mo max par fichier)."
   },
   ar: {
     brand: "قاعة متعددة الرياضات برج البحري", brandSub: "omsbeb · برج البحري",
@@ -330,7 +382,18 @@ const I18N = {
     hello: "مرحبا", role: "المسيّر", emptyLeads: "لا طلبات فتح.",
     track: "متابعة طلب", trackBtn: "عرض الحالة", pvOk: "أُودع الطلب الخاص. احتفظ بالرمز.",
     hide: "إخفاء", show: "إظهار", del: "حذف", up: "أعلى", down: "أسفل",
-    blocs: "مربعات حرة", texts: "النصوص", lists: "القوائم", announce: "إعلان", hours: "الأوقات", address: "العنوان"
+    blocs: "مربعات حرة", texts: "النصوص", lists: "القوائم", announce: "إعلان", hours: "الأوقات", address: "العنوان",
+    navPlan: "الرزنامة", planTitle: "رزنامة القاعة", planSub: "تظهر فقط الحصص المؤشَّرة من طرف المسيّر. الطلبات قيد الانتظار لا تظهر.",
+    free: "شاغر", busy: "مشغول", resv: "محجوز", prevWeek: "الأسبوع السابق", nextWeek: "الأسبوع التالي", thisWeek: "هذا الأسبوع", weekOf: "أسبوع", allSpaces: "كل الفضاءات",
+    suivi: "متابعة الحرفاء", pickClient: "اختر حريفا", noClients: "لا يوجد حرفاء.", toFix: "وثيقة ناقصة أو منتهية الصلاحية",
+    upcoming: "القادمة", past: "السابقة", total: "المجموع", source: "المصدر", srcChannel: "القناة", srcPriv: "أخرى (نفس الهاتف)",
+    linkHint: "طلبات قناة الحريف، مع حجوزات «أخرى» المسجلة بنفس رقم الهاتف.",
+    docs: "الوثائق", addDoc: "إضافة وثيقة", editDoc: "تعديل الوثيقة", docName: "اسم الوثيقة", expiry: "تاريخ الانتهاء", file: "ملف", fileLbl: "ملف مرفق (1.5 ميغابايت كحد أقصى)", open: "فتح", edit: "تعديل", cancel: "إلغاء",
+    dtConv: "اتفاقية", dtAssur: "تأمين", dtLic: "إجازة / انخراط", dtMed: "شهادة طبية", dtFact: "فاتورة", dtAutre: "أخرى",
+    dsRecu: "مستلمة", dsMiss: "ناقصة", dsExp: "منتهية الصلاحية", soon: "تنتهي قريبا", noDocs: "لا وثائق.", missingExp: "ناقصة / منتهية",
+    fileBig: "الملف كبير جدا (الحد 1.5 ميغابايت). لم يُرفق.", quota: "ذاكرة المتصفح ممتلئة: لم يُحفظ شيء.", confirmDel: "حذف هذه الوثيقة؟", docSaved: "تم حفظ الوثيقة.",
+    keepFile: "بدون ملف جديد، يبقى الملف الحالي.", rmFile: "إزالة الملف",
+    docsHint: "الوثائق والملفات تبقى في هذا المتصفح، على هذا الجهاز فقط (1.5 ميغابايت كحد أقصى لكل ملف)."
   },
   en: {
     brand: "قاعة متعددة الرياضات برج البحري", brandSub: "omsbeb · Bordj El Bahri",
@@ -377,7 +440,18 @@ const I18N = {
     hello: "Hello", role: "Manager", emptyLeads: "No opening requests.",
     track: "Track a request", trackBtn: "See status", pvOk: "Private request filed. Keep the code.",
     hide: "Hide", show: "Show", del: "Remove", up: "Up", down: "Down",
-    blocs: "Free blocks", texts: "Texts", lists: "Lists", announce: "Notice", hours: "Hours", address: "Address"
+    blocs: "Free blocks", texts: "Texts", lists: "Lists", announce: "Notice", hours: "Hours", address: "Address",
+    navPlan: "Schedule", planTitle: "Hall schedule", planSub: "Only slots signed off by the manager are shown. Pending requests are not displayed.",
+    free: "Free", busy: "Taken", resv: "Booked", prevWeek: "Previous week", nextWeek: "Next week", thisWeek: "This week", weekOf: "Week of", allSpaces: "All spaces",
+    suivi: "Client follow-up", pickClient: "Pick a client", noClients: "No clients.", toFix: "missing or expired document(s)",
+    upcoming: "Upcoming", past: "Past", total: "Total", source: "Source", srcChannel: "Channel", srcPriv: "Other (same phone)",
+    linkHint: "Requests from the client's channel, plus “Other” bookings made with the same phone number.",
+    docs: "Documents", addDoc: "Add a document", editDoc: "Edit document", docName: "Title", expiry: "Expires on", file: "File", fileLbl: "Attached file (1.5 MB max)", open: "Open", edit: "Edit", cancel: "Cancel",
+    dtConv: "Agreement", dtAssur: "Insurance", dtLic: "Licence / Affiliation", dtMed: "Medical certificate", dtFact: "Invoice", dtAutre: "Other",
+    dsRecu: "Received", dsMiss: "Missing", dsExp: "Expired", soon: "Expires soon", noDocs: "No documents.", missingExp: "Missing / expired",
+    fileBig: "File too large (1.5 MB max). Not attached.", quota: "Browser storage is full: nothing was saved.", confirmDel: "Delete this document?", docSaved: "Document saved.",
+    keepFile: "Without a new file, the current file is kept.", rmFile: "Remove file",
+    docsHint: "Documents and files stay in this browser, on this device only (1.5 MB max per file)."
   }
 };
 const SLOTS = ["08:00–10:00", "10:00–12:00", "14:00–16:00", "16:00–18:00", "18:00–20:00", "20:00–22:00"];
@@ -387,6 +461,10 @@ let lang = localStorage.getItem("beb-lang") || "fr";
 let view = "salle";
 let session = JSON.parse(localStorage.getItem("beb-session") || "null");
 let adminTab = "books";
+let suiviClient = null;
+let editDocId = null;
+let planWeek = 0;
+let planSpace = "";
 let editLang = "fr";
 
 function tri(id, key) {
@@ -435,6 +513,8 @@ function seed() {
   return data;
 }
 let db = seed();
+db.docs = Array.isArray(db.docs) ? db.docs : [];
+db.books = db.books || []; db.privates = db.privates || []; db.clients = db.clients || []; db.leads = db.leads || [];
 if (db.site && db.site.hero && db.site.hero.fr && db.site.hero.fr.spacesSub && db.site.hero.fr.spacesSub.indexOf("double emploi") !== -1) {
   db.site.hero.fr.spacesSub = I18N.fr.spacesSub;
   save();
@@ -486,6 +566,7 @@ function applyStatic() {
   renderCards();
   fillSelects();
   renderClient();
+  renderPlanning();
   renderAdmin();
 }
 function renderCards() {
@@ -574,6 +655,7 @@ function renderAdmin() {
       <button class="tab ${adminTab === "books" ? "on" : ""}" data-tab="books">${t("books")}</button>
       <button class="tab ${adminTab === "priv" ? "on" : ""}" data-tab="priv">${t("navOther")}</button>
       <button class="tab ${adminTab === "clients" ? "on" : ""}" data-tab="clients">${t("clients")}</button>
+      <button class="tab ${adminTab === "suivi" ? "on" : ""}" data-tab="suivi">${t("suivi")}${docAlertsTotal() ? `<span class="badge">${docAlertsTotal()}</span>` : ""}</button>
       <button class="tab ${adminTab === "leads" ? "on" : ""}" data-tab="leads">${t("leads")}</button>
       <button class="tab ${adminTab === "site" ? "on" : ""}" data-tab="site">${t("site")}</button>
     </div><div id="adminBody"></div>`;
@@ -585,7 +667,9 @@ function renderAdmin() {
   if (adminTab === "clients") body.innerHTML = adminClients();
   if (adminTab === "leads") body.innerHTML = adminLeads();
   if (adminTab === "site") body.innerHTML = adminSite();
+  if (adminTab === "suivi") body.innerHTML = adminSuivi();
   bindAdmin(body);
+  if (adminTab === "suivi") bindSuivi(body);
 }
 function adminBooks() {
   const rows = [...db.books].sort((a, b) => (a.date + a.slot).localeCompare(b.date + b.slot));
@@ -617,6 +701,179 @@ function adminLeads() {
   return `<div class="card" style="overflow:auto"><table><thead><tr><th>${t("fOrg")}</th><th>${t("fType")}</th><th>${t("contact")}</th><th>${t("fMsg")}</th><th></th></tr></thead><tbody>
     ${db.leads.map(l => `<tr><td>${l.org}</td><td>${typeLabel(l.type)}</td><td>${l.contact}<div>${l.phone}</div></td><td>${l.message}</td><td><button class="mini ok" data-open="${l.id}">${t("add")}</button></td></tr>`).join("")}
   </tbody></table></div>`;
+}
+/* ---------- Suivi clients (planning + documents) ---------- */
+const DOC_TYPES = [["convention", "dtConv"], ["assurance", "dtAssur"], ["licence", "dtLic"], ["medical", "dtMed"], ["facture", "dtFact"], ["autre", "dtAutre"]];
+const DOC_STATUS = [["recu", "dsRecu"], ["manquant", "dsMiss"], ["expire", "dsExp"]];
+const MAX_FILE = 1.5 * 1024 * 1024;
+function dayISO(n, base) { const d = base ? new Date(base) : new Date(); d.setHours(12, 0, 0, 0); d.setDate(d.getDate() + (n || 0)); return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); }
+function digits(v) { return String(v || "").replace(/\D/g, ""); }
+function docTypeLabel(k) { const f = DOC_TYPES.find(x => x[0] === k); return t(f ? f[1] : "dtAutre"); }
+function docStatusLabel(k) { const f = DOC_STATUS.find(x => x[0] === k); return t(f ? f[1] : "dsMiss"); }
+function docState(d) {
+  if (d.status === "manquant") return "manquant";
+  if (d.status === "expire" || (d.expiry && d.expiry < dayISO(0))) return "expire";
+  if (d.expiry && d.expiry <= dayISO(30)) return "soon";
+  return "recu";
+}
+function docAlerts(clientId) { return db.docs.filter(d => d.clientId === clientId && (docState(d) === "manquant" || docState(d) === "expire")).length; }
+function docAlertsTotal() { return db.clients.reduce((n, c) => n + docAlerts(c.id), 0); }
+function clientBookings(c) {
+  const own = db.books.filter(b => b.clientId === c.id).map(b => ({ ...b, src: "books" }));
+  const ph = digits(c.phone);
+  const priv = ph.length >= 6 ? db.privates.filter(p => digits(p.phone) === ph).map(p => ({ ...p, src: "privates" })) : [];
+  return own.concat(priv);
+}
+function planRows(rows, desc) {
+  const sorted = [...rows].sort((a, b) => (a.date + a.slot).localeCompare(b.date + b.slot) * (desc ? -1 : 1));
+  if (!sorted.length) return `<p class="sub">${t("none")}</p>`;
+  return `<div style="overflow:auto"><table><thead><tr><th>${t("date")}</th><th>${t("slot")}</th><th>${t("space")}</th><th>${t("status")}</th><th>${t("source")}</th><th>${t("actions")}</th></tr></thead><tbody>
+    ${sorted.map(b => `<tr><td class="nw">${esc(b.date)}</td><td class="nw">${esc(b.slot)}</td><td>${esc(spaceName(b.space))}<div class="muted">${esc(discName(b.disc))}${b.note ? " · " + esc(b.note) : ""}</div></td><td>${pill(b.status)}${b.motif ? `<div class="muted">${esc(b.motif)}</div>` : ""}</td><td class="muted">${b.src === "books" ? t("srcChannel") : t("srcPriv") + " · " + esc(b.code)}</td><td>${b.status === "attente" ? `<button class="mini ok" data-visa="${b.src}:${b.id}">${t("visa")}</button> <button class="mini no" data-no="${b.src}:${b.id}">${t("refuse")}</button>` : ""}</td></tr>`).join("")}
+  </tbody></table></div>`;
+}
+function adminSuivi() {
+  if (!db.clients.length) return `<p class="sub">${t("noClients")}</p>`;
+  if (!db.clients.some(c => c.id === suiviClient)) { suiviClient = db.clients[0].id; editDocId = null; }
+  const c = db.clients.find(x => x.id === suiviClient);
+  const picker = `<div class="card"><h3>${t("pickClient")}</h3><div class="tabs" style="margin:0">
+    ${db.clients.map(x => { const n = docAlerts(x.id); return `<button type="button" class="tab ${x.id === c.id ? "on" : ""}" data-pick="${esc(x.id)}" title="${n ? n + " " + esc(t("toFix")) : ""}">${esc(x.name)}${n ? `<span class="badge">${n}</span>` : ""}</button>`; }).join("")}
+  </div></div>`;
+  const all = clientBookings(c);
+  const today = dayISO(0);
+  const up = all.filter(b => b.date >= today), past = all.filter(b => b.date < today);
+  const docs = db.docs.filter(d => d.clientId === c.id).sort((a, b) => String(a.expiry || "9999").localeCompare(String(b.expiry || "9999")) || String(b.date).localeCompare(String(a.date)));
+  const alerts = docAlerts(c.id);
+  const head = `<div class="card" style="margin-top:12px"><div class="tools" style="margin:0"><div><h3 style="margin:0">${esc(c.name)}</h3><p class="sub" style="margin:4px 0 0">${typePill(c.type)} ${esc(c.code)} · ${esc(c.contact)} ${esc(c.phone)} · ${c.active ? t("active") : t("off")}</p></div></div>
+    <div class="kpis"><div class="kpi"><b>${all.length}</b><span>${t("total")}</span></div><div class="kpi"><b>${all.filter(b => b.status === "vise").length}</b><span>${t("ok")}</span></div><div class="kpi"><b>${all.filter(b => b.status === "attente").length}</b><span>${t("waiting")}</span></div><div class="kpi"><b>${up.length}</b><span>${t("upcoming")}</span></div><div class="kpi ${alerts ? "warn" : ""}"><b>${alerts}</b><span>${t("missingExp")}</span></div></div></div>`;
+  const plan = `<div class="card" style="margin-top:12px"><h3>${t("navPlan")}</h3><p class="muted" style="margin:0">${t("linkHint")}</p>
+    <h4>${t("upcoming")} · ${up.length}</h4>${planRows(up, false)}
+    <h4>${t("past")} · ${past.length}</h4>${planRows(past, true)}</div>`;
+  const ed = editDocId ? docs.find(d => d.id === editDocId) : null;
+  if (!ed) editDocId = null;
+  const v = ed || { name: "", type: "convention", status: "recu", date: today, expiry: "", note: "" };
+  const form = `<form class="card" id="docForm" style="margin-top:12px"><h3>${ed ? t("editDoc") : t("addDoc")}</h3>
+    <div class="row"><div><label>${t("docName")}</label><input name="name" required value="${esc(v.name)}"></div>
+      <div><label>${t("fType")}</label><select name="type">${DOC_TYPES.map(([k, l]) => `<option value="${k}" ${v.type === k ? "selected" : ""}>${t(l)}</option>`).join("")}</select></div></div>
+    <div class="row"><div><label>${t("status")}</label><select name="status">${DOC_STATUS.map(([k, l]) => `<option value="${k}" ${v.status === k ? "selected" : ""}>${t(l)}</option>`).join("")}</select></div>
+      <div><label>${t("date")}</label><input type="date" name="date" value="${esc(v.date)}"></div></div>
+    <div class="row"><div><label>${t("expiry")}</label><input type="date" name="expiry" value="${esc(v.expiry)}"></div>
+      <div><label>${t("fileLbl")}</label><input type="file" name="file" id="docFile"></div></div>
+    ${ed && ed.file ? `<p class="muted">${t("file")} : ${esc(ed.file.name)} — ${t("keepFile")}</p>` : ""}
+    <label>${t("note")}</label><input name="note" value="${esc(v.note)}">
+    <div class="cta"><button class="solid" type="submit">${t("save")}</button>${ed ? ` <button class="ghost" type="button" id="docCancel">${t("cancel")}</button>` : ""}</div>
+    <p class="hint" style="margin:12px 0 0">${t("docsHint")}</p></form>`;
+  const list = `<div class="card" style="margin-top:12px;overflow:auto"><h3>${t("docs")} · ${docs.length}</h3>
+    ${docs.length ? `<table><thead><tr><th>${t("docName")}</th><th>${t("fType")}</th><th>${t("status")}</th><th>${t("date")}</th><th>${t("expiry")}</th><th>${t("file")}</th><th>${t("actions")}</th></tr></thead><tbody>
+      ${docs.map(d => { const st = docState(d); return `<tr class="${st === "expire" ? "doc-exp" : st === "soon" ? "doc-soon" : ""}"><td><b>${esc(d.name)}</b>${d.note ? `<div class="muted">${esc(d.note)}</div>` : ""}</td><td>${docTypeLabel(d.type)}</td>
+        <td><select class="inline-sel" data-docst="${esc(d.id)}">${DOC_STATUS.map(([k, l]) => `<option value="${k}" ${d.status === k ? "selected" : ""}>${t(l)}</option>`).join("")}</select>
+          ${st === "expire" && d.status !== "expire" ? `<div><span class="pill expire">${t("dsExp")}</span></div>` : ""}${st === "soon" ? `<div><span class="pill soon">${t("soon")}</span></div>` : ""}</td>
+        <td class="nw">${esc(d.date) || "—"}</td><td class="nw">${esc(d.expiry) || "—"}</td>
+        <td>${d.file ? `<button class="mini" type="button" data-docfile="${esc(d.id)}">${t("open")}</button><div class="muted">${esc(d.file.name)}</div>` : "—"}</td>
+        <td><button class="mini" type="button" data-docedit="${esc(d.id)}">${t("edit")}</button> ${d.file ? `<button class="mini" type="button" data-docrm="${esc(d.id)}">${t("rmFile")}</button> ` : ""}<button class="mini no" type="button" data-docdel="${esc(d.id)}">${t("del")}</button></td></tr>`; }).join("")}
+    </tbody></table>` : `<p class="sub">${t("noDocs")}</p>`}</div>`;
+  return picker + head + plan + list + form;
+}
+function saveSafe(rollback) {
+  try { save(); return true; }
+  catch (e) { rollback(); try { save(); } catch (e2) {} toast(t("quota")); return false; }
+}
+function readFile(file) {
+  return new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(r.result); r.onerror = () => rej(r.error); r.readAsDataURL(file); });
+}
+function bindSuivi(body) {
+  body.querySelectorAll("[data-pick]").forEach(b => b.onclick = () => { suiviClient = b.dataset.pick; editDocId = null; renderAdmin(); });
+  const fileIn = body.querySelector("#docFile");
+  if (fileIn) fileIn.onchange = () => { const f = fileIn.files[0]; if (f && f.size > MAX_FILE) { fileIn.value = ""; toast(t("fileBig")); } };
+  const cancel = body.querySelector("#docCancel");
+  if (cancel) cancel.onclick = () => { editDocId = null; renderAdmin(); };
+  const form = body.querySelector("#docForm");
+  if (form) form.onsubmit = async (e) => {
+    e.preventDefault();
+    const fd = new FormData(form);
+    const f = fileIn && fileIn.files[0];
+    if (f && f.size > MAX_FILE) { fileIn.value = ""; return toast(t("fileBig")); }
+    let file = null;
+    if (f) { try { file = { name: f.name, mime: f.type || "application/octet-stream", size: f.size, data: await readFile(f) }; } catch (err) { return toast(String(err)); } }
+    const vals = { name: String(fd.get("name") || "").trim(), type: fd.get("type"), status: fd.get("status"), date: fd.get("date") || "", expiry: fd.get("expiry") || "", note: String(fd.get("note") || "").trim() };
+    const cur = editDocId ? db.docs.find(d => d.id === editDocId) : null;
+    if (cur) {
+      const before = { ...cur };
+      Object.assign(cur, vals, file ? { file } : {}, { updated: new Date().toISOString() });
+      if (!saveSafe(() => Object.assign(cur, before))) return;
+    } else {
+      const doc = { id: "d" + Date.now(), clientId: suiviClient, ...vals, file, created: new Date().toISOString() };
+      db.docs.push(doc);
+      if (!saveSafe(() => { db.docs = db.docs.filter(x => x.id !== doc.id); })) return;
+    }
+    editDocId = null; toast(t("docSaved")); renderAdmin();
+  };
+  body.querySelectorAll("[data-docst]").forEach(sel => sel.onchange = () => {
+    const d = db.docs.find(x => x.id === sel.dataset.docst); if (!d) return;
+    const prev = d.status; d.status = sel.value;
+    if (saveSafe(() => { d.status = prev; })) toast(t("docSaved"));
+    renderAdmin();
+  });
+  body.querySelectorAll("[data-docedit]").forEach(b => b.onclick = () => { editDocId = b.dataset.docedit; renderAdmin(); const f = document.getElementById("docForm"); if (f) f.scrollIntoView({ behavior: "smooth", block: "start" }); });
+  body.querySelectorAll("[data-docdel]").forEach(b => b.onclick = () => {
+    if (!confirm(t("confirmDel"))) return;
+    db.docs = db.docs.filter(x => x.id !== b.dataset.docdel);
+    if (editDocId === b.dataset.docdel) editDocId = null;
+    save(); toast(t("docSaved")); renderAdmin();
+  });
+  body.querySelectorAll("[data-docrm]").forEach(b => b.onclick = () => {
+    const d = db.docs.find(x => x.id === b.dataset.docrm); if (!d || !confirm(t("rmFile") + " ?")) return;
+    d.file = null; save(); toast(t("docSaved")); renderAdmin();
+  });
+  body.querySelectorAll("[data-docfile]").forEach(b => b.onclick = () => {
+    const d = db.docs.find(x => x.id === b.dataset.docfile); if (!d || !d.file) return;
+    try {
+      const [meta, b64] = d.file.data.split(",");
+      const bin = atob(b64); const arr = new Uint8Array(bin.length);
+      for (let i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
+      const url = URL.createObjectURL(new Blob([arr], { type: d.file.mime || (meta.match(/data:([^;]+)/) || [])[1] || "" }));
+      const a = document.createElement("a"); a.href = url; a.download = d.file.name || "document"; a.target = "_blank"; a.rel = "noopener";
+      document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 60000);
+    } catch (err) { toast(String(err)); }
+  });
+}
+
+/* ---------- Planning public (créneaux visés seulement, aucun document) ---------- */
+function weekStart(offset) { const d = new Date(); d.setHours(12, 0, 0, 0); d.setDate(d.getDate() - d.getDay() + offset * 7); return d; }
+function dayLabel(isoDay, opts) { const [y, m, dd] = isoDay.split("-").map(Number); const loc = lang === "ar" ? "ar-DZ" : lang === "en" ? "en-GB" : "fr-FR"; return new Date(y, m - 1, dd, 12).toLocaleDateString(loc, opts); }
+function publicSlot(date, slot, space) {
+  const b = db.books.find(x => x.status === "vise" && x.date === date && x.slot === slot && x.space === space);
+  if (b) {
+    const c = db.clients.find(x => x.id === b.clientId);
+    if (c && c.type !== "prive") return { cls: "busy", label: t("busy"), who: c.name };
+    return { cls: "resv", label: t("resv"), who: "" };
+  }
+  if (db.privates.some(x => x.status === "vise" && x.date === date && x.slot === slot && x.space === space)) return { cls: "resv", label: t("resv"), who: "" };
+  return { cls: "free", label: t("free"), who: "" };
+}
+function slotHTML(date, slot, spaces, showSpace) {
+  return spaces.map(sp => { const s = publicSlot(date, slot, sp.id); return `<span class="cell-line">${showSpace ? `<span class="cell-sp">${esc(L(sp).t)}</span>` : ""}<span class="pill ${s.cls}">${s.label}${s.who ? " · " + esc(s.who) : ""}</span></span>`; }).join("");
+}
+function renderPlanning() {
+  const root = document.getElementById("planApp");
+  if (view !== "planning") return;
+  const active = db.site.spaces.filter(s => s.on);
+  if (planSpace !== "all" && !active.some(s => s.id === planSpace)) planSpace = active.length ? active[0].id : "all";
+  const spaces = planSpace === "all" ? active : active.filter(s => s.id === planSpace);
+  const all = planSpace === "all";
+  const start = weekStart(planWeek);
+  const days = Array.from({ length: 7 }, (_, i) => dayISO(i, start));
+  const today = dayISO(0);
+  root.innerHTML = `<h2>${t("planTitle")}</h2><p class="sub">${t("planSub")}</p>
+    <div class="tools"><button class="mini" type="button" data-week="-1">${lang === "ar" ? "→" : "←"} ${t("prevWeek")}</button><button class="mini" type="button" data-week="0">${t("thisWeek")}</button><button class="mini" type="button" data-week="1">${t("nextWeek")} ${lang === "ar" ? "←" : "→"}</button>
+      <b style="margin-inline-start:auto;color:var(--navy)">${t("weekOf")} ${dayLabel(days[0], { day: "numeric", month: "long" })} – ${dayLabel(days[6], { day: "numeric", month: "long", year: "numeric" })}</b></div>
+    <div class="tabs">${active.map(s => `<button type="button" class="tab ${planSpace === s.id ? "on" : ""}" data-pspace="${esc(s.id)}">${esc(L(s).t)}</button>`).join("")}<button type="button" class="tab ${all ? "on" : ""}" data-pspace="all">${t("allSpaces")}</button></div>
+    <div class="card plan-wide" style="overflow:auto"><table class="plan-table"><thead><tr><th>${t("slot")}</th>${days.map(d => `<th class="${d === today ? "today" : ""}">${dayLabel(d, { weekday: "short", day: "numeric", month: "short" })}</th>`).join("")}</tr></thead><tbody>
+      ${SLOTS.map(sl => `<tr><td>${sl}</td>${days.map(d => `<td class="${d < today ? "past" : ""}">${slotHTML(d, sl, spaces, all)}</td>`).join("")}</tr>`).join("")}
+    </tbody></table></div>
+    <div class="plan-days">${days.map(d => `<div class="card plan-day ${d === today ? "today" : ""}" style="${d < today ? "opacity:.6" : ""}"><h3>${dayLabel(d, { weekday: "long", day: "numeric", month: "long" })}</h3>
+      ${SLOTS.map(sl => `<div class="plan-slot"><b>${sl}</b><div>${slotHTML(d, sl, spaces, all)}</div></div>`).join("")}</div>`).join("")}</div>`;
+  root.querySelectorAll("[data-week]").forEach(b => b.onclick = () => { const n = Number(b.dataset.week); planWeek = n === 0 ? 0 : planWeek + n; renderPlanning(); });
+  root.querySelectorAll("[data-pspace]").forEach(b => b.onclick = () => { planSpace = b.dataset.pspace; renderPlanning(); });
 }
 function esc(s) { return String(s || "").replace(/&/g, "&" + "amp;").replace(/"/g, "&" + "quot;").replace(/</g, "&" + "lt;"); }
 function field(label, name, value, area) {
