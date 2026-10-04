@@ -34,7 +34,7 @@
   header.top { position: sticky; top: 0; z-index: 20; background: rgba(255,255,255,.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
   .bar { display: flex; align-items: center; gap: 14px; min-height: 72px; }
   .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; min-width: 0; }
-  .brand img { width: 52px; height: 52px; object-fit: contain; }
+  .brand img { width: 48px; height: 48px; object-fit: contain; border-radius: 12px; }
   .brand b { display: block; font-size: 14px; line-height: 1.2; }
   .brand span { display: block; color: var(--muted); font-size: 12px; }
   nav.main { display: flex; gap: 6px; margin-inline-start: auto; flex-wrap: wrap; justify-content: flex-end; }
@@ -54,8 +54,8 @@
   h1 { font-size: clamp(32px, 5vw, 54px); line-height: 1.05; margin: 10px 0 12px; color: var(--navy); }
   .lead { font-size: 18px; color: #31485F; max-width: 560px; }
   .cta { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
-  .hero-card { background: white; border-radius: 28px; padding: 18px; box-shadow: var(--shadow); border: 1px solid var(--line); }
-  .hero-card img { width: min(100%, 420px); margin: 0 auto; }
+  .hero-card { background: white; border-radius: 28px; padding: 28px 24px 22px; box-shadow: var(--shadow); border: 1px solid var(--line); }
+  .hero-card img { display: block; width: min(100%, 380px); aspect-ratio: 1; object-fit: contain; margin: 0 auto; }
   .rule { height: 4px; width: 92px; border-radius: 99px; margin: 8px auto 0; background: linear-gradient(90deg, var(--orange), var(--teal-2)); }
   .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 8px 0 28px; }
   .stat, .card { background: white; border: 1px solid var(--line); border-radius: 16px; padding: 14px; box-shadow: var(--shadow); }
