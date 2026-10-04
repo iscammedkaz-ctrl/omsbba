@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0E2C4A">
+<title>omsbba · قاعة متعددة الرياضات برج البحري</title>
+<link rel="icon" href="logo.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0E2C4A; --ink: #12263C; --teal: #1497B2; --teal-2: #3EC6C0; --orange: #F08A2C;
+    --sand: #F4F7FA; --card: #fff; --line: #E3EAF1; --muted: #5E7186;
+    --ok: #1C8A62; --wait: #B86A12; --no: #B4232C;
+    --shadow: 0 10px 30px rgba(14, 44, 74, .08); --r: 18px;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; color: var(--ink);
+    background:
+      radial-gradient(900px 420px at 100% -10%, rgba(62, 198, 192, .18), transparent 60%),
+      radial-gradient(700px 380px at -10% 20%, rgba(240, 138, 44, .12), transparent 55%),
+      var(--sand);
+    font-family: Outfit, Tajawal, "Segoe UI", Tahoma, sans-serif; line-height: 1.5;
+  }
+  html[lang="ar"] body, html[dir="rtl"] body { font-family: Tajawal, Outfit, Tahoma, sans-serif; }
+  img { max-width: 100%; display: block; }
+  button, input, select, textarea { font: inherit; }
+  a { color: inherit; }
+  .wrap { width: min(1120px, calc(100% - 32px)); margin: 0 auto; }
+  header.top { position: sticky; top: 0; z-index: 20; background: rgba(255,255,255,.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
+  .bar { display: flex; align-items: center; gap: 14px; min-height: 72px; }
+  .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; min-width: 0; }
+  .brand img { width: 52px; height: 52px; object-fit: contain; }
+  .brand b { display: block; font-size: 14px; line-height: 1.2; }
+  .brand span { display: block; color: var(--muted); font-size: 12px; }
+  nav.main { display: flex; gap: 6px; margin-inline-start: auto; flex-wrap: wrap; justify-content: flex-end; }
+  nav.main button, .ghost, .solid, .lang button, .tab, .mini { border: 0; cursor: pointer; border-radius: 999px; }
+  nav.main button, .ghost { background: transparent; color: var(--navy); padding: 8px 12px; font-weight: 600; }
+  nav.main button.active { background: #E7F6F8; color: #0C6E84; }
+  .solid { background: linear-gradient(90deg, var(--teal), var(--teal-2)); color: white; padding: 10px 16px; font-weight: 700; }
+  .solid.orange { background: linear-gradient(90deg, #E8741A, #F0A04A); }
+  .solid.navy { background: var(--navy); }
+  .lang { display: flex; background: #EEF3F7; border-radius: 999px; padding: 3px; }
+  .lang button { background: transparent; color: var(--muted); padding: 6px 10px; font-weight: 700; font-size: 12px; }
+  .lang button.on { background: white; color: var(--navy); }
+  .banner { display: none; background: var(--navy); color: white; text-align: center; padding: 10px 16px; font-weight: 600; }
+  .banner.on { display: block; }
+  .hero { display: grid; grid-template-columns: 1.1fr .9fr; gap: 28px; align-items: center; padding: 42px 0 18px; }
+  .kicker { color: #0C6E84; font-weight: 700; font-size: 13px; letter-spacing: .04em; text-transform: uppercase; }
+  h1 { font-size: clamp(32px, 5vw, 54px); line-height: 1.05; margin: 10px 0 12px; color: var(--navy); }
+  .lead { font-size: 18px; color: #31485F; max-width: 560px; }
+  .cta { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
+  .hero-card { background: white; border-radius: 28px; padding: 18px; box-shadow: var(--shadow); border: 1px solid var(--line); }
+  .hero-card img { width: min(100%, 420px); margin: 0 auto; }
+  .rule { height: 4px; width: 92px; border-radius: 99px; margin: 8px auto 0; background: linear-gradient(90deg, var(--orange), var(--teal-2)); }
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 8px 0 28px; }
+  .stat, .card { background: white; border: 1px solid var(--line); border-radius: 16px; padding: 14px; box-shadow: var(--shadow); }
+  .stat b { display: block; font-size: 22px; color: var(--navy); }
+  .stat span, .sub, .hint { color: var(--muted); }
+  .hint { font-size: 13px; background: #F3F7FA; border-radius: 12px; padding: 10px 12px; }
+  section { padding: 12px 0 28px; }
+  h2 { font-size: 28px; margin: 0 0 6px; color: var(--navy); }
+  .sub { margin: 0 0 16px; }
+  .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .grid.3 { grid-template-columns: repeat(3, 1fr); }
+  .grid.2 { grid-template-columns: 1fr 1fr; }
+  .ico { width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; background: #E7F6F8; color: #0C6E84; font-weight: 800; margin-bottom: 8px; }
+  .ico.o { background: #FFF1E4; color: #C26412; }
+  .card h3 { margin: 0 0 6px; font-size: 16px; }
+  .card p { margin: 0; color: #3E556C; font-size: 14px; }
+  .panel { display: none; }
+  .panel.on { display: block; }
+  .login-box { max-width: 460px; margin: 24px auto; }
+  label { display: block; font-size: 13px; font-weight: 700; margin: 12px 0 6px; }
+  input, select, textarea { width: 100%; border: 1px solid #D5E0EA; background: #FBFCFD; border-radius: 12px; padding: 12px; min-height: 44px; color: var(--ink); }
+  textarea { min-height: 84px; resize: vertical; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { text-align: start; padding: 10px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--muted); font-size: 12px; }
+  .pill { display: inline-flex; border-radius: 999px; padding: 3px 8px; font-size: 12px; font-weight: 700; }
+  .pill.wait, .pill.attente { background: #FFF4E5; color: var(--wait); }
+  .pill.vise { background: #E7F7EF; color: var(--ok); }
+  .pill.refuse { background: #FDECEC; color: var(--no); }
+  .pill.fed { background: #E7F1FB; color: #1D4E89; }
+  .pill.lig { background: #E7F6F8; color: #0C6E84; }
+  .pill.clb, .pill.prv { background: #FFF1E4; color: #C26412; }
+  .tools, .tabs { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 12px; }
+  .mini { border: 1px solid var(--line); background: white; border-radius: 10px; padding: 7px 10px; font-weight: 700; }
+  .mini.ok { background: #E7F7EF; color: var(--ok); border-color: transparent; }
+  .mini.no { background: #FDECEC; color: var(--no); border-color: transparent; }
+  .tab { background: white; border: 1px solid var(--line); padding: 8px 12px; font-weight: 700; color: var(--navy); }
+  .tab.on { background: var(--navy); color: white; }
+  .edit-lang button { min-width: 44px; }
+  footer { border-top: 1px solid var(--line); padding: 22px 0 40px; color: var(--muted); font-size: 13px; }
+  .menu-btn { display: none; border: 1px solid var(--line); background: white; border-radius: 12px; min-height: 44px; padding: 0 12px; font-weight: 700; }
+  .toast { position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); background: var(--navy); color: white; padding: 12px 16px; border-radius: 12px; display: none; z-index: 40; max-width: min(92vw, 460px); }
+  html[dir="rtl"] .toast { left: auto; right: 50%; transform: translateX(50%); }
+  @media (max-width: 860px) {
+    .hero, .stats, .grid, .grid.3, .grid.2, .row { grid-template-columns: 1fr; }
+    .menu-btn { display: inline-flex; align-items: center; margin-inline-start: auto; }
+    nav.main { display: none; position: absolute; top: 72px; inset-inline: 16px; background: white; border: 1px solid var(--line); border-radius: 16px; padding: 8px; flex-direction: column; box-shadow: var(--shadow); }
+    nav.main.open { display: flex; }
+    h1 { font-size: 34px; }
+  }
+</style>
+</head>
+<body>
+<div class="banner" id="banner"></div>
+<header class="top">
+  <div class="wrap bar">
+    <a class="brand" href="#salle" data-go="salle">
+      <img src="logo.jpg" alt="قاعة متعددة الرياضات برج البحري">
+      <div>
+        <b data-i18n="brand">قاعة متعددة الرياضات برج البحري</b>
+        <span id="brandSub"></span>
+      </div>
+    </a>
+    <button class="menu-btn" id="menuBtn" type="button">Menu</button>
+    <nav class="main" id="nav">
+      <button type="button" data-go="salle" class="active" data-i18n="navHall">La salle</button>
+      <button type="button" data-go="espaces" data-i18n="navSpaces">Espaces</button>
+      <button type="button" data-go="canaux" data-i18n="navChannels">Canaux</button>
+      <button type="button" data-go="autres" data-i18n="navOther">Autres</button>
+      <button type="button" data-go="contact" data-i18n="navContact">Contact</button>
+      <button type="button" data-go="espace" data-i18n="navClient">Espace client</button>
+      <button type="button" class="solid" data-go="gestion" data-i18n="navAdmin">Gestion</button>
+    </nav>
+    <div class="lang" id="lang">
+      <button type="button" data-lang="ar">ع</button>
+      <button type="button" data-lang="fr" class="on">FR</button>
+      <button type="button" data-lang="en">EN</button>
+    </div>
+  </div>
+</header>
+<main class="wrap">
+  <section class="panel on" id="view-salle">
+    <div class="hero">
+      <div>
+        <div class="kicker" id="kicker"></div>
+        <h1 id="heroH1"></h1>
+        <p class="lead" id="heroLead"></p>
+        <div class="cta">
+          <button class="solid" type="button" data-go="espace" data-i18n="ctaBook">Réserver sur mon canal</button>
+          <button class="solid orange" type="button" data-go="autres" data-i18n="ctaPrivate">Réservation privée</button>
+        </div>
+      </div>
+      <div class="hero-card"><img src="logo.jpg" alt=""><div class="rule"></div></div>
+    </div>
+    <div class="stats">
+      <div class="stat"><b>4</b><span data-i18n="st1">types de clients</span></div>
+      <div class="stat"><b>6</b><span data-i18n="st2">créneaux / jour</span></div>
+      <div class="stat"><b id="spaceCount">4</b><span data-i18n="st3">espaces</span></div>
+      <div class="stat"><b>AR · FR · EN</b><span data-i18n="st4">même salle, 3 langues</span></div>
+    </div>
+    <div id="discBlock">
+      <h2 id="discTitle"></h2>
+      <p class="sub" id="discSub"></p>
+      <div class="grid" id="disc"></div>
+    </div>
+    <div id="blocs"></div>
+  </section>
+  <section class="panel" id="view-espaces">
+    <h2 id="spacesTitle"></h2>
+    <p class="sub" id="spacesSub"></p>
+    <div class="grid" id="spaces"></div>
+  </section>
+  <section class="panel" id="view-canaux">
+    <h2 data-i18n="chTitle">Un canal par structure</h2>
+    <p class="sub" data-i18n="chSub">La fédération, la ligue et le club ne partagent pas la même file.</p>
+    <div class="grid grid-3" id="channels"></div>
+  </section>
+  <section class="panel" id="view-autres">
+    <h2 data-i18n="pvTitle">Autres réservations</h2>
+    <p class="sub" data-i18n="pvSub">Clients privés : anniversaire, entraînement libre, location. Le gérant vise. Pas le canal des clubs.</p>
+    <div class="grid grid-2">
+      <form class="card" id="pvForm">
+        <h3 data-i18n="newReq">Nouvelle demande</h3>
+        <div class="row">
+          <div><label data-i18n="fWho">Nom</label><input name="name" required></div>
+          <div><label data-i18n="fPhone">Téléphone</label><input name="phone" required></div>
+        </div>
+        <div class="row">
+          <div><label data-i18n="date">Date</label><input type="date" name="date" required></div>
+          <div><label data-i18n="people">Effectif</label><input type="number" name="people" min="1" value="8" required></div>
+        </div>
+        <label data-i18n="slot">Créneau</label><select name="slot" id="pvSlot"></select>
+        <label data-i18n="space">Espace</label><select name="space" id="pvSpace"></select>
+        <label data-i18n="disc">Discipline</label><select name="disc" id="pvDisc"></select>
+        <label data-i18n="note">Note</label><input name="note" id="pvNote">
+        <div class="cta"><button class="solid orange" type="submit" data-i18n="send">Déposer la demande</button></div>
+      </form>
+      <div>
+        <form class="card" id="pvTrack">
+          <h3 data-i18n="track">Suivre une demande</h3>
+          <label data-i18n="code">Code</label><input name="code" placeholder="PRV-0000" required>
+          <label data-i18n="fPhone">Téléphone</label><input name="phone" required>
+          <div class="cta"><button class="solid navy" type="submit" data-i18n="trackBtn">Voir l’état</button></div>
+          <div id="pvResult"></div>
+        </form>
+        <aside class="card" style="margin-top:12px"><h3 data-i18n="where">Où</h3><p id="whereBody"></p></aside>
+      </div>
+    </div>
+  </section>
+  <section class="panel" id="view-contact">
+    <h2 data-i18n="cTitle">Ouvrir un canal</h2>
+    <p class="sub" data-i18n="cSub">Pour une fédération, une ligue ou un club. Les privés passent par Autres.</p>
+    <div class="grid grid-2">
+      <form class="card" id="leadForm">
+        <div class="row">
+          <div><label data-i18n="fOrg">Structure</label><input name="org" required></div>
+          <div><label data-i18n="fType">Type</label>
+            <select name="type">
+              <option value="federation" data-i18n="typeFed">Fédération</option>
+              <option value="ligue" data-i18n="typeLig">Ligue</option>
+              <option value="club" data-i18n="typeClb">Club</option>
+              <option value="prive" data-i18n="typePrv">Client privé</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div><label data-i18n="fWho">Contact</label><input name="contact" required></div>
+          <div><label data-i18n="fPhone">Téléphone</label><input name="phone" required></div>
+        </div>
+        <label data-i18n="fMsg">Besoin</label><textarea name="message" required></textarea>
+        <div class="cta"><button class="solid" type="submit" data-i18n="fSend">Envoyer au gérant</button></div>
+      </form>
+      <aside class="card"><h3 data-i18n="where">Où</h3><p id="whereBody2"></p><p id="phoneLine"></p></aside>
+    </div>
+  </section>
+  <section class="panel" id="view-espace"><div id="clientApp"></div></section>
+  <section class="panel" id="view-gestion"><div id="adminApp"></div></section>
+</main>
+<footer><div class="wrap" data-i18n="foot">Maquette K3CH · données de démonstration dans ce navigateur</div></footer>
+<div class="toast" id="toast"></div>
+<script>
+const I18N = {
+  fr: {
+    brand: "قاعة متعددة الرياضات برج البحري", brandSub: "Salle omnisports · Bordj El Bahri",
+    navHall: "La salle", navSpaces: "Espaces", navChannels: "Canaux", navOther: "Autres", navContact: "Contact", navClient: "Espace client", navAdmin: "Gestion",
+    kicker: "Bordj El Bahri · Alger", h1: "La salle des clubs, des ligues et des privés.",
+    lead: "Plateau, dojo et salle polyvalente à la cité Cosider. Les structures ont un canal. Les clients privés réservent à part. Le gérant vise.",
+    ctaBook: "Réserver sur mon canal", ctaPrivate: "Réservation privée",
+    st1: "types de clients", st2: "créneaux / jour", st3: "espaces", st4: "même salle, 3 langues",
+    discTitle: "Disciplines", discSub: "Le logo porte le plateau. La salle ouverte en 2022 accueille aussi le combat et la préparation.",
+    spacesTitle: "Espaces à réserver", spacesSub: "Un créneau = un espace. Le visa du gérant ne retient que des places disponibles, club ou privé.",
+    chTitle: "Un canal par structure", chSub: "La fédération, la ligue et le club ne partagent pas la même file. Le privé n’y entre pas.",
+    cTitle: "Ouvrir un canal", cSub: "Pour une fédération, une ligue ou un club. Les privés passent par Autres.",
+    fOrg: "Structure", fType: "Type", fWho: "Nom", fPhone: "Téléphone", fMsg: "Besoin", fSend: "Envoyer au gérant",
+    where: "Où", whereBody: "Cité Cosider, Bordj El Bahri, Alger. Horaires indicatifs 08:00–22:00.",
+    foot: "Maquette K3CH · données de démonstration dans ce navigateur · قاعة متعددة الرياضات برج البحري",
+    typeFed: "Fédération", typeLig: "Ligue", typeClb: "Club", typePrv: "Client privé",
+    d1t: "Football", d1p: "Plateau central, matchs et séances club.",
+    d2t: "Basket", d2p: "Créneaux école et championnat.",
+    d3t: "Tennis", d3p: "Stages ligue et créneaux club.",
+    d4t: "Boxe", d4p: "Ring et préparation, dojo.",
+    d5t: "Arts martiaux", d5p: "Kick-boxing, lutte, sanda, MMA.",
+    d6t: "Préparation", d6p: "Cross training, aérobic, séances femmes.",
+    d7t: "Rassemblements", d7p: "Détections fédération et coupes.",
+    d8t: "Libre", d8p: "Anniversaire, location, entraînement privé.",
+    s1t: "Plateau central", s1p: "Collectifs. Un seul visa à la fois.",
+    s2t: "Dojo", s2p: "Combat, tatami, cours.",
+    s3t: "Salle polyvalente", s3p: "Préparation, réunions, privés.",
+    s4t: "Annexe", s4p: "Échauffement et groupes réduits.",
+    ch1t: "Fédération", ch1p: "Stages, sélections, coupes. Canal propre.",
+    ch2t: "Ligue", ch2p: "Wilaya et regroupements. File séparée.",
+    ch3t: "Club", ch3p: "Entraînements et matchs. Ne voit pas les autres.",
+    pvTitle: "Autres réservations", pvSub: "Clients privés : anniversaire, entraînement libre, location. Le gérant vise. Pas le canal des clubs.",
+    loginTitle: "Entrer dans le canal", loginSub: "Code remis par le gérant. Les privés suivent leur code dans Autres.",
+    code: "Code canal", pin: "PIN", enter: "Entrer", logout: "Sortir",
+    demo: "Démo · FED-ALGER / 1111 · LIG-ALGER / 2222 · CLB-BEB / 3333 · privé PRV-DEMO / 4444",
+    myChannel: "Mon canal", newReq: "Nouvelle demande", date: "Date", slot: "Créneau", space: "Espace", disc: "Discipline", people: "Effectif", note: "Note", send: "Déposer la demande",
+    status: "État", none: "Aucune demande.", waiting: "En attente", ok: "Visé", no: "Refusé",
+    adminTitle: "Gestion de la salle", adminSub: "Clients, privés, visas, et le site lui-même. Démo : GERANT / 2026",
+    clients: "Clients", books: "Demandes", leads: "Ouvertures", site: "Le site", add: "Ajouter", save: "Enregistrer",
+    active: "Actif", off: "Coupé", visa: "Viser", refuse: "Refuser", motif: "Motif",
+    name: "Nom", contact: "Contact", phone: "Téléphone", actions: "Actions",
+    clash: "Plus de places disponibles sur ce créneau.", saved: "Enregistré. Le site public est à jour.", bad: "Code ou PIN incorrect.",
+    sent: "Demande déposée. En attente du visa.", leadOk: "Demande d’ouverture envoyée au gérant.",
+    hello: "Bonjour", role: "Gérant", emptyLeads: "Aucune demande d’ouverture.",
+    track: "Suivre une demande", trackBtn: "Voir l’état", pvOk: "Demande privée déposée. Gardez le code.",
+    hide: "Masquer", show: "Afficher", del: "Retirer", up: "Monter", down: "Descendre",
+    blocs: "Blocs libres", texts: "Textes", lists: "Listes", announce: "Annonce", hours: "Horaires", address: "Adresse"
+  },
+  ar: {
+    brand: "قاعة متعددة الرياضات برج البحري", brandSub: "القاعة متعددة الرياضات · برج البحري",
+    navHall: "القاعة", navSpaces: "الفضاءات", navChannels: "القنوات", navOther: "أخرى", navContact: "اتصال", navClient: "فضاء الحريف", navAdmin: "التسيير",
+    kicker: "برج البحري · الجزائر العاصمة", h1: "قاعة الأندية والرابطات والحرفاء الخواص.",
+    lead: "ملعب وقاعة قتال وقاعة متعددة بحي كوسيدار. الهياكل لها قناة. الخواص يحجزون على حدة. المسيّر يؤشّر.",
+    ctaBook: "احجز عبر قناتي", ctaPrivate: "حجز خاص",
+    st1: "أنواع الحرفاء", st2: "حصص في اليوم", st3: "فضاءات", st4: "قاعة واحدة، 3 لغات",
+    discTitle: "الاختصاصات", discSub: "الشعار يحمل القاعة. القاعة المفتوحة سنة 2022 تستقبل أيضا القتال والتحضير.",
+    spacesTitle: "فضاءات الحجز", spacesSub: "حصة واحدة = فضاء واحد. التأشيرة تمنع الازدواج، ناديا كان أو خاصا.",
+    chTitle: "قناة لكل هيكل", chSub: "الاتحاد والرابطة والنادي لا يتقاسمون الملف. الخاص لا يدخل هنا.",
+    cTitle: "فتح قناة", cSub: "للاتحاد أو الرابطة أو النادي. الخواص يمرون من أخرى.",
+    fOrg: "الهيكل", fType: "النوع", fWho: "الاسم", fPhone: "الهاتف", fMsg: "الحاجة", fSend: "إرسال إلى المسيّر",
+    where: "المكان", whereBody: "حي كوسيدار، برج البحري، الجزائر العاصمة. أوقات إرشادية 08:00–22:00.",
+    foot: "نموذج K3CH · بيانات تجريبية في هذا المتصفح · قاعة متعددة الرياضات برج البحري",
+    typeFed: "اتحاد", typeLig: "رابطة", typeClb: "نادي", typePrv: "حريف خاص",
+    d1t: "كرة القدم", d1p: "الملعب المركزي، مباريات وحصص النادي.",
+    d2t: "كرة السلة", d2p: "حصص المدرسة والبطولة.",
+    d3t: "كرة المضرب", d3p: "تربصات الرابطة وحصص النادي.",
+    d4t: "الملاكمة", d4p: "الحلبة والتحضير.",
+    d5t: "الرياضات القتالية", d5p: "كيك بوكسينغ، مصارعة، ساندا، فنون مختلطة.",
+    d6t: "التحضير البدني", d6p: "كروس، أيروبيك، حصص النساء.",
+    d7t: "التجمعات", d7p: "انتقاء الاتحاد والأكؤس.",
+    d8t: "حر", d8p: "عيد ميلاد، كراء، تدريب خاص.",
+    s1t: "الملعب المركزي", s1p: "الرياضات الجماعية. تأشيرة واحدة.",
+    s2t: "قاعة القتال", s2p: "قتال، تاتامي، دروس.",
+    s3t: "القاعة المتعددة", s3p: "تحضير واجتماعات وخواص.",
+    s4t: "الملحق", s4p: "إحماء ومجموعات صغيرة.",
+    ch1t: "الاتحاد", ch1p: "تربصات وانتقاء وأكؤس. قناة خاصة.",
+    ch2t: "الرابطة", ch2p: "الولاية والتجمعات. ملف منفصل.",
+    ch3t: "النادي", ch3p: "التدريبات ومباريات الأرض.",
+    pvTitle: "حجوزات أخرى", pvSub: "حرفاء خواص: عيد ميلاد، تدريب حر، كراء. المسيّر يؤشّر. ليست قناة الأندية.",
+    loginTitle: "الدخول إلى القناة", loginSub: "الرمز يسلّمه المسيّر. الخواص يتابعون رمزهم في أخرى.",
+    code: "رمز القناة", pin: "الرقم السري", enter: "دخول", logout: "خروج",
+    demo: "تجربة · FED-ALGER / 1111 · LIG-ALGER / 2222 · CLB-BEB / 3333 · خاص PRV-DEMO / 4444",
+    myChannel: "قناتي", newReq: "طلب جديد", date: "التاريخ", slot: "الحصة", space: "الفضاء", disc: "الاختصاص", people: "العدد", note: "ملاحظة", send: "إيداع الطلب",
+    status: "الحالة", none: "لا طلبات.", waiting: "في الانتظار", ok: "مؤشَّر", no: "مرفوض",
+    adminTitle: "تسيير القاعة", adminSub: "الحرفاء والخواص والتأشيرات والموقع نفسه. تجربة: GERANT / 2026",
+    clients: "الحرفاء", books: "الطلبات", leads: "فتح القنوات", site: "الموقع", add: "إضافة", save: "حفظ",
+    active: "نشط", off: "موقوف", visa: "تأشير", refuse: "رفض", motif: "السبب",
+    name: "الاسم", contact: "المكلّف", phone: "الهاتف", actions: "إجراءات",
+    clash: "الحصة مؤشَّرة مسبقا على هذا الفضاء.", saved: "تم الحفظ. الموقع العام محدَّث.", bad: "الرمز أو الرقم السري غير صحيح.",
+    sent: "أُودع الطلب. في انتظار التأشيرة.", leadOk: "أُرسل طلب الفتح إلى المسيّر.",
+    hello: "مرحبا", role: "المسيّر", emptyLeads: "لا طلبات فتح.",
+    track: "متابعة طلب", trackBtn: "عرض الحالة", pvOk: "أُودع الطلب الخاص. احتفظ بالرمز.",
+    hide: "إخفاء", show: "إظهار", del: "حذف", up: "أعلى", down: "أسفل",
+    blocs: "مربعات حرة", texts: "النصوص", lists: "القوائم", announce: "إعلان", hours: "الأوقات", address: "العنوان"
+  },
+  en: {
+    brand: "قاعة متعددة الرياضات برج البحري", brandSub: "Multi-sports hall · Bordj El Bahri",
+    navHall: "The hall", navSpaces: "Spaces", navChannels: "Channels", navOther: "Other", navContact: "Contact", navClient: "Client area", navAdmin: "Management",
+    kicker: "Bordj El Bahri · Algiers", h1: "The hall for clubs, leagues and private clients.",
+    lead: "Court, dojo and multi-use room in Cité Cosider. Bodies have a channel. Private clients book apart. The manager signs off.",
+    ctaBook: "Book on my channel", ctaPrivate: "Private booking",
+    st1: "client types", st2: "slots / day", st3: "spaces", st4: "one hall, 3 languages",
+    discTitle: "Disciplines", discSub: "The mark carries the court. The hall opened in 2022 also hosts combat sports and conditioning.",
+    spacesTitle: "Spaces you can book", spacesSub: "One slot = one space. A visa blocks a double booking, club or private.",
+    chTitle: "One channel per body", chSub: "Federation, league and club do not share a queue. Private clients are not in it.",
+    cTitle: "Open a channel", cSub: "For a federation, league or club. Private clients use Other.",
+    fOrg: "Organisation", fType: "Type", fWho: "Name", fPhone: "Phone", fMsg: "Need", fSend: "Send to the manager",
+    where: "Where", whereBody: "Cité Cosider, Bordj El Bahri, Algiers. Indicative hours 08:00–22:00.",
+    foot: "K3CH mock-up · demo data in this browser · قاعة متعددة الرياضات برج البحري",
+    typeFed: "Federation", typeLig: "League", typeClb: "Club", typePrv: "Private client",
+    d1t: "Football", d1p: "Main court, matches and club sessions.",
+    d2t: "Basketball", d2p: "School slots and league play.",
+    d3t: "Tennis", d3p: "League camps and club slots.",
+    d4t: "Boxing", d4p: "Ring and prep, dojo.",
+    d5t: "Martial arts", d5p: "Kickboxing, wrestling, sanda, MMA.",
+    d6t: "Conditioning", d6p: "Cross training, aerobics, women’s sessions.",
+    d7t: "Gatherings", d7p: "Federation trials and cups.",
+    d8t: "Open", d8p: "Birthday, hire, private training.",
+    s1t: "Main court", s1p: "Team sports. One visa at a time.",
+    s2t: "Dojo", s2p: "Combat, mat, classes.",
+    s3t: "Multi-use room", s3p: "Prep, meetings, private hire.",
+    s4t: "Annex", s4p: "Warm-up and small groups.",
+    ch1t: "Federation", ch1p: "Camps, selections, cups. Own channel.",
+    ch2t: "League", ch2p: "Wilaya and regroupings. Separate file.",
+    ch3t: "Club", ch3p: "Training and home matches.",
+    pvTitle: "Other bookings", pvSub: "Private clients: birthday, free training, hire. The manager signs. Not the club channel.",
+    loginTitle: "Enter the channel", loginSub: "Code issued by the manager. Private clients track their code under Other.",
+    code: "Channel code", pin: "PIN", enter: "Enter", logout: "Leave",
+    demo: "Demo · FED-ALGER / 1111 · LIG-ALGER / 2222 · CLB-BEB / 3333 · private PRV-DEMO / 4444",
+    myChannel: "My channel", newReq: "New request", date: "Date", slot: "Slot", space: "Space", disc: "Discipline", people: "Headcount", note: "Note", send: "Submit request",
+    status: "Status", none: "No requests.", waiting: "Pending", ok: "Signed", no: "Refused",
+    adminTitle: "Hall management", adminSub: "Clients, private bookings, visas, and the site itself. Demo: GERANT / 2026",
+    clients: "Clients", books: "Requests", leads: "Openings", site: "The site", add: "Add", save: "Save",
+    active: "Active", off: "Off", visa: "Sign", refuse: "Refuse", motif: "Reason",
+    name: "Name", contact: "Contact", phone: "Phone", actions: "Actions",
+    clash: "This slot is already signed on that space.", saved: "Saved. The public site is updated.", bad: "Wrong code or PIN.",
+    sent: "Request filed. Waiting for visa.", leadOk: "Opening request sent to the manager.",
+    hello: "Hello", role: "Manager", emptyLeads: "No opening requests.",
+    track: "Track a request", trackBtn: "See status", pvOk: "Private request filed. Keep the code.",
+    hide: "Hide", show: "Show", del: "Remove", up: "Up", down: "Down",
+    blocs: "Free blocks", texts: "Texts", lists: "Lists", announce: "Notice", hours: "Hours", address: "Address"
+  }
+};
+const SLOTS = ["08:00–10:00", "10:00–12:00", "14:00–16:00", "16:00–18:00", "18:00–20:00", "20:00–22:00"];
+const LANGS = ["fr", "ar", "en"];
+const KEY = "beb-salle-v2";
+let lang = localStorage.getItem("beb-lang") || "fr";
+let view = "salle";
+let session = JSON.parse(localStorage.getItem("beb-session") || "null");
+let adminTab = "books";
+let editLang = "fr";
+
+function tri(id, key) {
+  const o = {};
+  LANGS.forEach(l => { o[l] = { t: I18N[l][id + "t"], p: I18N[l][id + "p"] }; });
+  o.id = id; o.on = true; o.key = key;
+  return o;
+}
+function defaultSite() {
+  return {
+    phone: "",
+    announceOn: false,
+    announce: { fr: "", ar: "", en: "" },
+    hero: {
+      fr: { h1: I18N.fr.h1, lead: I18N.fr.lead, kicker: I18N.fr.kicker, discTitle: I18N.fr.discTitle, discSub: I18N.fr.discSub, spacesTitle: I18N.fr.spacesTitle, spacesSub: I18N.fr.spacesSub, address: I18N.fr.whereBody, hours: "08:00–22:00" },
+      ar: { h1: I18N.ar.h1, lead: I18N.ar.lead, kicker: I18N.ar.kicker, discTitle: I18N.ar.discTitle, discSub: I18N.ar.discSub, spacesTitle: I18N.ar.spacesTitle, spacesSub: I18N.ar.spacesSub, address: I18N.ar.whereBody, hours: "08:00–22:00" },
+      en: { h1: I18N.en.h1, lead: I18N.en.lead, kicker: I18N.en.kicker, discTitle: I18N.en.discTitle, discSub: I18N.en.discSub, spacesTitle: I18N.en.spacesTitle, spacesSub: I18N.en.spacesSub, address: I18N.en.whereBody, hours: "08:00–22:00" }
+    },
+    showDisc: true, showSpaces: true, showChannels: true, showAutres: true,
+    disciplines: ["d1","d2","d3","d4","d5","d6","d7","d8"].map(id => tri(id)),
+    spaces: ["s1","s2","s3","s4"].map(id => tri(id)),
+    blocs: []
+  };
+}
+function seed() {
+  const cur = JSON.parse(localStorage.getItem(KEY) || "null");
+  if (cur && cur.site) return cur;
+  const old = JSON.parse(localStorage.getItem("beb-salle-v1") || "null");
+  const data = {
+    site: defaultSite(),
+    clients: old?.clients || [
+      { id: "c1", type: "federation", name: "Fédération — exemple", code: "FED-ALGER", pin: "1111", contact: "Secrétariat", phone: "", active: true },
+      { id: "c2", type: "ligue", name: "Ligue de wilaya — exemple", code: "LIG-ALGER", pin: "2222", contact: "Bureau ligue", phone: "", active: true },
+      { id: "c3", type: "club", name: "Club Bordj El Bahri — exemple", code: "CLB-BEB", pin: "3333", contact: "Éducateur", phone: "", active: true },
+      { id: "c4", type: "prive", name: "Client privé — exemple", code: "PRV-DEMO", pin: "4444", contact: "Particulier", phone: "", active: true }
+    ],
+    books: old?.books || [
+      { id: "b1", clientId: "c3", date: iso(1), slot: "18:00–20:00", space: "s1", disc: "d1", people: 18, note: "Entraînement U17", status: "attente", motif: "" }
+    ],
+    privates: [
+      { id: "p1", code: "PRV-1001", name: "Famille exemple", phone: "0550000000", date: iso(3), slot: "16:00–18:00", space: "s3", disc: "d8", people: 12, note: "Anniversaire", status: "attente", motif: "" }
+    ],
+    leads: old?.leads || []
+  };
+  localStorage.setItem(KEY, JSON.stringify(data));
+  return data;
+}
+let db = seed();
+if (db.site && db.site.hero && db.site.hero.fr && db.site.hero.fr.spacesSub && db.site.hero.fr.spacesSub.indexOf("double emploi") !== -1) {
+  db.site.hero.fr.spacesSub = I18N.fr.spacesSub;
+  save();
+}
+function save() { localStorage.setItem(KEY, JSON.stringify(db)); }
+function iso(n) { const d = new Date(); d.setDate(d.getDate() + n); return d.toISOString().slice(0, 10); }
+function t(k) { return (I18N[lang] && I18N[lang][k]) || I18N.fr[k] || k; }
+function toast(msg) { const el = document.getElementById("toast"); el.textContent = msg; el.style.display = "block"; clearTimeout(toast._t); toast._t = setTimeout(() => el.style.display = "none", 2600); }
+function L(item) { return item[lang] || item.fr || { t: "", p: "" }; }
+function typeLabel(type) { return t(type === "federation" ? "typeFed" : type === "ligue" ? "typeLig" : type === "prive" ? "typePrv" : "typeClb"); }
+function pill(status) { return `<span class="pill ${status}">${t(status === "attente" ? "waiting" : status === "vise" ? "ok" : "no")}</span>`; }
+function typePill(type) { const cls = type === "federation" ? "fed" : type === "ligue" ? "lig" : "clb"; return `<span class="pill ${cls}">${typeLabel(type)}</span>`; }
+function spaceName(id) { const s = db.site.spaces.find(x => x.id === id); return s ? L(s).t : id; }
+function discName(id) { const s = db.site.disciplines.find(x => x.id === id); return s ? L(s).t : id; }
+function taken(date, slot, space, skip) {
+  const hit = (x) => x.status === "vise" && x.date === date && x.slot === slot && x.space === space && x.id !== skip;
+  return db.books.some(hit) || db.privates.some(hit);
+}
+
+function applyStatic() {
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+  document.querySelectorAll("[data-i18n]").forEach(el => { const k = el.getAttribute("data-i18n"); if (I18N[lang][k]) el.textContent = I18N[lang][k]; });
+  document.querySelectorAll("#lang button").forEach(b => b.classList.toggle("on", b.dataset.lang === lang));
+  document.querySelectorAll("nav.main button").forEach(b => b.classList.toggle("active", b.dataset.go === view));
+  document.querySelectorAll(".panel").forEach(p => p.classList.toggle("on", p.id === "view-" + view));
+  const h = db.site.hero[lang] || db.site.hero.fr;
+  document.getElementById("brandSub").textContent = t("brandSub");
+  document.getElementById("kicker").textContent = h.kicker || t("kicker");
+  document.getElementById("heroH1").textContent = h.h1 || t("h1");
+  document.getElementById("heroLead").textContent = h.lead || t("lead");
+  document.getElementById("discTitle").textContent = h.discTitle || t("discTitle");
+  document.getElementById("discSub").textContent = h.discSub || t("discSub");
+  document.getElementById("spacesTitle").textContent = h.spacesTitle || t("spacesTitle");
+  document.getElementById("spacesSub").textContent = h.spacesSub || t("spacesSub");
+  const where = h.address || t("whereBody");
+  document.getElementById("whereBody").textContent = where;
+  document.getElementById("whereBody2").textContent = where;
+  document.getElementById("phoneLine").textContent = db.site.phone || "";
+  const ban = document.getElementById("banner");
+  ban.textContent = (db.site.announce && db.site.announce[lang]) || "";
+  ban.classList.toggle("on", !!(db.site.announceOn && ban.textContent));
+  document.getElementById("discBlock").style.display = db.site.showDisc ? "" : "none";
+  document.getElementById("view-espaces").style.display = view === "espaces" && db.site.showSpaces ? "block" : "";
+  document.querySelector('[data-go="espaces"]').style.display = db.site.showSpaces ? "" : "none";
+  document.querySelector('[data-go="canaux"]').style.display = db.site.showChannels ? "" : "none";
+  document.querySelector('[data-go="autres"]').style.display = db.site.showAutres ? "" : "none";
+  document.getElementById("spaceCount").textContent = db.site.spaces.filter(s => s.on).length;
+  renderCards();
+  fillSelects();
+  renderClient();
+  renderAdmin();
+}
+function renderCards() {
+  document.getElementById("disc").innerHTML = db.site.disciplines.filter(s => s.on).map((s, i) => `<article class="card"><div class="ico ${i % 2 ? "o" : ""}">${i + 1}</div><h3>${L(s).t}</h3><p>${L(s).p}</p></article>`).join("");
+  document.getElementById("spaces").innerHTML = db.site.spaces.filter(s => s.on).map((s, i) => `<article class="card"><div class="ico ${i % 2 ? "o" : ""}">${i + 1}</div><h3>${L(s).t}</h3><p>${L(s).p}</p></article>`).join("");
+  document.getElementById("channels").innerHTML = ["ch1","ch2","ch3"].map((id, i) => `<article class="card"><div class="ico ${i === 2 ? "o" : ""}">${t(id + "t").slice(0, 1)}</div><h3>${t(id + "t")}</h3><p>${t(id + "p")}</p></article>`).join("");
+  document.getElementById("blocs").innerHTML = (db.site.blocs || []).filter(b => b.on).map(b => `<article class="card" style="margin-top:12px"><h3>${L(b).t}</h3><p>${L(b).p}</p></article>`).join("");
+}
+function fillSelects() {
+  const slot = SLOTS.map(s => `<option>${s}</option>`).join("");
+  const spaces = db.site.spaces.filter(s => s.on).map(s => `<option value="${s.id}">${L(s).t}</option>`).join("");
+  const discs = db.site.disciplines.filter(s => s.on).map(s => `<option value="${s.id}">${L(s).t}</option>`).join("");
+  document.getElementById("pvSlot").innerHTML = slot;
+  document.getElementById("pvSpace").innerHTML = spaces;
+  document.getElementById("pvDisc").innerHTML = discs;
+  const d = document.querySelector('#pvForm [name=date]');
+  if (d && !d.value) d.value = iso(1);
+}
+
+function renderClient() {
+  const root = document.getElementById("clientApp");
+  if (view !== "espace") return;
+  const client = session && session.role === "client" ? db.clients.find(c => c.id === session.id && c.active) : null;
+  if (!client) {
+    root.innerHTML = `<div class="card login-box"><h2>${t("loginTitle")}</h2><p class="sub">${t("loginSub")}</p>
+      <form id="clientLogin"><label>${t("code")}</label><input name="code" required>
+      <label>${t("pin")}</label><input name="pin" type="password" required>
+      <div class="cta"><button class="solid" type="submit">${t("enter")}</button></div></form>
+      <p class="hint">${t("demo")}</p></div>`;
+    root.querySelector("#clientLogin").onsubmit = (e) => {
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      const found = db.clients.find(c => c.code.toUpperCase() === String(fd.get("code")).trim().toUpperCase() && c.pin === String(fd.get("pin")).trim() && c.active);
+      if (!found) return toast(t("bad"));
+      session = { role: "client", id: found.id };
+      localStorage.setItem("beb-session", JSON.stringify(session));
+      renderClient();
+    };
+    return;
+  }
+  const mine = db.books.filter(b => b.clientId === client.id);
+  root.innerHTML = `<div class="tools"><div><h2 style="margin:0">${t("myChannel")}</h2><p class="sub" style="margin:4px 0 0">${typePill(client.type)} ${client.name} · ${client.code}</p></div><button class="ghost" id="out" type="button">${t("logout")}</button></div>
+    <div class="grid grid-2"><form class="card" id="bookForm"><h3>${t("newReq")}</h3>
+      <label>${t("date")}</label><input type="date" name="date" required value="${iso(1)}">
+      <label>${t("slot")}</label><select name="slot">${SLOTS.map(s => `<option>${s}</option>`).join("")}</select>
+      <label>${t("space")}</label><select name="space">${db.site.spaces.filter(s => s.on).map(s => `<option value="${s.id}">${L(s).t}</option>`).join("")}</select>
+      <label>${t("disc")}</label><select name="disc">${db.site.disciplines.filter(s => s.on).map(s => `<option value="${s.id}">${L(s).t}</option>`).join("")}</select>
+      <label>${t("people")}</label><input name="people" type="number" min="1" value="12" required>
+      <label>${t("note")}</label><input name="note">
+      <div class="cta"><button class="solid" type="submit">${t("send")}</button></div></form>
+      <div class="card" style="overflow:auto"><h3>${t("books")}</h3>${mine.length ? tableBooks(mine, false) : `<p class="sub">${t("none")}</p>`}</div></div>`;
+  root.querySelector("#out").onclick = () => { session = null; localStorage.removeItem("beb-session"); renderClient(); };
+  root.querySelector("#bookForm").onsubmit = (e) => {
+    e.preventDefault();
+    const fd = new FormData(e.target);
+    db.books.push({ id: "b" + Date.now(), clientId: client.id, date: fd.get("date"), slot: fd.get("slot"), space: fd.get("space"), disc: fd.get("disc"), people: Number(fd.get("people")), note: fd.get("note") || "", status: "attente", motif: "" });
+    save(); toast(t("sent")); renderClient();
+  };
+}
+function tableBooks(rows, admin) {
+  return `<table><thead><tr><th>${t("date")}</th><th>${t("space")}</th><th>${t("disc")}</th><th>${t("status")}</th>${admin ? `<th>${t("actions")}</th>` : ""}</tr></thead><tbody>
+    ${rows.map(b => `<tr><td>${b.date}<div>${b.slot}</div></td><td>${spaceName(b.space)}</td><td>${discName(b.disc)}<div>${b.note || ""}</div></td><td>${pill(b.status)}${b.motif ? `<div>${b.motif}</div>` : ""}</td>${admin ? `<td></td>` : ""}</tr>`).join("")}
+  </tbody></table>`;
+}
+
+function renderAdmin() {
+  const root = document.getElementById("adminApp");
+  if (view !== "gestion") return;
+  if (!session || session.role !== "admin") {
+    root.innerHTML = `<div class="card login-box"><h2>${t("adminTitle")}</h2><p class="sub">${t("adminSub")}</p>
+      <form id="adminLogin"><label>${t("code")}</label><input name="code" value="GERANT" required>
+      <label>${t("pin")}</label><input name="pin" type="password" required>
+      <div class="cta"><button class="solid navy" type="submit">${t("enter")}</button></div></form></div>`;
+    root.querySelector("#adminLogin").onsubmit = (e) => {
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      if (String(fd.get("code")).trim().toUpperCase() === "GERANT" && String(fd.get("pin")).trim() === "2026") {
+        session = { role: "admin" }; localStorage.setItem("beb-session", JSON.stringify(session)); renderAdmin();
+      } else toast(t("bad"));
+    };
+    return;
+  }
+  const pending = db.books.filter(b => b.status === "attente").length + db.privates.filter(b => b.status === "attente").length;
+  root.innerHTML = `<div class="tools"><div><h2 style="margin:0">${t("hello")}, ${t("role")}</h2><p class="sub" style="margin:4px 0 0">${pending} · ${t("waiting")}</p></div><button class="ghost" id="out" type="button">${t("logout")}</button></div>
+    <div class="tabs">
+      <button class="tab ${adminTab === "books" ? "on" : ""}" data-tab="books">${t("books")}</button>
+      <button class="tab ${adminTab === "priv" ? "on" : ""}" data-tab="priv">${t("navOther")}</button>
+      <button class="tab ${adminTab === "clients" ? "on" : ""}" data-tab="clients">${t("clients")}</button>
+      <button class="tab ${adminTab === "leads" ? "on" : ""}" data-tab="leads">${t("leads")}</button>
+      <button class="tab ${adminTab === "site" ? "on" : ""}" data-tab="site">${t("site")}</button>
+    </div><div id="adminBody"></div>`;
+  root.querySelector("#out").onclick = () => { session = null; localStorage.removeItem("beb-session"); renderAdmin(); };
+  root.querySelectorAll("[data-tab]").forEach(b => b.onclick = () => { adminTab = b.dataset.tab; renderAdmin(); });
+  const body = root.querySelector("#adminBody");
+  if (adminTab === "books") body.innerHTML = adminBooks();
+  if (adminTab === "priv") body.innerHTML = adminPriv();
+  if (adminTab === "clients") body.innerHTML = adminClients();
+  if (adminTab === "leads") body.innerHTML = adminLeads();
+  if (adminTab === "site") body.innerHTML = adminSite();
+  bindAdmin(body);
+}
+function adminBooks() {
+  const rows = [...db.books].sort((a, b) => (a.date + a.slot).localeCompare(b.date + b.slot));
+  if (!rows.length) return `<p class="sub">${t("none")}</p>`;
+  return `<div class="card" style="overflow:auto"><table><thead><tr><th>${t("date")}</th><th>${t("fOrg")}</th><th>${t("space")}</th><th>${t("status")}</th><th>${t("actions")}</th></tr></thead><tbody>
+    ${rows.map(b => { const c = db.clients.find(x => x.id === b.clientId); return `<tr><td>${b.date}<div>${b.slot}</div></td><td>${c ? c.name : "—"}<div>${c ? typePill(c.type) : ""}</div><div>${b.note || ""}</div></td><td>${spaceName(b.space)} · ${discName(b.disc)}</td><td>${pill(b.status)}${b.motif ? `<div>${b.motif}</div>` : ""}</td><td>${b.status === "attente" ? `<button class="mini ok" data-visa="books:${b.id}">${t("visa")}</button> <button class="mini no" data-no="books:${b.id}">${t("refuse")}</button>` : ""}</td></tr>`; }).join("")}
+  </tbody></table></div>`;
+}
+function adminPriv() {
+  const rows = [...db.privates].sort((a, b) => (a.date + a.slot).localeCompare(b.date + b.slot));
+  if (!rows.length) return `<p class="sub">${t("none")}</p>`;
+  return `<div class="card" style="overflow:auto"><table><thead><tr><th>${t("date")}</th><th>${t("typePrv")}</th><th>${t("space")}</th><th>${t("status")}</th><th>${t("actions")}</th></tr></thead><tbody>
+    ${rows.map(b => `<tr><td>${b.date}<div>${b.slot}</div></td><td>${b.name}<div>${b.phone} · ${b.code}</div><div>${b.note || ""}</div></td><td>${spaceName(b.space)} · ${discName(b.disc)} · ${b.people}</td><td>${pill(b.status)}${b.motif ? `<div>${b.motif}</div>` : ""}</td><td>${b.status === "attente" ? `<button class="mini ok" data-visa="privates:${b.id}">${t("visa")}</button> <button class="mini no" data-no="privates:${b.id}">${t("refuse")}</button>` : ""}</td></tr>`).join("")}
+  </tbody></table></div>`;
+}
+function adminClients() {
+  return `<form class="card" id="addClient"><h3>${t("add")}</h3><div class="row">
+    <div><label>${t("name")}</label><input name="name" required></div>
+    <div><label>${t("fType")}</label><select name="type"><option value="federation">${t("typeFed")}</option><option value="ligue">${t("typeLig")}</option><option value="club">${t("typeClb")}</option><option value="prive">${t("typePrv")}</option></select></div>
+    </div><div class="row"><div><label>${t("code")}</label><input name="code" required></div><div><label>${t("pin")}</label><input name="pin" required></div></div>
+    <div class="row"><div><label>${t("contact")}</label><input name="contact"></div><div><label>${t("phone")}</label><input name="phone"></div></div>
+    <div class="cta"><button class="solid" type="submit">${t("save")}</button></div></form>
+    <div class="card" style="overflow:auto;margin-top:12px"><table><thead><tr><th>${t("fType")}</th><th>${t("name")}</th><th>${t("code")}</th><th>${t("status")}</th><th></th></tr></thead><tbody>
+      ${db.clients.map(c => `<tr><td>${typePill(c.type)}</td><td>${c.name}<div>${c.contact || ""} ${c.phone || ""}</div></td><td>${c.code} · ${c.pin}</td><td>${c.active ? t("active") : t("off")}</td><td><button class="mini" data-toggle="${c.id}">${c.active ? t("off") : t("active")}</button></td></tr>`).join("")}
+    </tbody></table></div>`;
+}
+function adminLeads() {
+  if (!db.leads.length) return `<p class="sub">${t("emptyLeads")}</p>`;
+  return `<div class="card" style="overflow:auto"><table><thead><tr><th>${t("fOrg")}</th><th>${t("fType")}</th><th>${t("contact")}</th><th>${t("fMsg")}</th><th></th></tr></thead><tbody>
+    ${db.leads.map(l => `<tr><td>${l.org}</td><td>${typeLabel(l.type)}</td><td>${l.contact}<div>${l.phone}</div></td><td>${l.message}</td><td><button class="mini ok" data-open="${l.id}">${t("add")}</button></td></tr>`).join("")}
+  </tbody></table></div>`;
+}
+function esc(s) { return String(s || "").replace(/&/g, "&" + "amp;").replace(/"/g, "&" + "quot;").replace(/</g, "&" + "lt;"); }
+function field(label, name, value, area) {
+  return `<label>${label}</label>${area ? `<textarea name="${name}">${esc(value)}</textarea>` : `<input name="${name}" value="${esc(value)}">`}`;
+}
+function adminSite() {
+  const h = db.site.hero[editLang];
+  return `<div class="tabs edit-lang">${LANGS.map(l => `<button type="button" class="tab ${editLang === l ? "on" : ""}" data-el="${l}">${l.toUpperCase()}</button>`).join("")}</div>
+    <form class="card" id="siteText"><h3>${t("texts")} · ${editLang.toUpperCase()}</h3>
+      ${field(t("kicker"), "kicker", h.kicker)}
+      ${field(t("h1") || "Titre", "h1", h.h1)}
+      ${field(t("lead") || "Texte", "lead", h.lead, true)}
+      ${field(t("discTitle"), "discTitle", h.discTitle)}
+      ${field(t("discSub"), "discSub", h.discSub, true)}
+      ${field(t("spacesTitle"), "spacesTitle", h.spacesTitle)}
+      ${field(t("spacesSub"), "spacesSub", h.spacesSub, true)}
+      ${field(t("address"), "address", h.address, true)}
+      ${field(t("hours"), "hours", h.hours)}
+      ${field(t("announce"), "announce", db.site.announce[editLang], true)}
+      <label><input type="checkbox" name="announceOn" ${db.site.announceOn ? "checked" : ""} style="width:auto"> ${t("announce")}</label>
+      <label>${t("phone")}</label><input name="phone" value="${db.site.phone || ""}">
+      <label><input type="checkbox" name="showDisc" ${db.site.showDisc ? "checked" : ""} style="width:auto"> ${t("discTitle")}</label>
+      <label><input type="checkbox" name="showSpaces" ${db.site.showSpaces ? "checked" : ""} style="width:auto"> ${t("spacesTitle")}</label>
+      <label><input type="checkbox" name="showChannels" ${db.site.showChannels ? "checked" : ""} style="width:auto"> ${t("navChannels")}</label>
+      <label><input type="checkbox" name="showAutres" ${db.site.showAutres ? "checked" : ""} style="width:auto"> ${t("navOther")}</label>
+      <div class="cta"><button class="solid" type="submit">${t("save")}</button></div>
+    </form>
+    <div class="card" style="margin-top:12px"><h3>${t("lists")}</h3>
+      ${db.site.disciplines.map((s, i) => rowEdit("disciplines", s, i)).join("")}
+      <button class="mini" id="addDisc" type="button">${t("add")} · ${t("disc")}</button>
+      <hr>
+      ${db.site.spaces.map((s, i) => rowEdit("spaces", s, i)).join("")}
+      <button class="mini" id="addSpace" type="button">${t("add")} · ${t("space")}</button>
+    </div>
+    <div class="card" style="margin-top:12px"><h3>${t("blocs")}</h3>
+      <p class="sub">${t("blocs")} — ${editLang.toUpperCase()}</p>
+      ${(db.site.blocs || []).map((s, i) => rowEdit("blocs", s, i)).join("") || `<p class="sub">${t("none")}</p>`}
+      <button class="mini" id="addBloc" type="button">${t("add")}</button>
+    </div>`;
+}
+function rowEdit(list, s, i) {
+  const cur = s[editLang] || { t: "", p: "" };
+  return `<form class="rowItem" data-list="${list}" data-id="${s.id}" style="border-top:1px solid var(--line);padding-top:10px">
+    <label>${t("name")}</label><input name="t" value="${esc(cur.t)}">
+    <label>${t("note")}</label><input name="p" value="${esc(cur.p)}">
+    <div class="tools"><button class="mini" type="submit">${t("save")}</button>
+      <button class="mini" type="button" data-toggle-item="${list}:${s.id}">${s.on ? t("hide") : t("show")}</button>
+      <button class="mini" type="button" data-move="${list}:${i}:-1">${t("up")}</button>
+      <button class="mini" type="button" data-move="${list}:${i}:1">${t("down")}</button>
+      <button class="mini no" type="button" data-del="${list}:${s.id}">${t("del")}</button></div></form>`;
+}
+function bindAdmin(body) {
+  body.querySelectorAll("[data-el]").forEach(b => b.onclick = () => { editLang = b.dataset.el; renderAdmin(); });
+  body.querySelectorAll("[data-visa]").forEach(btn => btn.onclick = () => setStatus(btn.dataset.visa, "vise"));
+  body.querySelectorAll("[data-no]").forEach(btn => btn.onclick = () => setStatus(btn.dataset.no, "refuse", prompt(t("motif")) || ""));
+  body.querySelectorAll("[data-toggle]").forEach(btn => btn.onclick = () => { const c = db.clients.find(x => x.id === btn.dataset.toggle); c.active = !c.active; save(); renderAdmin(); });
+  const form = body.querySelector("#addClient");
+  if (form) form.onsubmit = (e) => {
+    e.preventDefault();
+    const fd = new FormData(form);
+    db.clients.push({ id: "c" + Date.now(), type: fd.get("type"), name: fd.get("name"), code: String(fd.get("code")).trim().toUpperCase(), pin: String(fd.get("pin")).trim(), contact: fd.get("contact") || "", phone: fd.get("phone") || "", active: true });
+    save(); toast(t("saved")); renderAdmin();
+  };
+  body.querySelectorAll("[data-open]").forEach(btn => btn.onclick = () => {
+    const l = db.leads.find(x => x.id === btn.dataset.open);
+    const code = (l.type === "federation" ? "FED-" : l.type === "ligue" ? "LIG-" : l.type === "prive" ? "PRV-" : "CLB-") + String(Date.now()).slice(-4);
+    db.clients.push({ id: "c" + Date.now(), type: l.type, name: l.org, code, pin: "0000", contact: l.contact, phone: l.phone, active: true });
+    db.leads = db.leads.filter(x => x.id !== l.id);
+    save(); toast(code + " / 0000"); adminTab = "clients"; renderAdmin();
+  });
+  const site = body.querySelector("#siteText");
+  if (site) site.onsubmit = (e) => {
+    e.preventDefault();
+    const fd = new FormData(site);
+    db.site.hero[editLang] = { kicker: fd.get("kicker"), h1: fd.get("h1"), lead: fd.get("lead"), discTitle: fd.get("discTitle"), discSub: fd.get("discSub"), spacesTitle: fd.get("spacesTitle"), spacesSub: fd.get("spacesSub"), address: fd.get("address"), hours: fd.get("hours") };
+    db.site.announce[editLang] = fd.get("announce") || "";
+    db.site.announceOn = !!site.querySelector("[name=announceOn]").checked;
+    db.site.phone = fd.get("phone") || "";
+    db.site.showDisc = !!site.querySelector("[name=showDisc]").checked;
+    db.site.showSpaces = !!site.querySelector("[name=showSpaces]").checked;
+    db.site.showChannels = !!site.querySelector("[name=showChannels]").checked;
+    db.site.showAutres = !!site.querySelector("[name=showAutres]").checked;
+    save(); toast(t("saved")); applyStatic();
+  };
+  body.querySelectorAll(".rowItem").forEach(f => f.onsubmit = (e) => {
+    e.preventDefault();
+    const item = db.site[f.dataset.list].find(x => x.id === f.dataset.id);
+    item[editLang] = { t: new FormData(f).get("t"), p: new FormData(f).get("p") };
+    save(); toast(t("saved")); applyStatic();
+  });
+  const add = (list) => { db.site[list].push({ id: list.slice(0, 1) + Date.now(), on: true, fr: { t: "Nouveau", p: "" }, ar: { t: "جديد", p: "" }, en: { t: "New", p: "" } }); save(); renderAdmin(); };
+  const ad = body.querySelector("#addDisc"); if (ad) ad.onclick = () => add("disciplines");
+  const as = body.querySelector("#addSpace"); if (as) as.onclick = () => add("spaces");
+  const ab = body.querySelector("#addBloc"); if (ab) ab.onclick = () => add("blocs");
+  body.querySelectorAll("[data-toggle-item]").forEach(b => b.onclick = () => { const [list, id] = b.dataset.toggleItem.split(":"); const item = db.site[list].find(x => x.id === id); item.on = !item.on; save(); applyStatic(); });
+  body.querySelectorAll("[data-del]").forEach(b => b.onclick = () => { const [list, id] = b.dataset.del.split(":"); db.site[list] = db.site[list].filter(x => x.id !== id); save(); applyStatic(); });
+  body.querySelectorAll("[data-move]").forEach(b => b.onclick = () => {
+    const [list, i, dir] = b.dataset.move.split(":");
+    const arr = db.site[list]; const n = Number(i) + Number(dir);
+    if (n < 0 || n >= arr.length) return;
+    const [it] = arr.splice(Number(i), 1); arr.splice(n, 0, it); save(); renderAdmin();
+  });
+}
+function setStatus(key, status, motif) {
+  const [list, id] = key.split(":");
+  const b = db[list].find(x => x.id === id);
+  if (status === "vise" && taken(b.date, b.slot, b.space, b.id)) return toast(t("clash"));
+  b.status = status; b.motif = motif || ""; save(); toast(t("saved")); renderAdmin();
+}
+
+document.getElementById("lang").onclick = (e) => { const b = e.target.closest("[data-lang]"); if (!b) return; lang = b.dataset.lang; localStorage.setItem("beb-lang", lang); applyStatic(); };
+document.getElementById("nav").onclick = (e) => { const b = e.target.closest("[data-go]"); if (!b) return; go(b.dataset.go); };
+document.body.addEventListener("click", (e) => { const b = e.target.closest("[data-go]"); if (!b || b.closest("#nav")) return; go(b.dataset.go); });
+function go(v) { view = v; document.getElementById("nav").classList.remove("open"); applyStatic(); window.scrollTo({ top: 0, behavior: "smooth" }); }
+document.getElementById("menuBtn").onclick = () => document.getElementById("nav").classList.toggle("open");
+document.getElementById("leadForm").onsubmit = (e) => {
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  db.leads.push({ id: "l" + Date.now(), org: fd.get("org"), type: fd.get("type"), contact: fd.get("contact"), phone: fd.get("phone"), message: fd.get("message") });
+  save(); e.target.reset(); toast(t("leadOk"));
+};
+document.getElementById("pvForm").onsubmit = (e) => {
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  const code = "PRV-" + String(Date.now()).slice(-4);
+  db.privates.push({ id: "p" + Date.now(), code, name: fd.get("name"), phone: fd.get("phone"), date: fd.get("date"), slot: fd.get("slot"), space: fd.get("space"), disc: fd.get("disc"), people: Number(fd.get("people")), note: fd.get("note") || "", status: "attente", motif: "" });
+  save(); e.target.reset(); fillSelects();
+  toast(t("pvOk") + " " + code);
+  document.getElementById("pvResult").innerHTML = `<p class="hint" style="margin-top:10px">${code}</p>`;
+};
+document.getElementById("pvTrack").onsubmit = (e) => {
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  const hit = db.privates.find(p => p.code.toUpperCase() === String(fd.get("code")).trim().toUpperCase() && p.phone === String(fd.get("phone")).trim());
+  document.getElementById("pvResult").innerHTML = hit ? `<p class="hint" style="margin-top:10px">${hit.date} · ${hit.slot} · ${spaceName(hit.space)}<br>${pill(hit.status)} ${hit.motif || ""}</p>` : `<p class="hint" style="margin-top:10px">${t("bad")}</p>`;
+};
+applyStatic();
+</script>
+</body>
+</html>
