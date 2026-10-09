@@ -273,6 +273,11 @@
       <div class="stat"><b>6</b><span data-i18n="st2">créneaux / jour</span></div>
       <div class="stat"><b id="spaceCount">4</b><span data-i18n="st3">espaces</span></div>
     </div>
+    <div id="contrat">
+      <h2>Contrat 2026</h2>
+      <p class="sub">Comptes déjà ouverts. Clubs : pièces du courrier OPOW, saison 2026/2027. Groupes scolaires : les mêmes, plus la copie du RC et l’agrément.</p>
+      <div class="grid grid-3" id="contratList"></div>
+    </div>
     <div id="discBlock">
       <h2 id="discTitle"></h2>
       <p class="sub" id="discSub"></p>
@@ -335,6 +340,7 @@
               <option value="federation" data-i18n="typeFed">Fédération</option>
               <option value="ligue" data-i18n="typeLig">Ligue</option>
               <option value="club" data-i18n="typeClb">Club</option>
+              <option value="ecole" data-i18n="typeEcole">Groupe scolaire</option>
               <option value="prive" data-i18n="typePrv">Client privé</option>
             </select>
           </div>
@@ -370,7 +376,7 @@ const I18N = {
     fOrg: "Structure", fType: "Type", fWho: "Nom", fPhone: "Téléphone", fMsg: "Besoin", fSend: "Envoyer au gérant",
     where: "Où", whereBody: "Cité Cosider, Bordj El Bahri, Alger. Horaires indicatifs 08:00–22:00.",
     foot: "Maquette K3CH · données de démonstration dans ce navigateur · قاعة متعددة الرياضات برج البحري",
-    typeFed: "Fédération", typeLig: "Ligue", typeClb: "Club", typePrv: "Client privé",
+    typeFed: "Fédération", typeLig: "Ligue", typeClb: "Club", typeEcole: "Groupe scolaire", typePrv: "Client privé",
     d1t: "Football", d1p: "Plateau central, matchs et séances club.",
     d2t: "Basket", d2p: "Créneaux école et championnat.",
     d3t: "Tennis", d3p: "Stages ligue et créneaux club.",
@@ -389,7 +395,7 @@ const I18N = {
     pvTitle: "Autres réservations", pvSub: "Clients privés : anniversaire, entraînement libre, location. Le gérant vise. Pas le canal des clubs.",
     loginTitle: "Entrer dans le canal", loginSub: "Code remis par le gérant. Les privés suivent leur code dans Autres.",
     code: "Code canal", pin: "PIN", enter: "Entrer", logout: "Sortir",
-    demo: "Démo · FED-ALGER / 1111 · LIG-ALGER / 2222 · CLB-BEB / 3333 · privé PRV-DEMO / 4444",
+    demo: "Contrat 2026. Code du canal, PIN 2026, remis par le gérant.",
     myChannel: "Mon canal", newReq: "Nouvelle demande", date: "Date", slot: "Créneau", space: "Espace", disc: "Discipline", people: "Effectif", note: "Note", send: "Déposer la demande",
     status: "État", none: "Aucune demande.", waiting: "En attente", ok: "Visé", no: "Refusé",
     adminTitle: "Gestion de la salle", adminSub: "Clients, privés, visas, et le site lui-même. Démo : GERANT / 2026",
@@ -408,7 +414,8 @@ const I18N = {
     upcoming: "À venir", past: "Passé", total: "Total", source: "Source", srcChannel: "Canal", srcPriv: "Autres (même téléphone)",
     linkHint: "Demandes du canal du client, plus les réservations « Autres » faites avec le même numéro de téléphone.",
     docs: "Documents", addDoc: "Ajouter un document", editDoc: "Modifier le document", docName: "Intitulé", expiry: "Expire le", file: "Fichier", fileLbl: "Fichier joint (1,5 Mo max)", open: "Ouvrir", edit: "Modifier", cancel: "Annuler",
-    dtConv: "Convention", dtAssur: "Assurance", dtLic: "Licence / Affiliation", dtMed: "Certificat médical", dtFact: "Facture", dtAutre: "Autre",
+    dtConv: "Convention signée 2026/2027", dtAssur: "Assurance + liste nominative 2026/2027", dtLic: "Licence / Affiliation", dtMed: "Certificat médical", dtFact: "Facture", dtAutre: "Autre",
+    dtDemande: "Demande écrite", dtAgrement: "Agrément association, olympiade 2024/2028", dtConvPrev: "Convention signée 2025/2026", dtStatuts: "Statuts de l’association", dtEntr: "Certificat d’entraînement", dtRc: "Copie du RC", dtAgrementEcole: "Agrément",
     dsRecu: "Reçu", dsMiss: "Manquant", dsExp: "Expiré", soon: "Expire bientôt", noDocs: "Aucun document.", missingExp: "Manquants / expirés",
     fileBig: "Fichier trop lourd (1,5 Mo maximum). Non joint.", quota: "Stockage du navigateur plein : rien n’a été enregistré.", confirmDel: "Supprimer ce document ?", docSaved: "Document enregistré.",
     keepFile: "Sans nouveau fichier, le fichier actuel est conservé.", rmFile: "Retirer le fichier",
@@ -428,7 +435,7 @@ const I18N = {
     fOrg: "الهيكل", fType: "النوع", fWho: "الاسم", fPhone: "الهاتف", fMsg: "الحاجة", fSend: "إرسال إلى المسيّر",
     where: "المكان", whereBody: "حي كوسيدار، برج البحري، الجزائر العاصمة. أوقات إرشادية 08:00–22:00.",
     foot: "نموذج K3CH · بيانات تجريبية في هذا المتصفح · قاعة متعددة الرياضات برج البحري",
-    typeFed: "اتحاد", typeLig: "رابطة", typeClb: "نادي", typePrv: "حريف خاص",
+    typeFed: "اتحاد", typeLig: "رابطة", typeClb: "نادي", typeEcole: "مجموعة مدرسية", typePrv: "حريف خاص",
     d1t: "كرة القدم", d1p: "الملعب المركزي، مباريات وحصص النادي.",
     d2t: "كرة السلة", d2p: "حصص المدرسة والبطولة.",
     d3t: "كرة المضرب", d3p: "تربصات الرابطة وحصص النادي.",
@@ -466,7 +473,8 @@ const I18N = {
     upcoming: "القادمة", past: "السابقة", total: "المجموع", source: "المصدر", srcChannel: "القناة", srcPriv: "أخرى (نفس الهاتف)",
     linkHint: "طلبات قناة الحريف، مع حجوزات «أخرى» المسجلة بنفس رقم الهاتف.",
     docs: "الوثائق", addDoc: "إضافة وثيقة", editDoc: "تعديل الوثيقة", docName: "اسم الوثيقة", expiry: "تاريخ الانتهاء", file: "ملف", fileLbl: "ملف مرفق (1.5 ميغابايت كحد أقصى)", open: "فتح", edit: "تعديل", cancel: "إلغاء",
-    dtConv: "اتفاقية", dtAssur: "تأمين", dtLic: "إجازة / انخراط", dtMed: "شهادة طبية", dtFact: "فاتورة", dtAutre: "أخرى",
+    dtConv: "اتفاقية ممضية 2026/2027", dtAssur: "تأمين + القائمة الإسمية 2026/2027", dtLic: "إجازة / انخراط", dtMed: "شهادة طبية", dtFact: "فاتورة", dtAutre: "أخرى",
+    dtDemande: "طلب خطي", dtAgrement: "اعتماد الجمعية، العهدة 2024/2028", dtConvPrev: "اتفاقية ممضية 2025/2026", dtStatuts: "القانون الأساسي للجمعية", dtEntr: "شهادة التدريب", dtRc: "نسخة من السجل التجاري", dtAgrementEcole: "الاعتماد",
     dsRecu: "مستلمة", dsMiss: "ناقصة", dsExp: "منتهية الصلاحية", soon: "تنتهي قريبا", noDocs: "لا وثائق.", missingExp: "ناقصة / منتهية",
     fileBig: "الملف كبير جدا (الحد 1.5 ميغابايت). لم يُرفق.", quota: "ذاكرة المتصفح ممتلئة: لم يُحفظ شيء.", confirmDel: "حذف هذه الوثيقة؟", docSaved: "تم حفظ الوثيقة.",
     keepFile: "بدون ملف جديد، يبقى الملف الحالي.", rmFile: "إزالة الملف",
@@ -486,7 +494,7 @@ const I18N = {
     fOrg: "Organisation", fType: "Type", fWho: "Name", fPhone: "Phone", fMsg: "Need", fSend: "Send to the manager",
     where: "Where", whereBody: "Cité Cosider, Bordj El Bahri, Algiers. Indicative hours 08:00–22:00.",
     foot: "K3CH mock-up · demo data in this browser · قاعة متعددة الرياضات برج البحري",
-    typeFed: "Federation", typeLig: "League", typeClb: "Club", typePrv: "Private client",
+    typeFed: "Federation", typeLig: "League", typeClb: "Club", typeEcole: "School group", typePrv: "Private client",
     d1t: "Football", d1p: "Main court, matches and club sessions.",
     d2t: "Basketball", d2p: "School slots and league play.",
     d3t: "Tennis", d3p: "League camps and club slots.",
@@ -524,7 +532,8 @@ const I18N = {
     upcoming: "Upcoming", past: "Past", total: "Total", source: "Source", srcChannel: "Channel", srcPriv: "Other (same phone)",
     linkHint: "Requests from the client's channel, plus “Other” bookings made with the same phone number.",
     docs: "Documents", addDoc: "Add a document", editDoc: "Edit document", docName: "Title", expiry: "Expires on", file: "File", fileLbl: "Attached file (1.5 MB max)", open: "Open", edit: "Edit", cancel: "Cancel",
-    dtConv: "Agreement", dtAssur: "Insurance", dtLic: "Licence / Affiliation", dtMed: "Medical certificate", dtFact: "Invoice", dtAutre: "Other",
+    dtConv: "Signed agreement 2026/2027", dtAssur: "Insurance + name list 2026/2027", dtLic: "Licence / Affiliation", dtMed: "Medical certificate", dtFact: "Invoice", dtAutre: "Other",
+    dtDemande: "Written request", dtAgrement: "Association approval, 2024/2028 term", dtConvPrev: "Signed agreement 2025/2026", dtStatuts: "Association statutes", dtEntr: "Training certificate", dtRc: "Trade register copy", dtAgrementEcole: "Approval",
     dsRecu: "Received", dsMiss: "Missing", dsExp: "Expired", soon: "Expires soon", noDocs: "No documents.", missingExp: "Missing / expired",
     fileBig: "File too large (1.5 MB max). Not attached.", quota: "Browser storage is full: nothing was saved.", confirmDel: "Delete this document?", docSaved: "Document saved.",
     keepFile: "Without a new file, the current file is kept.", rmFile: "Remove file",
@@ -533,7 +542,22 @@ const I18N = {
 };
 const SLOTS = ["08:00–10:00", "10:00–12:00", "14:00–16:00", "16:00–18:00", "18:00–20:00", "20:00–22:00"];
 const LANGS = ["fr", "ar", "en"];
-const KEY = "beb-salle-v2";
+const CONTRAT = [
+  { type: "ecole", kind: "Groupe scolaire", name: "El Wouroud", code: "GS-ELWOUROUD" },
+  { type: "ecole", kind: "Groupe scolaire", name: "Sabil El Nadjah", code: "GS-SABIL" },
+  { type: "ecole", kind: "Groupe scolaire", name: "Ennour", code: "GS-ENNOUR" },
+  { type: "club", kind: "C.S.A", name: "AOAH", code: "CSA-AOAH" },
+  { type: "club", kind: "C.S.A", name: "F.B.B.", code: "CSA-FBB" },
+  { type: "club", kind: "C.S.A", name: "J.S.M.", code: "CSA-JSM" },
+  { type: "club", kind: "C.S.A", name: "Art El Marsa", code: "CSA-MARS" },
+  { type: "club", kind: "C.S.A", name: "A.R.B.B.", code: "CSA-ARBB" },
+  { type: "club", kind: "C.S.A", name: "CRAP-BEB", code: "CSA-CRAP" },
+  { type: "club", kind: "C.S.A", name: "M.B.B.", code: "CSA-MBB" },
+  { type: "club", kind: "C.S.A", name: "N.R.B.B.", code: "CSA-NRBB" },
+  { type: "club", kind: "C.S.A", name: "AAS", code: "CSA-AAS" },
+  { type: "club", kind: "C.S.A", name: "ABB", code: "CSA-ABB" }
+];
+const KEY = "beb-salle-v4";
 let lang = localStorage.getItem("beb-lang") || "fr";
 let view = "salle";
 let session = JSON.parse(localStorage.getItem("beb-session") || "null");
@@ -572,19 +596,15 @@ function seed() {
   const old = JSON.parse(localStorage.getItem("beb-salle-v1") || "null");
   const data = {
     site: defaultSite(),
-    clients: old?.clients || [
-      { id: "c1", type: "federation", name: "Fédération — exemple", code: "FED-ALGER", pin: "1111", contact: "Secrétariat", phone: "", active: true },
-      { id: "c2", type: "ligue", name: "Ligue de wilaya — exemple", code: "LIG-ALGER", pin: "2222", contact: "Bureau ligue", phone: "", active: true },
-      { id: "c3", type: "club", name: "Club Bordj El Bahri — exemple", code: "CLB-BEB", pin: "3333", contact: "Éducateur", phone: "", active: true },
-      { id: "c4", type: "prive", name: "Client privé — exemple", code: "PRV-DEMO", pin: "4444", contact: "Particulier", phone: "", active: true }
-    ],
-    books: old?.books || [
-      { id: "b1", clientId: "c3", date: iso(1), slot: "18:00–20:00", space: "s1", disc: "d1", people: 18, note: "Entraînement U17", status: "attente", motif: "" }
-    ],
-    privates: [
-      { id: "p1", code: "PRV-1001", name: "Famille exemple", phone: "0550000000", date: iso(3), slot: "16:00–18:00", space: "s3", disc: "d8", people: 12, note: "Anniversaire", status: "attente", motif: "" }
-    ],
-    leads: old?.leads || []
+    clients: CONTRAT.map((c, i) => ({ id: "c" + (i + 1), type: c.type, name: c.name, code: c.code, pin: "2026", contact: c.kind, phone: "", active: true })),
+    books: [],
+    privates: [],
+    leads: [],
+    docs: CONTRAT.flatMap((c, i) => {
+      const base = ["demande", "agrement", "assurance", "convprev", "convention", "statuts", "entrainement"];
+      const extra = c.type === "ecole" ? ["rc", "agrementecole"] : [];
+      return base.concat(extra).map((kind, n) => ({ id: "d" + (i + 1) + "-" + n, clientId: "c" + (i + 1), type: kind, name: "", date: "2026-10-09", expiry: "2027-06-30", status: "manquant", fileName: "", fileData: "" }));
+    })
   };
   localStorage.setItem(KEY, JSON.stringify(data));
   return data;
@@ -601,7 +621,7 @@ function iso(n) { const d = new Date(); d.setDate(d.getDate() + n); return d.toI
 function t(k) { return (I18N[lang] && I18N[lang][k]) || I18N.fr[k] || k; }
 function toast(msg) { const el = document.getElementById("toast"); el.textContent = msg; el.style.display = "block"; clearTimeout(toast._t); toast._t = setTimeout(() => el.style.display = "none", 2600); }
 function L(item) { return item[lang] || item.fr || { t: "", p: "" }; }
-function typeLabel(type) { return t(type === "federation" ? "typeFed" : type === "ligue" ? "typeLig" : type === "prive" ? "typePrv" : "typeClb"); }
+function typeLabel(type) { return t(type === "federation" ? "typeFed" : type === "ligue" ? "typeLig" : type === "prive" ? "typePrv" : type === "ecole" ? "typeEcole" : "typeClb"); }
 function pill(status) { return `<span class="pill ${status}">${t(status === "attente" ? "waiting" : status === "vise" ? "ok" : "no")}</span>`; }
 function typePill(type) { const cls = type === "federation" ? "fed" : type === "ligue" ? "lig" : "clb"; return `<span class="pill ${cls}">${typeLabel(type)}</span>`; }
 function spaceName(id) { const s = db.site.spaces.find(x => x.id === id); return s ? L(s).t : id; }
@@ -650,6 +670,8 @@ function renderCards() {
   document.getElementById("disc").innerHTML = db.site.disciplines.filter(s => s.on).map((s, i) => `<article class="card"><div class="ico ${i % 2 ? "o" : ""}">${i + 1}</div><h3>${L(s).t}</h3><p>${L(s).p}</p></article>`).join("");
   document.getElementById("spaces").innerHTML = db.site.spaces.filter(s => s.on).map((s, i) => `<article class="card"><div class="ico ${i % 2 ? "o" : ""}">${i + 1}</div><h3>${L(s).t}</h3><p>${L(s).p}</p></article>`).join("");
   document.getElementById("channels").innerHTML = ["ch1","ch2","ch3"].map((id, i) => `<article class="card"><div class="ico ${i === 2 ? "o" : ""}">${t(id + "t").slice(0, 1)}</div><h3>${t(id + "t")}</h3><p>${t(id + "p")}</p></article>`).join("");
+  const contrat = document.getElementById("contratList");
+  if (contrat) contrat.innerHTML = CONTRAT.map(c => `<article class="card"><div class="ico">${c.kind.slice(0, 1)}</div><h3>${c.name}</h3><p>${c.kind}</p></article>`).join("");
   document.getElementById("blocs").innerHTML = (db.site.blocs || []).filter(b => b.on).map(b => `<article class="card" style="margin-top:12px"><h3>${L(b).t}</h3><p>${L(b).p}</p></article>`).join("");
 }
 function fillSelects() {
@@ -765,7 +787,7 @@ function adminPriv() {
 function adminClients() {
   return `<form class="card" id="addClient"><h3>${t("add")}</h3><div class="row">
     <div><label>${t("name")}</label><input name="name" required></div>
-    <div><label>${t("fType")}</label><select name="type"><option value="federation">${t("typeFed")}</option><option value="ligue">${t("typeLig")}</option><option value="club">${t("typeClb")}</option><option value="prive">${t("typePrv")}</option></select></div>
+    <div><label>${t("fType")}</label><select name="type"><option value="federation">${t("typeFed")}</option><option value="ligue">${t("typeLig")}</option><option value="club">${t("typeClb")}</option><option value="ecole">${t("typeEcole")}</option><option value="prive">${t("typePrv")}</option></select></div>
     </div><div class="row"><div><label>${t("code")}</label><input name="code" required></div><div><label>${t("pin")}</label><input name="pin" required></div></div>
     <div class="row"><div><label>${t("contact")}</label><input name="contact"></div><div><label>${t("phone")}</label><input name="phone"></div></div>
     <div class="cta"><button class="solid" type="submit">${t("save")}</button></div></form>
@@ -780,7 +802,7 @@ function adminLeads() {
   </tbody></table></div>`;
 }
 /* ---------- Suivi clients (planning + documents) ---------- */
-const DOC_TYPES = [["convention", "dtConv"], ["assurance", "dtAssur"], ["licence", "dtLic"], ["medical", "dtMed"], ["facture", "dtFact"], ["autre", "dtAutre"]];
+const DOC_TYPES = [["demande", "dtDemande"], ["agrement", "dtAgrement"], ["assurance", "dtAssur"], ["convprev", "dtConvPrev"], ["convention", "dtConv"], ["statuts", "dtStatuts"], ["entrainement", "dtEntr"], ["rc", "dtRc"], ["agrementecole", "dtAgrementEcole"], ["licence", "dtLic"], ["medical", "dtMed"], ["facture", "dtFact"], ["autre", "dtAutre"]];
 const DOC_STATUS = [["recu", "dsRecu"], ["manquant", "dsMiss"], ["expire", "dsExp"]];
 const MAX_FILE = 1.5 * 1024 * 1024;
 function dayISO(n, base) { const d = base ? new Date(base) : new Date(); d.setHours(12, 0, 0, 0); d.setDate(d.getDate() + (n || 0)); return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); }
