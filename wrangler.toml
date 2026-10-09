@@ -1,0 +1,13 @@
+# Cloudflare Pages · projet existant « omsbeb » (https://omsbeb.pages.dev), envoi direct (wrangler pages deploy).
+name = "omsbeb"
+pages_build_output_dir = "."
+compatibility_date = "2025-01-01"
+
+# Namespace KV partagé : source de vérité (réservations, canaux, comptes, paiements, site…).
+# Remplacer REPLACE_KV_ID par l'identifiant du namespace créé dans Cloudflare.
+[[kv_namespaces]]
+binding = "BEB"
+id = "REPLACE_KV_ID"
+
+# Secret requis (NE JAMAIS le mettre dans le dépôt) :
+#   npx wrangler pages secret put AUTH_SECRET --project-name omsbeb
