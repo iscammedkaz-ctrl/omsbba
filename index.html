@@ -400,7 +400,7 @@ const I18N = {
     status: "État", none: "Aucune demande.", waiting: "En attente", ok: "Visé", no: "Refusé",
     pay: "Paiements", paySub: "Échéances rattachées aux clients. L’admin corrige, l’accueil ne voit pas cet écran.", payLabel: "Motif", due: "Dû (DA)", paid: "Payé (DA)", rest: "Reste", dueDate: "Échéance", method: "Mode", encaisse: "Encaisser", paySaved: "Paiement enregistré.",
     adminTitle: "Gestion de la salle", adminSub: "Clients, paiements, visas, et le site lui-même. Compte : yasser",
-    clients: "Clients", books: "Demandes", leads: "Ouvertures", site: "Le site", add: "Ajouter", save: "Enregistrer",
+    clients: "Clients", books: "Demandes", leads: "Ouvertures", site: "Le site", add: "Ajouter", save: "Enregistrer", newChannel: "Créer un canal", editPin: "Modifier le PIN", pinSaved: "PIN modifié.",
     active: "Actif", off: "Coupé", visa: "Viser", refuse: "Refuser", motif: "Motif",
     name: "Nom", contact: "Contact", phone: "Téléphone", actions: "Actions",
     clash: "Plus de places disponibles sur ce créneau.", saved: "Enregistré. Le site public est à jour.", bad: "Code ou PIN incorrect.",
@@ -460,7 +460,7 @@ const I18N = {
     status: "الحالة", none: "لا طلبات.", waiting: "في الانتظار", ok: "مؤشَّر", no: "مرفوض",
     pay: "الدفعات", paySub: "كل استحقاق مربوط بحريف. التصحيح للأدمن فقط.", payLabel: "السبب", due: "المطلوب (دج)", paid: "المدفوع (دج)", rest: "الباقي", dueDate: "الاستحقاق", method: "الطريقة", encaisse: "تحصيل", paySaved: "تم حفظ الدفعة.",
     adminTitle: "تسيير القاعة", adminSub: "الحرفاء والدفعات والتأشيرات والموقع نفسه. الحساب: yasser",
-    clients: "الحرفاء", books: "الطلبات", leads: "فتح القنوات", site: "الموقع", add: "إضافة", save: "حفظ",
+    clients: "الحرفاء", books: "الطلبات", leads: "فتح القنوات", site: "الموقع", add: "إضافة", save: "حفظ", newChannel: "إنشاء قناة", editPin: "تغيير الرقم السري", pinSaved: "تم تغيير الرقم السري.",
     active: "نشط", off: "موقوف", visa: "تأشير", refuse: "رفض", motif: "السبب",
     name: "الاسم", contact: "المكلّف", phone: "الهاتف", actions: "إجراءات",
     clash: "الحصة مؤشَّرة مسبقا على هذا الفضاء.", saved: "تم الحفظ. الموقع العام محدَّث.", bad: "الرمز أو الرقم السري غير صحيح.",
@@ -520,7 +520,7 @@ const I18N = {
     status: "Status", none: "No requests.", waiting: "Pending", ok: "Signed", no: "Refused",
     pay: "Payments", paySub: "Each due date is tied to a client. Only admin can correct it.", payLabel: "Reason", due: "Due (DZD)", paid: "Paid (DZD)", rest: "Left", dueDate: "Due date", method: "Method", encaisse: "Collect", paySaved: "Payment saved.",
     adminTitle: "Hall management", adminSub: "Clients, payments, visas, and the site itself. Account: yasser",
-    clients: "Clients", books: "Requests", leads: "Openings", site: "The site", add: "Add", save: "Save",
+    clients: "Clients", books: "Requests", leads: "Openings", site: "The site", add: "Add", save: "Save", newChannel: "Create a channel", editPin: "Change PIN", pinSaved: "PIN updated.",
     active: "Active", off: "Off", visa: "Sign", refuse: "Refuse", motif: "Reason",
     name: "Name", contact: "Contact", phone: "Phone", actions: "Actions",
     clash: "This slot is already signed on that space.", saved: "Saved. The public site is updated.", bad: "Wrong code or PIN.",
@@ -672,7 +672,8 @@ function applyStatic() {
 function renderCards() {
   document.getElementById("disc").innerHTML = db.site.disciplines.filter(s => s.on).map((s, i) => `<article class="card"><div class="ico ${i % 2 ? "o" : ""}">${i + 1}</div><h3>${L(s).t}</h3><p>${L(s).p}</p></article>`).join("");
   document.getElementById("spaces").innerHTML = db.site.spaces.filter(s => s.on).map((s, i) => `<article class="card"><div class="ico ${i % 2 ? "o" : ""}">${i + 1}</div><h3>${L(s).t}</h3><p>${L(s).p}</p></article>`).join("");
-  document.getElementById("channels").innerHTML = ["ch1","ch2","ch3"].map((id, i) => `<article class="card"><div class="ico ${i === 2 ? "o" : ""}">${t(id + "t").slice(0, 1)}</div><h3>${t(id + "t")}</h3><p>${t(id + "p")}</p></article>`).join("");
+  document.getElementById("channels").innerHTML = ["ch1","ch2","ch3"].map((id, i) => `<article class="card"><div class="ico ${i === 2 ? "o" : ""}">${t(id + "t").slice(0, 1)}</div><h3>${t(id + "t")}</h3><p>${t(id + "p")}</p></article>`).join("")
+    + db.clients.filter(c => c.active).map(c => `<article class="card"><div class="ico">${typeLabel(c.type).slice(0, 1)}</div><h3>${c.name}</h3><p>${typeLabel(c.type)} · ${c.code}</p></article>`).join("");
   const contrat = document.getElementById("contratList");
   if (contrat) contrat.innerHTML = CONTRAT.map(c => `<article class="card"><div class="ico">${c.kind.slice(0, 1)}</div><h3>${c.name}</h3><p>${c.kind}</p></article>`).join("");
   document.getElementById("blocs").innerHTML = (db.site.blocs || []).filter(b => b.on).map(b => `<article class="card" style="margin-top:12px"><h3>${L(b).t}</h3><p>${L(b).p}</p></article>`).join("");
@@ -845,14 +846,14 @@ function adminPriv() {
   </tbody></table></div>`;
 }
 function adminClients() {
-  return `<form class="card" id="addClient"><h3>${t("add")}</h3><div class="row">
+  return `<form class="card" id="addClient"><h3>${t("newChannel")}</h3><div class="row">
     <div><label>${t("name")}</label><input name="name" required></div>
     <div><label>${t("fType")}</label><select name="type"><option value="federation">${t("typeFed")}</option><option value="ligue">${t("typeLig")}</option><option value="club">${t("typeClb")}</option><option value="ecole">${t("typeEcole")}</option><option value="prive">${t("typePrv")}</option></select></div>
     </div><div class="row"><div><label>${t("code")}</label><input name="code" required></div><div><label>${t("pin")}</label><input name="pin" required></div></div>
     <div class="row"><div><label>${t("contact")}</label><input name="contact"></div><div><label>${t("phone")}</label><input name="phone"></div></div>
     <div class="cta"><button class="solid" type="submit">${t("save")}</button></div></form>
-    <div class="card" style="overflow:auto;margin-top:12px"><table><thead><tr><th>${t("fType")}</th><th>${t("name")}</th><th>${t("code")}</th><th>${t("status")}</th><th></th></tr></thead><tbody>
-      ${db.clients.map(c => `<tr><td>${typePill(c.type)}</td><td>${c.name}<div>${c.contact || ""} ${c.phone || ""}</div></td><td>${c.code} · ${c.pin}</td><td>${c.active ? t("active") : t("off")}</td><td><button class="mini" data-toggle="${c.id}">${c.active ? t("off") : t("active")}</button></td></tr>`).join("")}
+    <div class="card" style="overflow:auto;margin-top:12px"><table><thead><tr><th>${t("fType")}</th><th>${t("name")}</th><th>${t("code")}</th><th>${t("pin")}</th><th>${t("status")}</th><th></th></tr></thead><tbody>
+      ${db.clients.map(c => `<tr><td>${typePill(c.type)}</td><td>${c.name}<div class="muted">${c.contact || ""} ${c.phone || ""}</div></td><td>${c.code}</td><td><input class="inline-sel" data-pin="${c.id}" value="${String(c.pin || "").replace(/"/g, """)}" autocomplete="off"></td><td>${c.active ? t("active") : t("off")}</td><td class="nw"><button class="mini" type="button" data-savepin="${c.id}">${t("editPin")}</button> <button class="mini" type="button" data-toggle="${c.id}">${c.active ? t("off") : t("active")}</button></td></tr>`).join("")}
     </tbody></table></div>`;
 }
 function adminLeads() {
@@ -1089,6 +1090,13 @@ function bindAdmin(body) {
   body.querySelectorAll("[data-visa]").forEach(btn => btn.onclick = () => setStatus(btn.dataset.visa, "vise"));
   body.querySelectorAll("[data-no]").forEach(btn => btn.onclick = () => setStatus(btn.dataset.no, "refuse", prompt(t("motif")) || ""));
   body.querySelectorAll("[data-toggle]").forEach(btn => btn.onclick = () => { const c = db.clients.find(x => x.id === btn.dataset.toggle); c.active = !c.active; save(); renderAdmin(); });
+  body.querySelectorAll("[data-savepin]").forEach(btn => btn.onclick = () => {
+    const c = db.clients.find(x => x.id === btn.dataset.savepin); if (!c) return;
+    const input = body.querySelector(`[data-pin="${c.id}"]`);
+    const pin = String(input && input.value || "").trim();
+    if (!pin) return toast(t("bad"));
+    c.pin = pin; save(); toast(t("pinSaved")); renderAdmin();
+  });
   const form = body.querySelector("#addClient");
   if (form) form.onsubmit = (e) => {
     e.preventDefault();
