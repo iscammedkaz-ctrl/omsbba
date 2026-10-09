@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0E2C4A">
+<meta name="theme-color" content="#F4F7FA">
 <title>omsbeb · قاعة متعددة الرياضات برج البحري</title>
-<link rel="icon" type="image/png" href="logo-mark.png">
-<link rel="apple-touch-icon" href="logo-mark.png">
+<link rel="icon" href="logo.jpg">
+<link rel="apple-touch-icon" href="logo.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
@@ -35,7 +35,7 @@
   header.top { position: sticky; top: 0; z-index: 20; background: rgba(255,255,255,.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
   .bar { display: flex; align-items: center; gap: 14px; min-height: 72px; }
   .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; min-width: 0; }
-  .brand img { width: 48px; height: 48px; object-fit: contain; flex: none; }
+  .brand img { width: 56px; height: 56px; object-fit: contain; flex: none; background: #fff; border-radius: 12px; }
   .brand b { display: block; font-size: 14px; line-height: 1.2; }
   .brand span { display: block; color: var(--muted); font-size: 12px; }
   nav.main { display: flex; gap: 6px; margin-inline-start: auto; flex-wrap: wrap; justify-content: flex-end; }
@@ -230,7 +230,7 @@
 <header class="top">
   <div class="wrap bar">
     <a class="brand" href="#salle" data-go="salle">
-      <img src="logo-mark.png" alt="قاعة متعددة الرياضات برج البحري">
+      <img src="logo.jpg" alt="قاعة متعددة الرياضات برج البحري">
       <div>
         <b data-i18n="brand">قاعة متعددة الرياضات برج البحري</b>
         <span id="brandSub"></span>
@@ -398,7 +398,8 @@ const I18N = {
     demo: "Contrat 2026. Code du canal, PIN 2026, remis par le gérant.",
     myChannel: "Mon canal", newReq: "Nouvelle demande", date: "Date", slot: "Créneau", space: "Espace", disc: "Discipline", people: "Effectif", note: "Note", send: "Déposer la demande",
     status: "État", none: "Aucune demande.", waiting: "En attente", ok: "Visé", no: "Refusé",
-    adminTitle: "Gestion de la salle", adminSub: "Clients, privés, visas, et le site lui-même. Démo : GERANT / 2026",
+    pay: "Paiements", paySub: "Échéances rattachées aux clients. L’admin corrige, l’accueil ne voit pas cet écran.", payLabel: "Motif", due: "Dû (DA)", paid: "Payé (DA)", rest: "Reste", dueDate: "Échéance", method: "Mode", encaisse: "Encaisser", paySaved: "Paiement enregistré.",
+    adminTitle: "Gestion de la salle", adminSub: "Clients, paiements, visas, et le site lui-même. Compte : yasser",
     clients: "Clients", books: "Demandes", leads: "Ouvertures", site: "Le site", add: "Ajouter", save: "Enregistrer",
     active: "Actif", off: "Coupé", visa: "Viser", refuse: "Refuser", motif: "Motif",
     name: "Nom", contact: "Contact", phone: "Téléphone", actions: "Actions",
@@ -457,7 +458,8 @@ const I18N = {
     demo: "تجربة · FED-ALGER / 1111 · LIG-ALGER / 2222 · CLB-BEB / 3333 · خاص PRV-DEMO / 4444",
     myChannel: "قناتي", newReq: "طلب جديد", date: "التاريخ", slot: "الحصة", space: "الفضاء", disc: "الاختصاص", people: "العدد", note: "ملاحظة", send: "إيداع الطلب",
     status: "الحالة", none: "لا طلبات.", waiting: "في الانتظار", ok: "مؤشَّر", no: "مرفوض",
-    adminTitle: "تسيير القاعة", adminSub: "الحرفاء والخواص والتأشيرات والموقع نفسه. تجربة: GERANT / 2026",
+    pay: "الدفعات", paySub: "كل استحقاق مربوط بحريف. التصحيح للأدمن فقط.", payLabel: "السبب", due: "المطلوب (دج)", paid: "المدفوع (دج)", rest: "الباقي", dueDate: "الاستحقاق", method: "الطريقة", encaisse: "تحصيل", paySaved: "تم حفظ الدفعة.",
+    adminTitle: "تسيير القاعة", adminSub: "الحرفاء والدفعات والتأشيرات والموقع نفسه. الحساب: yasser",
     clients: "الحرفاء", books: "الطلبات", leads: "فتح القنوات", site: "الموقع", add: "إضافة", save: "حفظ",
     active: "نشط", off: "موقوف", visa: "تأشير", refuse: "رفض", motif: "السبب",
     name: "الاسم", contact: "المكلّف", phone: "الهاتف", actions: "إجراءات",
@@ -516,7 +518,8 @@ const I18N = {
     demo: "Demo · FED-ALGER / 1111 · LIG-ALGER / 2222 · CLB-BEB / 3333 · private PRV-DEMO / 4444",
     myChannel: "My channel", newReq: "New request", date: "Date", slot: "Slot", space: "Space", disc: "Discipline", people: "Headcount", note: "Note", send: "Submit request",
     status: "Status", none: "No requests.", waiting: "Pending", ok: "Signed", no: "Refused",
-    adminTitle: "Hall management", adminSub: "Clients, private bookings, visas, and the site itself. Demo: GERANT / 2026",
+    pay: "Payments", paySub: "Each due date is tied to a client. Only admin can correct it.", payLabel: "Reason", due: "Due (DZD)", paid: "Paid (DZD)", rest: "Left", dueDate: "Due date", method: "Method", encaisse: "Collect", paySaved: "Payment saved.",
+    adminTitle: "Hall management", adminSub: "Clients, payments, visas, and the site itself. Account: yasser",
     clients: "Clients", books: "Requests", leads: "Openings", site: "The site", add: "Add", save: "Save",
     active: "Active", off: "Off", visa: "Sign", refuse: "Refuse", motif: "Reason",
     name: "Name", contact: "Contact", phone: "Phone", actions: "Actions",
@@ -611,7 +614,7 @@ function seed() {
 }
 let db = seed();
 db.docs = Array.isArray(db.docs) ? db.docs : [];
-db.books = db.books || []; db.privates = db.privates || []; db.clients = db.clients || []; db.leads = db.leads || [];
+db.books = db.books || []; db.privates = db.privates || []; db.clients = db.clients || []; db.leads = db.leads || []; db.payments = Array.isArray(db.payments) ? db.payments : [];
 if (db.site && db.site.hero && db.site.hero.fr && db.site.hero.fr.spacesSub && db.site.hero.fr.spacesSub.indexOf("double emploi") !== -1) {
   db.site.hero.fr.spacesSub = I18N.fr.spacesSub;
   save();
@@ -736,14 +739,16 @@ function renderAdmin() {
   if (view !== "gestion") return;
   if (!session || session.role !== "admin") {
     root.innerHTML = `<div class="card login-box"><h2>${t("adminTitle")}</h2><p class="sub">${t("adminSub")}</p>
-      <form id="adminLogin"><label>${t("code")}</label><input name="code" value="GERANT" required>
+      <form id="adminLogin"><label>${t("code")}</label><input name="code" autocomplete="username" required>
       <label>${t("pin")}</label><input name="pin" type="password" required>
       <div class="cta"><button class="solid navy" type="submit">${t("enter")}</button></div></form></div>`;
     root.querySelector("#adminLogin").onsubmit = (e) => {
       e.preventDefault();
       const fd = new FormData(e.target);
-      if (String(fd.get("code")).trim().toUpperCase() === "GERANT" && String(fd.get("pin")).trim() === "2026") {
-        session = { role: "admin" }; localStorage.setItem("beb-session", JSON.stringify(session)); renderAdmin();
+      const code = String(fd.get("code")).trim().toLowerCase();
+      const pin = String(fd.get("pin")).trim();
+      if (code === "yasser" && pin === "yasse2026") {
+        session = { role: "admin", name: "yasser" }; localStorage.setItem("beb-session", JSON.stringify(session)); renderAdmin();
       } else toast(t("bad"));
     };
     return;
@@ -754,6 +759,7 @@ function renderAdmin() {
       <button class="tab ${adminTab === "books" ? "on" : ""}" data-tab="books">${t("books")}</button>
       <button class="tab ${adminTab === "priv" ? "on" : ""}" data-tab="priv">${t("navOther")}</button>
       <button class="tab ${adminTab === "clients" ? "on" : ""}" data-tab="clients">${t("clients")}</button>
+      <button class="tab ${adminTab === "pay" ? "on" : ""}" data-tab="pay">${t("pay")}</button>
       <button class="tab ${adminTab === "suivi" ? "on" : ""}" data-tab="suivi">${t("suivi")}${docAlertsTotal() ? `<span class="badge">${docAlertsTotal()}</span>` : ""}</button>
       <button class="tab ${adminTab === "leads" ? "on" : ""}" data-tab="leads">${t("leads")}</button>
       <button class="tab ${adminTab === "site" ? "on" : ""}" data-tab="site">${t("site")}</button>
@@ -768,8 +774,62 @@ function renderAdmin() {
   if (adminTab === "site") body.innerHTML = adminSite();
   if (adminTab === "suivi") body.innerHTML = adminSuivi();
   bindAdmin(body);
+  if (adminTab === "pay") bindPay(body);
   if (adminTab === "suivi") bindSuivi(body);
 }
+
+function payStatus(p) {
+  const rest = (Number(p.due) || 0) - (Number(p.paid) || 0);
+  const today = new Date().toISOString().slice(0, 10);
+  if (rest <= 0) return ["recu", lang === "ar" ? "مدفوع" : lang === "en" ? "Paid" : "Payé"];
+  if (p.date && p.date < today) return ["expire", lang === "ar" ? "متأخر" : lang === "en" ? "Late" : "En retard"];
+  if (Number(p.paid) > 0) return ["soon", lang === "ar" ? "جزئي" : lang === "en" ? "Partial" : "Partiel"];
+  return ["manquant", lang === "ar" ? "غير مدفوع" : lang === "en" ? "Unpaid" : "Impayé"];
+}
+function da(n) { return new Intl.NumberFormat("fr-DZ").format(Number(n) || 0) + " DA"; }
+function adminPay() {
+  const rows = (db.payments || []).map(p => {
+    const c = db.clients.find(x => x.id === p.clientId);
+    const [cls, label] = payStatus(p);
+    const rest = Math.max(0, (Number(p.due) || 0) - (Number(p.paid) || 0));
+    return `<tr><td>${c ? c.name : "—"}</td><td>${p.label || ""}<div class="muted">${p.method || ""}</div></td><td>${da(p.due)}</td><td>${da(p.paid)}</td><td>${da(rest)}</td><td>${p.date || ""}</td><td><span class="pill ${cls}">${label}</span></td><td class="nw"><button class="mini" type="button" data-encaisse="${p.id}" ${rest <= 0 ? "disabled" : ""}>${t("encaisse")}</button> <button class="mini no" type="button" data-paydel="${p.id}">${t("del")}</button></td></tr>`;
+  }).join("");
+  return `<div class="card"><h3>${t("pay")}</h3><p class="sub">${t("paySub")}</p>
+    <form id="payForm"><div class="row">
+      <div><label>${t("clients")}</label><select name="clientId">${db.clients.map(c => `<option value="${c.id}">${c.name}</option>`).join("")}</select></div>
+      <div><label>${t("payLabel")}</label><input name="label" required></div>
+    </div><div class="row">
+      <div><label>${t("due")}</label><input name="due" type="number" min="0" required></div>
+      <div><label>${t("paid")}</label><input name="paid" type="number" min="0" value="0"></div>
+    </div><div class="row">
+      <div><label>${t("dueDate")}</label><input name="date" type="date" required></div>
+      <div><label>${t("method")}</label><select name="method"><option>Espèces</option><option>Virement</option><option>CCP</option><option>BaridiMob</option></select></div>
+    </div><div class="cta"><button class="solid navy" type="submit">${lang === "ar" ? "حفظ" : lang === "en" ? "Save" : "Enregistrer"}</button></div></form>
+    <table><thead><tr><th>${t("clients")}</th><th>${t("payLabel")}</th><th>${t("due")}</th><th>${t("paid")}</th><th>${t("rest")}</th><th>${t("dueDate")}</th><th></th><th></th></tr></thead><tbody>${rows || ""}</tbody></table></div>`;
+}
+function bindPay(body) {
+  const form = body.querySelector("#payForm");
+  if (form) form.onsubmit = (e) => {
+    e.preventDefault();
+    const fd = new FormData(form);
+    db.payments.push({ id: "p" + Date.now(), clientId: fd.get("clientId"), label: String(fd.get("label") || "").trim(), due: Number(fd.get("due")) || 0, paid: Number(fd.get("paid")) || 0, date: fd.get("date"), method: fd.get("method") });
+    save(); toast(t("paySaved")); renderAdmin();
+  };
+  body.querySelectorAll("[data-encaisse]").forEach(b => b.onclick = () => {
+    const p = db.payments.find(x => x.id === b.dataset.encaisse); if (!p) return;
+    const rest = Math.max(0, (Number(p.due) || 0) - (Number(p.paid) || 0));
+    const saisi = prompt(t("encaisse") + " — " + da(rest), rest);
+    if (saisi == null) return;
+    p.paid = (Number(p.paid) || 0) + Math.min(rest, Math.max(0, Number(saisi) || 0));
+    save(); toast(t("paySaved")); renderAdmin();
+  });
+  body.querySelectorAll("[data-paydel]").forEach(b => b.onclick = () => {
+    if (!confirm(t("confirmDel"))) return;
+    db.payments = db.payments.filter(x => x.id !== b.dataset.paydel);
+    save(); toast(t("paySaved")); renderAdmin();
+  });
+}
+
 function adminBooks() {
   const rows = [...db.books].sort((a, b) => (a.date + a.slot).localeCompare(b.date + b.slot));
   if (!rows.length) return `<p class="sub">${t("none")}</p>`;
