@@ -223,6 +223,83 @@
     .brand span { display: none; }
     .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
+
+  /* ---------- v2 : calendrier, modales, comptes, paiements ---------- */
+  .cal-head { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 10px; }
+  .cal-nav { display: flex; gap: 6px; }
+  .cal-title { color: var(--navy); font-size: 18px; margin-inline-start: auto; }
+  .seg { display: inline-flex; background: #EEF3F7; border-radius: 999px; padding: 3px; }
+  .seg button { border: 0; background: transparent; padding: 7px 14px; border-radius: 999px; font-weight: 700; color: var(--muted); cursor: pointer; }
+  .seg button.on { background: white; color: var(--navy); box-shadow: 0 2px 6px rgba(14, 44, 74, .1); }
+  .cal-legend { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin: 0 0 12px; }
+  .cal-legend .muted { flex: 1 1 220px; }
+  .cal-month { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; }
+  .cal-dow { font-size: 12px; color: var(--muted); font-weight: 700; text-align: center; padding: 2px 0; }
+  .cal-day { background: white; border: 1px solid var(--line); border-radius: 12px; min-height: 112px; padding: 6px; cursor: pointer; text-align: start; color: inherit; display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+  .cal-day:hover, .cal-ag:hover { border-color: var(--teal); }
+  .cal-day.out { opacity: .4; }
+  .cal-day.past { background: #FAFBFC; }
+  .cal-day.today, .cal-ag.today { border-color: var(--teal); box-shadow: 0 0 0 2px rgba(20, 151, 178, .18); }
+  .cal-day .num { font-weight: 800; color: var(--navy); }
+  .chip { display: block; max-width: 100%; font-size: 11px; line-height: 1.35; border-radius: 6px; padding: 1px 5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; background: #E7F1FB; color: #1D4E89; }
+  .chip.resv { background: #FFF1E4; color: #C26412; }
+  .chip.wait { background: #FFF8EE; color: var(--wait); outline: 1px dashed currentColor; outline-offset: -1px; }
+  .chip.more { background: transparent; color: var(--muted); font-weight: 700; }
+  .cal-occ { font-size: 11px; color: var(--muted); margin-top: auto; }
+  .cal-agenda { display: none; }
+  .cal-ag { display: flex; gap: 10px; width: 100%; align-items: flex-start; text-align: start; background: white; border: 1px solid var(--line); border-radius: 12px; padding: 8px 10px; margin: 0 0 6px; cursor: pointer; color: inherit; min-width: 0; }
+  .cal-ag.past { opacity: .6; }
+  .cal-ag-d { flex: none; width: 44px; text-align: center; color: var(--navy); }
+  .cal-ag-d b { display: block; font-size: 18px; line-height: 1.1; }
+  .cal-ag-d span { font-size: 11px; color: var(--muted); }
+  .cal-ag-c { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+  .slot-btn { display: block; width: 100%; border: 0; background: transparent; padding: 2px; margin: 0; cursor: pointer; color: inherit; text-align: center; border-radius: 8px; }
+  .slot-btn:hover { background: #F0F8FA; }
+  .slot-btn.day-link { font-weight: 700; color: inherit; text-align: inherit; }
+  .plan-slot .slot-btn { text-align: end; }
+  .plan-table.day-table { min-width: 0; }
+  .plan-slot.hl { background: #F0F8FA; border-radius: 8px; }
+  .pill.wait { border: 1px dashed currentColor; }
+  body.modal-open { overflow: hidden; }
+  .modal-bg { position: fixed; inset: 0; background: rgba(14, 44, 74, .45); z-index: 50; display: flex; align-items: flex-start; justify-content: center; padding: 24px 12px; overflow-y: auto; }
+  .modal { width: min(580px, 100%); background: white; border-radius: 18px; padding: 18px; box-shadow: 0 24px 60px rgba(14, 44, 74, .3); min-width: 0; }
+  .modal h3 { margin: 0 0 8px; color: var(--navy); }
+  label.chk { display: inline-flex; align-items: center; font-weight: 600; margin: 6px 0; margin-inline-end: 14px; cursor: pointer; }
+  .radio-line { display: flex; flex-wrap: wrap; }
+  .wd-pick { display: flex; flex-wrap: wrap; gap: 6px; }
+  .wd-pick label.chk { margin: 0; border: 1px solid var(--line); border-radius: 999px; padding: 6px 10px; }
+  fieldset.scope { border: 1px solid var(--line); border-radius: 12px; margin: 12px 0 0; padding: 6px 12px; }
+  fieldset.scope legend { font-size: 13px; font-weight: 700; padding: 0 4px; }
+  .conf-box { margin-top: 12px; border: 1px solid #F5C9A0; background: #FFF8EE; border-radius: 12px; padding: 10px 12px; }
+  .conf-list { max-height: 180px; overflow: auto; margin: 6px 0 0; padding-inline-start: 18px; font-size: 13px; }
+  .perm-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 12px; }
+  .pay-kpis { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 0 0 12px; }
+  .pay-kpis .pay-cap { grid-column: 1 / -1; font-weight: 700; }
+  .pay-kpis .kpi b { font-size: 18px; overflow-wrap: anywhere; }
+  .pay-filters > div { min-width: 180px; }
+  .pay-filters label { margin-top: 0; }
+  .pay-hist { margin-top: 4px; font-size: 13px; }
+  .pay-hist summary { cursor: pointer; color: #0C6E84; font-weight: 700; }
+  .pay-ent { display: flex; justify-content: space-between; gap: 8px; align-items: center; padding: 3px 0; border-top: 1px dashed var(--line); }
+  .pay-ent .mini { padding: 2px 8px; min-height: 0; }
+  .pill.code { white-space: nowrap; }
+  html[dir="rtl"] .slot-time, html[dir="rtl"] .chip { unicode-bidi: plaintext; }
+  @media (max-width: 860px) {
+    .perm-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 640px) {
+    .cal-month { display: none; }
+    .cal-agenda { display: block; }
+    .cal-title { order: -1; width: 100%; margin: 0; font-size: 16px; }
+    .cal-head { gap: 6px; }
+    .seg button { padding: 8px 12px; min-height: 40px; }
+    .modal-bg { padding: 10px 8px; }
+    .modal { padding: 14px; border-radius: 14px; }
+    .pay-kpis { grid-template-columns: 1fr 1fr; }
+    .pay-kpis .kpi:last-child { grid-column: 1 / -1; }
+    .pay-filters > div { min-width: 0; }
+    .pay-ent .mini { min-height: 32px; }
+  }
 </style>
 </head>
 <body>
@@ -545,6 +622,73 @@ const I18N = {
 };
 const SLOTS = ["08:00–10:00", "10:00–12:00", "14:00–16:00", "16:00–18:00", "18:00–20:00", "20:00–22:00"];
 const LANGS = ["fr", "ar", "en"];
+/* ---------- v2 : libellés comptes, paiements, calendrier ---------- */
+const I18N_V2 = {
+  fr: {
+    accounts: "Comptes", acUser: "Identifiant", acPass: "Mot de passe", acName: "Nom affiché", acPerms: "Accès", acNew: "Nouveau compte de gestion", acEdit: "Modifier le compte",
+    acKeepPw: "Laisser vide pour garder le mot de passe actuel.", acSaved: "Compte enregistré.", acDel: "Supprimer ce compte ?", acExists: "Cet identifiant existe déjà ou est réservé.",
+    acBadUser: "Identifiant : 3 à 32 caractères (lettres minuscules, chiffres, . _ -).", acShortPw: "Mot de passe : 6 caractères minimum.", acOff: "Compte désactivé.",
+    acAdmin: "Administrateur · contrôle total", acHint: "Les mots de passe sont stockés hachés (SHA-256 salé), jamais en clair. Les comptes restent dans ce navigateur, sur cet appareil.",
+    acStaff: "Compte de gestion", denied: "Accès non autorisé pour ce compte.", noAccess: "Ce compte n’a encore aucun accès. Demandez à l’administrateur.",
+    myPw: "Mon mot de passe", curPw: "Mot de passe actuel", newPw: "Nouveau mot de passe", pwChanged: "Mot de passe modifié.",
+    pmSuivi: "Suivi clients", pmPay: "Paiements", pmPlanView: "Planning · voir", pmPlanEdit: "Planning · modifier", pmChannels: "Canaux (créer / PIN)", pmOthers: "Autres clients", pmSite: "Contenu du site", pmAccounts: "Comptes (changer son propre mot de passe)",
+    canal: "Canal", amtDue: "Montant dû", amtPaid: "Montant payé", amtRest: "Montant restant", totDue: "Total dû", totPaid: "Total payé", totRest: "Total restant",
+    allCanals: "Tous les canaux", allStatus: "Tous les statuts", stSolde: "Soldé", stPartiel: "Partiel", stImpaye: "Impayé", late: "En retard", versements: "versement(s)",
+    amount: "Montant", payDate: "Date du paiement", filtered: "Sélection", noPay: "Aucun paiement.", tooMuch: "Montant supérieur au restant : ramené au restant.",
+    newDue: "Nouvelle échéance", confirmDelEntry: "Supprimer ce versement ?", payEdit: "Modifier l’échéance", badAmount: "Montant invalide.",
+    vMonth: "Mois", vWeek: "Semaine", vDay: "Jour", today: "Aujourd’hui", prev: "Précédent", next: "Suivant",
+    newSess: "Nouvelle réservation / séance", editSess: "Modifier la séance", sessDetail: "Détail du créneau", kindChannel: "Canal (club, groupe scolaire…)", kindOther: "Autre client (sans canal)",
+    repeat: "Répéter", repNone: "Ne pas répéter", repDaily: "Chaque jour", repWeekly: "Chaque semaine", repBiweekly: "Toutes les 2 semaines", repMonthly: "Chaque mois",
+    repDays: "Jours de la semaine", repEnd: "Fin", repUntil: "Jusqu’au", repCount: "Nombre de séances", repPreview: "séance(s) seront créées", repNoDates: "Aucune séance à créer avec ces réglages.",
+    repBadEnd: "La date de fin est avant la date de début.", confCount: "conflit(s)", conflicts: "Conflits (même espace, même créneau déjà pris)", ignoreConf: "Ignorer les conflits et créer", cancelAll: "Annuler",
+    scope: "Appliquer à", scopeOne: "Cette séance seulement", scopeAll: "Toute la série", series: "Série", sessSaved: "Séance enregistrée.", sessCreated: "séance(s) créée(s).", sessDeleted: "séance(s) supprimée(s).",
+    confirmDelSess: "Supprimer", calEditHint: "Cliquez sur un créneau libre pour créer une réservation, sur une séance pour la modifier ou la supprimer.", calViewHint: "Cliquez sur un jour ou un créneau pour voir le détail.",
+    close: "Fermer", occupied: "occupé(s)", allFree: "Tout est libre", needName: "Le nom est obligatoire.", applyEdit: "Appliquer sans les conflits"
+  },
+  ar: {
+    accounts: "الحسابات", acUser: "اسم المستخدم", acPass: "كلمة المرور", acName: "الاسم الظاهر", acPerms: "الصلاحيات", acNew: "حساب تسيير جديد", acEdit: "تعديل الحساب",
+    acKeepPw: "اتركه فارغا للإبقاء على كلمة المرور الحالية.", acSaved: "تم حفظ الحساب.", acDel: "حذف هذا الحساب؟", acExists: "اسم المستخدم موجود مسبقا أو محجوز.",
+    acBadUser: "اسم المستخدم: من 3 إلى 32 حرفا (حروف لاتينية صغيرة، أرقام، . _ -).", acShortPw: "كلمة المرور: 6 أحرف على الأقل.", acOff: "الحساب موقوف.",
+    acAdmin: "المدير · تحكم كامل", acHint: "كلمات المرور محفوظة مشفّرة (SHA-256 مع ملح) وليست نصا واضحا. الحسابات تبقى في هذا المتصفح، على هذا الجهاز.",
+    acStaff: "حساب تسيير", denied: "غير مسموح لهذا الحساب.", noAccess: "لا صلاحيات لهذا الحساب بعد. اطلب ذلك من المدير.",
+    myPw: "كلمة المرور الخاصة بي", curPw: "كلمة المرور الحالية", newPw: "كلمة المرور الجديدة", pwChanged: "تم تغيير كلمة المرور.",
+    pmSuivi: "متابعة الحرفاء", pmPay: "الدفعات", pmPlanView: "الرزنامة · عرض", pmPlanEdit: "الرزنامة · تعديل", pmChannels: "القنوات (إنشاء / الرقم السري)", pmOthers: "حرفاء آخرون", pmSite: "محتوى الموقع", pmAccounts: "الحسابات (تغيير كلمة مروره)",
+    canal: "القناة", amtDue: "المبلغ المستحق", amtPaid: "المبلغ المدفوع", amtRest: "المبلغ المتبقي", totDue: "مجموع المستحق", totPaid: "مجموع المدفوع", totRest: "مجموع المتبقي",
+    allCanals: "كل القنوات", allStatus: "كل الحالات", stSolde: "مسدَّد", stPartiel: "جزئي", stImpaye: "غير مدفوع", late: "متأخر", versements: "دفعة/دفعات",
+    amount: "المبلغ", payDate: "تاريخ الدفع", filtered: "التحديد", noPay: "لا توجد دفعات.", tooMuch: "المبلغ أكبر من المتبقي: تم تعديله إلى المتبقي.",
+    newDue: "استحقاق جديد", confirmDelEntry: "حذف هذه الدفعة؟", payEdit: "تعديل الاستحقاق", badAmount: "مبلغ غير صحيح.",
+    vMonth: "شهر", vWeek: "أسبوع", vDay: "يوم", today: "اليوم", prev: "السابق", next: "التالي",
+    newSess: "حجز / حصة جديدة", editSess: "تعديل الحصة", sessDetail: "تفاصيل الحصة", kindChannel: "قناة (نادي، مجموعة مدرسية…)", kindOther: "حريف آخر (بدون قناة)",
+    repeat: "تكرار", repNone: "بدون تكرار", repDaily: "كل يوم", repWeekly: "كل أسبوع", repBiweekly: "كل أسبوعين", repMonthly: "كل شهر",
+    repDays: "أيام الأسبوع", repEnd: "النهاية", repUntil: "إلى غاية", repCount: "عدد الحصص", repPreview: "حصة/حصص ستُنشأ", repNoDates: "لا حصص تُنشأ بهذه الإعدادات.",
+    repBadEnd: "تاريخ النهاية قبل تاريخ البداية.", confCount: "تعارض", conflicts: "تعارضات (نفس الفضاء ونفس الحصة محجوزة)", ignoreConf: "تجاهل التعارضات والإنشاء", cancelAll: "إلغاء",
+    scope: "تطبيق على", scopeOne: "هذه الحصة فقط", scopeAll: "كل السلسلة", series: "سلسلة", sessSaved: "تم حفظ الحصة.", sessCreated: "حصة/حصص أُنشئت.", sessDeleted: "حصة/حصص حُذفت.",
+    confirmDelSess: "حذف", calEditHint: "انقر على حصة شاغرة لإنشاء حجز، أو على حصة محجوزة لتعديلها أو حذفها.", calViewHint: "انقر على يوم أو حصة لعرض التفاصيل.",
+    close: "إغلاق", occupied: "مشغولة", allFree: "كل الحصص شاغرة", needName: "الاسم مطلوب.", applyEdit: "تطبيق دون التعارضات"
+  },
+  en: {
+    accounts: "Accounts", acUser: "Username", acPass: "Password", acName: "Display name", acPerms: "Access", acNew: "New management account", acEdit: "Edit account",
+    acKeepPw: "Leave empty to keep the current password.", acSaved: "Account saved.", acDel: "Delete this account?", acExists: "This username already exists or is reserved.",
+    acBadUser: "Username: 3 to 32 characters (lowercase letters, digits, . _ -).", acShortPw: "Password: at least 6 characters.", acOff: "Account disabled.",
+    acAdmin: "Administrator · full control", acHint: "Passwords are stored hashed (salted SHA-256), never in clear text. Accounts stay in this browser, on this device.",
+    acStaff: "Management account", denied: "Not allowed for this account.", noAccess: "This account has no access yet. Ask the administrator.",
+    myPw: "My password", curPw: "Current password", newPw: "New password", pwChanged: "Password changed.",
+    pmSuivi: "Client follow-up", pmPay: "Payments", pmPlanView: "Schedule · view", pmPlanEdit: "Schedule · edit", pmChannels: "Channels (create / PIN)", pmOthers: "Other clients", pmSite: "Site content", pmAccounts: "Accounts (change own password)",
+    canal: "Channel", amtDue: "Amount due", amtPaid: "Amount paid", amtRest: "Amount left", totDue: "Total due", totPaid: "Total paid", totRest: "Total left",
+    allCanals: "All channels", allStatus: "All statuses", stSolde: "Settled", stPartiel: "Partial", stImpaye: "Unpaid", late: "Late", versements: "payment(s)",
+    amount: "Amount", payDate: "Payment date", filtered: "Selection", noPay: "No payments.", tooMuch: "Amount above what is left: capped.",
+    newDue: "New due item", confirmDelEntry: "Delete this payment?", payEdit: "Edit due item", badAmount: "Invalid amount.",
+    vMonth: "Month", vWeek: "Week", vDay: "Day", today: "Today", prev: "Previous", next: "Next",
+    newSess: "New booking / session", editSess: "Edit session", sessDetail: "Slot details", kindChannel: "Channel (club, school group…)", kindOther: "Other client (no channel)",
+    repeat: "Repeat", repNone: "Do not repeat", repDaily: "Every day", repWeekly: "Every week", repBiweekly: "Every 2 weeks", repMonthly: "Every month",
+    repDays: "Days of the week", repEnd: "End", repUntil: "Until", repCount: "Number of sessions", repPreview: "session(s) will be created", repNoDates: "No session to create with these settings.",
+    repBadEnd: "The end date is before the start date.", confCount: "conflict(s)", conflicts: "Conflicts (same space, same slot already taken)", ignoreConf: "Skip conflicts and create", cancelAll: "Cancel",
+    scope: "Apply to", scopeOne: "This session only", scopeAll: "The whole series", series: "Series", sessSaved: "Session saved.", sessCreated: "session(s) created.", sessDeleted: "session(s) deleted.",
+    confirmDelSess: "Delete", calEditHint: "Click a free slot to create a booking, or a session to edit or delete it.", calViewHint: "Click a day or a slot to see details.",
+    close: "Close", occupied: "taken", allFree: "All free", needName: "Name is required.", applyEdit: "Apply without the conflicts"
+  }
+};
+LANGS.forEach(l => Object.assign(I18N[l], I18N_V2[l]));
 const CONTRAT = [
   { type: "ecole", kind: "Groupe scolaire", name: "El Wouroud", code: "GS-ELWOUROUD" },
   { type: "ecole", kind: "Groupe scolaire", name: "Sabil El Nadjah", code: "GS-SABIL" },
@@ -744,111 +888,77 @@ function tableBooks(rows, admin) {
 function renderAdmin() {
   const root = document.getElementById("adminApp");
   if (view !== "gestion") return;
-  if (!session || session.role !== "admin") {
+  if (!isStaff()) {
     root.innerHTML = `<div class="card login-box"><h2>${t("adminTitle")}</h2><p class="sub">${t("adminSub")}</p>
-      <form id="adminLogin"><label>${t("code")}</label><input name="code" autocomplete="username" required>
-      <label>${t("pin")}</label><input name="pin" type="password" required>
+      <form id="adminLogin"><label>${t("acUser")}</label><input name="code" autocomplete="username" autocapitalize="none" required>
+      <label>${t("acPass")}</label><input name="pin" type="password" autocomplete="current-password" required>
       <div class="cta"><button class="solid navy" type="submit">${t("enter")}</button></div></form></div>`;
-    root.querySelector("#adminLogin").onsubmit = (e) => {
+    root.querySelector("#adminLogin").onsubmit = async (e) => {
       e.preventDefault();
       const fd = new FormData(e.target);
       const code = String(fd.get("code")).trim().toLowerCase();
       const pin = String(fd.get("pin")).trim();
       if (code === "yasser" && pin === "yasse2026") {
-        session = { role: "admin", name: "yasser" }; localStorage.setItem("beb-session", JSON.stringify(session)); renderAdmin();
-      } else toast(t("bad"));
+        session = { role: "admin", name: "yasser" }; localStorage.setItem("beb-session", JSON.stringify(session)); renderAdmin(); renderPlanning(); return;
+      }
+      const acct = (db.accounts || []).find(a => a.user === code);
+      if (acct && acct.salt && acct.hash && (await hashPw(acct.salt, pin)) === acct.hash) {
+        if (!acct.active) return toast(t("acOff"));
+        session = { role: "staff", acct: acct.id, name: acct.user }; localStorage.setItem("beb-session", JSON.stringify(session)); renderAdmin(); renderPlanning(); return;
+      }
+      toast(t("bad"));
     };
     return;
   }
+  const tabs = ADMIN_TABS.filter(x => x[2]());
+  if (!tabs.some(x => x[0] === adminTab)) adminTab = tabs.length ? tabs[0][0] : "";
+  const acct = currentAccount();
   const pending = db.books.filter(b => b.status === "attente").length + db.privates.filter(b => b.status === "attente").length;
-  root.innerHTML = `<div class="tools"><div><h2 style="margin:0">${t("hello")}, ${t("role")}</h2><p class="sub" style="margin:4px 0 0">${pending} · ${t("waiting")}</p></div><button class="ghost" id="out" type="button">${t("logout")}</button></div>
-    <div class="tabs">
-      <button class="tab ${adminTab === "books" ? "on" : ""}" data-tab="books">${t("books")}</button>
-      <button class="tab ${adminTab === "priv" ? "on" : ""}" data-tab="priv">${t("navOther")}</button>
-      <button class="tab ${adminTab === "clients" ? "on" : ""}" data-tab="clients">${t("clients")}</button>
-      <button class="tab ${adminTab === "pay" ? "on" : ""}" data-tab="pay">${t("pay")}</button>
-      <button class="tab ${adminTab === "suivi" ? "on" : ""}" data-tab="suivi">${t("suivi")}${docAlertsTotal() ? `<span class="badge">${docAlertsTotal()}</span>` : ""}</button>
-      <button class="tab ${adminTab === "leads" ? "on" : ""}" data-tab="leads">${t("leads")}</button>
-      <button class="tab ${adminTab === "site" ? "on" : ""}" data-tab="site">${t("site")}</button>
-    </div><div id="adminBody"></div>`;
-  root.querySelector("#out").onclick = () => { session = null; localStorage.removeItem("beb-session"); renderAdmin(); };
+  const showPending = can("planView") || can("others");
+  root.innerHTML = `<div class="tools"><div><h2 style="margin:0">${t("hello")}, ${acct ? esc(acct.name || acct.user) : t("role")}</h2><p class="sub" style="margin:4px 0 0">${acct ? t("acStaff") + " · " + esc(acct.user) + (showPending ? " · " : "") : ""}${showPending ? pending + " · " + t("waiting") : ""}</p></div>${acct && can("accounts") ? `<button class="mini" id="myPw" type="button">${t("myPw")}</button>` : ""}<button class="ghost" id="out" type="button">${t("logout")}</button></div>
+    <div class="tabs">${tabs.map(([k, l]) => `<button class="tab ${adminTab === k ? "on" : ""}" data-tab="${k}">${t(l)}${k === "suivi" && docAlertsTotal() ? `<span class="badge">${docAlertsTotal()}</span>` : ""}</button>`).join("")}</div><div id="adminBody"></div>`;
+  root.querySelector("#out").onclick = () => { session = null; localStorage.removeItem("beb-session"); closeModal(); renderAdmin(); renderPlanning(); };
+  const mp = root.querySelector("#myPw"); if (mp) mp.onclick = openMyPw;
   root.querySelectorAll("[data-tab]").forEach(b => b.onclick = () => { adminTab = b.dataset.tab; renderAdmin(); });
   const body = root.querySelector("#adminBody");
+  if (!adminTab) { body.innerHTML = `<p class="hint">${t("noAccess")}</p>`; return; }
+  if (!tabAllowed(adminTab)) { body.innerHTML = `<p class="hint">${t("denied")}</p>`; return; }
   if (adminTab === "books") body.innerHTML = adminBooks();
+  if (adminTab === "plan") body.innerHTML = adminPlan();
   if (adminTab === "priv") body.innerHTML = adminPriv();
   if (adminTab === "clients") body.innerHTML = adminClients();
+  if (adminTab === "pay") body.innerHTML = adminPay();
   if (adminTab === "leads") body.innerHTML = adminLeads();
   if (adminTab === "site") body.innerHTML = adminSite();
   if (adminTab === "suivi") body.innerHTML = adminSuivi();
+  if (adminTab === "accounts") body.innerHTML = adminAccounts();
   bindAdmin(body);
   if (adminTab === "pay") bindPay(body);
   if (adminTab === "suivi") bindSuivi(body);
+  if (adminTab === "plan") bindCalendar(body, calAdm, "adm");
+  if (adminTab === "accounts") bindAccounts(body);
 }
 
 function payStatus(p) {
-  const rest = (Number(p.due) || 0) - (Number(p.paid) || 0);
-  const today = new Date().toISOString().slice(0, 10);
-  if (rest <= 0) return ["recu", lang === "ar" ? "مدفوع" : lang === "en" ? "Paid" : "Payé"];
-  if (p.date && p.date < today) return ["expire", lang === "ar" ? "متأخر" : lang === "en" ? "Late" : "En retard"];
-  if (Number(p.paid) > 0) return ["soon", lang === "ar" ? "جزئي" : lang === "en" ? "Partial" : "Partiel"];
-  return ["manquant", lang === "ar" ? "غير مدفوع" : lang === "en" ? "Unpaid" : "Impayé"];
+  const cat = payCat(p);
+  if (cat === "solde") return ["recu", t("stSolde")];
+  if (cat === "partiel") return ["soon", t("stPartiel")];
+  return ["manquant", t("stImpaye")];
 }
 function da(n) { return new Intl.NumberFormat("fr-DZ").format(Number(n) || 0) + " DA"; }
-function adminPay() {
-  const rows = (db.payments || []).map(p => {
-    const c = db.clients.find(x => x.id === p.clientId);
-    const [cls, label] = payStatus(p);
-    const rest = Math.max(0, (Number(p.due) || 0) - (Number(p.paid) || 0));
-    return `<tr><td>${c ? c.name : "—"}</td><td>${p.label || ""}<div class="muted">${p.method || ""}</div></td><td>${da(p.due)}</td><td>${da(p.paid)}</td><td>${da(rest)}</td><td>${p.date || ""}</td><td><span class="pill ${cls}">${label}</span></td><td class="nw"><button class="mini" type="button" data-encaisse="${p.id}" ${rest <= 0 ? "disabled" : ""}>${t("encaisse")}</button> <button class="mini no" type="button" data-paydel="${p.id}">${t("del")}</button></td></tr>`;
-  }).join("");
-  return `<div class="card"><h3>${t("pay")}</h3><p class="sub">${t("paySub")}</p>
-    <form id="payForm"><div class="row">
-      <div><label>${t("clients")}</label><select name="clientId">${db.clients.map(c => `<option value="${c.id}">${c.name}</option>`).join("")}</select></div>
-      <div><label>${t("payLabel")}</label><input name="label" required></div>
-    </div><div class="row">
-      <div><label>${t("due")}</label><input name="due" type="number" min="0" required></div>
-      <div><label>${t("paid")}</label><input name="paid" type="number" min="0" value="0"></div>
-    </div><div class="row">
-      <div><label>${t("dueDate")}</label><input name="date" type="date" required></div>
-      <div><label>${t("method")}</label><select name="method"><option>Espèces</option><option>Virement</option><option>CCP</option><option>BaridiMob</option></select></div>
-    </div><div class="cta"><button class="solid navy" type="submit">${lang === "ar" ? "حفظ" : lang === "en" ? "Save" : "Enregistrer"}</button></div></form>
-    <table><thead><tr><th>${t("clients")}</th><th>${t("payLabel")}</th><th>${t("due")}</th><th>${t("paid")}</th><th>${t("rest")}</th><th>${t("dueDate")}</th><th></th><th></th></tr></thead><tbody>${rows || ""}</tbody></table></div>`;
-}
-function bindPay(body) {
-  const form = body.querySelector("#payForm");
-  if (form) form.onsubmit = (e) => {
-    e.preventDefault();
-    const fd = new FormData(form);
-    db.payments.push({ id: "p" + Date.now(), clientId: fd.get("clientId"), label: String(fd.get("label") || "").trim(), due: Number(fd.get("due")) || 0, paid: Number(fd.get("paid")) || 0, date: fd.get("date"), method: fd.get("method") });
-    save(); toast(t("paySaved")); renderAdmin();
-  };
-  body.querySelectorAll("[data-encaisse]").forEach(b => b.onclick = () => {
-    const p = db.payments.find(x => x.id === b.dataset.encaisse); if (!p) return;
-    const rest = Math.max(0, (Number(p.due) || 0) - (Number(p.paid) || 0));
-    const saisi = prompt(t("encaisse") + " — " + da(rest), rest);
-    if (saisi == null) return;
-    p.paid = (Number(p.paid) || 0) + Math.min(rest, Math.max(0, Number(saisi) || 0));
-    save(); toast(t("paySaved")); renderAdmin();
-  });
-  body.querySelectorAll("[data-paydel]").forEach(b => b.onclick = () => {
-    if (!confirm(t("confirmDel"))) return;
-    db.payments = db.payments.filter(x => x.id !== b.dataset.paydel);
-    save(); toast(t("paySaved")); renderAdmin();
-  });
-}
 
 function adminBooks() {
   const rows = [...db.books].sort((a, b) => (a.date + a.slot).localeCompare(b.date + b.slot));
   if (!rows.length) return `<p class="sub">${t("none")}</p>`;
   return `<div class="card" style="overflow:auto"><table><thead><tr><th>${t("date")}</th><th>${t("fOrg")}</th><th>${t("space")}</th><th>${t("status")}</th><th>${t("actions")}</th></tr></thead><tbody>
-    ${rows.map(b => { const c = db.clients.find(x => x.id === b.clientId); return `<tr><td>${b.date}<div>${b.slot}</div></td><td>${c ? c.name : "—"}<div>${c ? typePill(c.type) : ""}</div><div>${b.note || ""}</div></td><td>${spaceName(b.space)} · ${discName(b.disc)}</td><td>${pill(b.status)}${b.motif ? `<div>${b.motif}</div>` : ""}</td><td>${b.status === "attente" ? `<button class="mini ok" data-visa="books:${b.id}">${t("visa")}</button> <button class="mini no" data-no="books:${b.id}">${t("refuse")}</button>` : ""}</td></tr>`; }).join("")}
+    ${rows.map(b => { const c = db.clients.find(x => x.id === b.clientId); return `<tr><td>${b.date}<div>${b.slot}</div></td><td>${c ? c.name : "—"}<div>${c ? typePill(c.type) : ""}</div><div>${b.note || ""}</div></td><td>${spaceName(b.space)} · ${discName(b.disc)}</td><td>${pill(b.status)}${b.motif ? `<div>${b.motif}</div>` : ""}</td><td>${b.status === "attente" && canVisa("books") ? `<button class="mini ok" data-visa="books:${b.id}">${t("visa")}</button> <button class="mini no" data-no="books:${b.id}">${t("refuse")}</button>` : ""}</td></tr>`; }).join("")}
   </tbody></table></div>`;
 }
 function adminPriv() {
   const rows = [...db.privates].sort((a, b) => (a.date + a.slot).localeCompare(b.date + b.slot));
   if (!rows.length) return `<p class="sub">${t("none")}</p>`;
   return `<div class="card" style="overflow:auto"><table><thead><tr><th>${t("date")}</th><th>${t("typePrv")}</th><th>${t("space")}</th><th>${t("status")}</th><th>${t("actions")}</th></tr></thead><tbody>
-    ${rows.map(b => `<tr><td>${b.date}<div>${b.slot}</div></td><td>${b.name}<div>${b.phone} · ${b.code}</div><div>${b.note || ""}</div></td><td>${spaceName(b.space)} · ${discName(b.disc)} · ${b.people}</td><td>${pill(b.status)}${b.motif ? `<div>${b.motif}</div>` : ""}</td><td>${b.status === "attente" ? `<button class="mini ok" data-visa="privates:${b.id}">${t("visa")}</button> <button class="mini no" data-no="privates:${b.id}">${t("refuse")}</button>` : ""}</td></tr>`).join("")}
+    ${rows.map(b => `<tr><td>${b.date}<div>${b.slot}</div></td><td>${b.name}<div>${b.phone} · ${b.code}</div><div>${b.note || ""}</div></td><td>${spaceName(b.space)} · ${discName(b.disc)} · ${b.people}</td><td>${pill(b.status)}${b.motif ? `<div>${b.motif}</div>` : ""}</td><td>${b.status === "attente" && canVisa("privates") ? `<button class="mini ok" data-visa="privates:${b.id}">${t("visa")}</button> <button class="mini no" data-no="privates:${b.id}">${t("refuse")}</button>` : ""}</td></tr>`).join("")}
   </tbody></table></div>`;
 }
 function adminClients() {
@@ -894,7 +1004,7 @@ function planRows(rows, desc) {
   const sorted = [...rows].sort((a, b) => (a.date + a.slot).localeCompare(b.date + b.slot) * (desc ? -1 : 1));
   if (!sorted.length) return `<p class="sub">${t("none")}</p>`;
   return `<div style="overflow:auto"><table><thead><tr><th>${t("date")}</th><th>${t("slot")}</th><th>${t("space")}</th><th>${t("status")}</th><th>${t("source")}</th><th>${t("actions")}</th></tr></thead><tbody>
-    ${sorted.map(b => `<tr><td class="nw">${esc(b.date)}</td><td class="nw">${esc(b.slot)}</td><td>${esc(spaceName(b.space))}<div class="muted">${esc(discName(b.disc))}${b.note ? " · " + esc(b.note) : ""}</div></td><td>${pill(b.status)}${b.motif ? `<div class="muted">${esc(b.motif)}</div>` : ""}</td><td class="muted">${b.src === "books" ? t("srcChannel") : t("srcPriv") + " · " + esc(b.code)}</td><td>${b.status === "attente" ? `<button class="mini ok" data-visa="${b.src}:${b.id}">${t("visa")}</button> <button class="mini no" data-no="${b.src}:${b.id}">${t("refuse")}</button>` : ""}</td></tr>`).join("")}
+    ${sorted.map(b => `<tr><td class="nw">${esc(b.date)}</td><td class="nw">${esc(b.slot)}</td><td>${esc(spaceName(b.space))}<div class="muted">${esc(discName(b.disc))}${b.note ? " · " + esc(b.note) : ""}</div></td><td>${pill(b.status)}${b.motif ? `<div class="muted">${esc(b.motif)}</div>` : ""}</td><td class="muted">${b.src === "books" ? t("srcChannel") : t("srcPriv") + " · " + esc(b.code)}</td><td>${b.status === "attente" && canVisa(b.src) ? `<button class="mini ok" data-visa="${b.src}:${b.id}">${t("visa")}</button> <button class="mini no" data-no="${b.src}:${b.id}">${t("refuse")}</button>` : ""}</td></tr>`).join("")}
   </tbody></table></div>`;
 }
 function adminSuivi() {
@@ -947,6 +1057,7 @@ function readFile(file) {
   return new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(r.result); r.onerror = () => rej(r.error); r.readAsDataURL(file); });
 }
 function bindSuivi(body) {
+  if (!can("suivi")) return;
   body.querySelectorAll("[data-pick]").forEach(b => b.onclick = () => { suiviClient = b.dataset.pick; editDocId = null; renderAdmin(); });
   const fileIn = body.querySelector("#docFile");
   if (fileIn) fileIn.onchange = () => { const f = fileIn.files[0]; if (f && f.size > MAX_FILE) { fileIn.value = ""; toast(t("fileBig")); } };
@@ -955,6 +1066,7 @@ function bindSuivi(body) {
   const form = body.querySelector("#docForm");
   if (form) form.onsubmit = async (e) => {
     e.preventDefault();
+    if (!need("suivi")) return;
     const fd = new FormData(form);
     const f = fileIn && fileIn.files[0];
     if (f && f.size > MAX_FILE) { fileIn.value = ""; return toast(t("fileBig")); }
@@ -1022,24 +1134,8 @@ function slotHTML(date, slot, spaces, showSpace) {
 function renderPlanning() {
   const root = document.getElementById("planApp");
   if (view !== "planning") return;
-  const active = db.site.spaces.filter(s => s.on);
-  if (planSpace !== "all" && !active.some(s => s.id === planSpace)) planSpace = active.length ? active[0].id : "all";
-  const spaces = planSpace === "all" ? active : active.filter(s => s.id === planSpace);
-  const all = planSpace === "all";
-  const start = weekStart(planWeek);
-  const days = Array.from({ length: 7 }, (_, i) => dayISO(i, start));
-  const today = dayISO(0);
-  root.innerHTML = `<h2>${t("planTitle")}</h2><p class="sub">${t("planSub")}</p>
-    <div class="tools"><button class="mini" type="button" data-week="-1">${lang === "ar" ? "→" : "←"} ${t("prevWeek")}</button><button class="mini" type="button" data-week="0">${t("thisWeek")}</button><button class="mini" type="button" data-week="1">${t("nextWeek")} ${lang === "ar" ? "←" : "→"}</button>
-      <b style="margin-inline-start:auto;color:var(--navy)">${t("weekOf")} ${dayLabel(days[0], { day: "numeric", month: "long" })} – ${dayLabel(days[6], { day: "numeric", month: "long", year: "numeric" })}</b></div>
-    <div class="tabs">${active.map(s => `<button type="button" class="tab ${planSpace === s.id ? "on" : ""}" data-pspace="${esc(s.id)}">${esc(L(s).t)}</button>`).join("")}<button type="button" class="tab ${all ? "on" : ""}" data-pspace="all">${t("allSpaces")}</button></div>
-    <div class="card plan-wide" style="overflow:auto"><table class="plan-table"><thead><tr><th>${t("slot")}</th>${days.map(d => `<th class="${d === today ? "today" : ""}">${dayLabel(d, { weekday: "short", day: "numeric", month: "short" })}</th>`).join("")}</tr></thead><tbody>
-      ${SLOTS.map(sl => `<tr><td>${sl}</td>${days.map(d => `<td class="${d < today ? "past" : ""}">${slotHTML(d, sl, spaces, all)}</td>`).join("")}</tr>`).join("")}
-    </tbody></table></div>
-    <div class="plan-days">${days.map(d => `<div class="card plan-day ${d === today ? "today" : ""}" style="${d < today ? "opacity:.6" : ""}"><h3>${dayLabel(d, { weekday: "long", day: "numeric", month: "long" })}</h3>
-      ${SLOTS.map(sl => `<div class="plan-slot"><b>${sl}</b><div>${slotHTML(d, sl, spaces, all)}</div></div>`).join("")}</div>`).join("")}</div>`;
-  root.querySelectorAll("[data-week]").forEach(b => b.onclick = () => { const n = Number(b.dataset.week); planWeek = n === 0 ? 0 : planWeek + n; renderPlanning(); });
-  root.querySelectorAll("[data-pspace]").forEach(b => b.onclick = () => { planSpace = b.dataset.pspace; renderPlanning(); });
+  root.innerHTML = `<h2>${t("planTitle")}</h2><p class="sub">${t("planSub")}</p>` + calendarHTML(calPub, "pub");
+  bindCalendar(root, calPub, "pub");
 }
 function esc(s) { return String(s || "").replace(/&/g, "&" + "amp;").replace(/"/g, "&" + "quot;").replace(/</g, "&" + "lt;"); }
 function field(label, name, value, area) {
@@ -1092,11 +1188,12 @@ function rowEdit(list, s, i) {
       <button class="mini no" type="button" data-del="${list}:${s.id}">${t("del")}</button></div></form>`;
 }
 function bindAdmin(body) {
-  body.querySelectorAll("[data-el]").forEach(b => b.onclick = () => { editLang = b.dataset.el; renderAdmin(); });
+  body.querySelectorAll("[data-el]").forEach(b => b.onclick = () => { if (!need("site")) return; editLang = b.dataset.el; renderAdmin(); });
   body.querySelectorAll("[data-visa]").forEach(btn => btn.onclick = () => setStatus(btn.dataset.visa, "vise"));
   body.querySelectorAll("[data-no]").forEach(btn => btn.onclick = () => setStatus(btn.dataset.no, "refuse", prompt(t("motif")) || ""));
-  body.querySelectorAll("[data-toggle]").forEach(btn => btn.onclick = () => { const c = db.clients.find(x => x.id === btn.dataset.toggle); c.active = !c.active; save(); renderAdmin(); });
+  body.querySelectorAll("[data-toggle]").forEach(btn => btn.onclick = () => { if (!need("channels")) return; const c = db.clients.find(x => x.id === btn.dataset.toggle); if (!c) return; c.active = !c.active; save(); renderAdmin(); });
   body.querySelectorAll("[data-savepin]").forEach(btn => btn.onclick = () => {
+    if (!need("channels")) return;
     const c = db.clients.find(x => x.id === btn.dataset.savepin); if (!c) return;
     const input = body.querySelector(`[data-pin="${c.id}"]`);
     const pin = String(input && input.value || "").trim();
@@ -1106,12 +1203,14 @@ function bindAdmin(body) {
   const form = body.querySelector("#addClient");
   if (form) form.onsubmit = (e) => {
     e.preventDefault();
+    if (!need("channels")) return;
     const fd = new FormData(form);
     db.clients.push({ id: "c" + Date.now(), type: fd.get("type"), name: fd.get("name"), code: String(fd.get("code")).trim().toUpperCase(), pin: String(fd.get("pin")).trim(), contact: fd.get("contact") || "", phone: fd.get("phone") || "", active: true });
     save(); toast(t("saved")); renderAdmin();
   };
   body.querySelectorAll("[data-open]").forEach(btn => btn.onclick = () => {
-    const l = db.leads.find(x => x.id === btn.dataset.open);
+    if (!need("channels")) return;
+    const l = db.leads.find(x => x.id === btn.dataset.open); if (!l) return;
     const code = (l.type === "federation" ? "FED-" : l.type === "ligue" ? "LIG-" : l.type === "prive" ? "PRV-" : "CLB-") + String(Date.now()).slice(-4);
     db.clients.push({ id: "c" + Date.now(), type: l.type, name: l.org, code, pin: "0000", contact: l.contact, phone: l.phone, active: true });
     db.leads = db.leads.filter(x => x.id !== l.id);
@@ -1120,6 +1219,7 @@ function bindAdmin(body) {
   const site = body.querySelector("#siteText");
   if (site) site.onsubmit = (e) => {
     e.preventDefault();
+    if (!need("site")) return;
     const fd = new FormData(site);
     db.site.hero[editLang] = { kicker: fd.get("kicker"), h1: fd.get("h1"), lead: fd.get("lead"), discTitle: fd.get("discTitle"), discSub: fd.get("discSub"), spacesTitle: fd.get("spacesTitle"), spacesSub: fd.get("spacesSub"), address: fd.get("address"), hours: fd.get("hours") };
     db.site.announce[editLang] = fd.get("announce") || "";
@@ -1133,17 +1233,19 @@ function bindAdmin(body) {
   };
   body.querySelectorAll(".rowItem").forEach(f => f.onsubmit = (e) => {
     e.preventDefault();
+    if (!need("site")) return;
     const item = db.site[f.dataset.list].find(x => x.id === f.dataset.id);
     item[editLang] = { t: new FormData(f).get("t"), p: new FormData(f).get("p") };
     save(); toast(t("saved")); applyStatic();
   });
-  const add = (list) => { db.site[list].push({ id: list.slice(0, 1) + Date.now(), on: true, fr: { t: "Nouveau", p: "" }, ar: { t: "جديد", p: "" }, en: { t: "New", p: "" } }); save(); renderAdmin(); };
+  const add = (list) => { if (!need("site")) return; db.site[list].push({ id: list.slice(0, 1) + Date.now(), on: true, fr: { t: "Nouveau", p: "" }, ar: { t: "جديد", p: "" }, en: { t: "New", p: "" } }); save(); renderAdmin(); };
   const ad = body.querySelector("#addDisc"); if (ad) ad.onclick = () => add("disciplines");
   const as = body.querySelector("#addSpace"); if (as) as.onclick = () => add("spaces");
   const ab = body.querySelector("#addBloc"); if (ab) ab.onclick = () => add("blocs");
-  body.querySelectorAll("[data-toggle-item]").forEach(b => b.onclick = () => { const [list, id] = b.dataset.toggleItem.split(":"); const item = db.site[list].find(x => x.id === id); item.on = !item.on; save(); applyStatic(); });
-  body.querySelectorAll("[data-del]").forEach(b => b.onclick = () => { const [list, id] = b.dataset.del.split(":"); db.site[list] = db.site[list].filter(x => x.id !== id); save(); applyStatic(); });
+  body.querySelectorAll("[data-toggle-item]").forEach(b => b.onclick = () => { if (!need("site")) return; const [list, id] = b.dataset.toggleItem.split(":"); const item = db.site[list].find(x => x.id === id); item.on = !item.on; save(); applyStatic(); });
+  body.querySelectorAll("[data-del]").forEach(b => b.onclick = () => { if (!need("site")) return; const [list, id] = b.dataset.del.split(":"); db.site[list] = db.site[list].filter(x => x.id !== id); save(); applyStatic(); });
   body.querySelectorAll("[data-move]").forEach(b => b.onclick = () => {
+    if (!need("site")) return;
     const [list, i, dir] = b.dataset.move.split(":");
     const arr = db.site[list]; const n = Number(i) + Number(dir);
     if (n < 0 || n >= arr.length) return;
@@ -1152,11 +1254,635 @@ function bindAdmin(body) {
 }
 function setStatus(key, status, motif) {
   const [list, id] = key.split(":");
-  const b = db[list].find(x => x.id === id);
+  if (!canVisa(list)) return toast(t("denied"));
+  const b = (db[list] || []).find(x => x.id === id); if (!b) return;
   if (status === "vise" && taken(b.date, b.slot, b.space, b.id)) return toast(t("clash"));
   b.status = status; b.motif = motif || ""; save(); toast(t("saved")); renderAdmin();
 }
 
+/* ---------- v2 : comptes de gestion et permissions ---------- */
+const PERMS = [["suivi", "pmSuivi"], ["pay", "pmPay"], ["planView", "pmPlanView"], ["planEdit", "pmPlanEdit"], ["channels", "pmChannels"], ["others", "pmOthers"], ["site", "pmSite"], ["accounts", "pmAccounts"]];
+const ADMIN_TABS = [
+  ["books", "books", () => can("planView")],
+  ["plan", "navPlan", () => can("planView")],
+  ["priv", "navOther", () => can("others")],
+  ["clients", "clients", () => can("channels")],
+  ["pay", "pay", () => can("pay")],
+  ["suivi", "suivi", () => can("suivi")],
+  ["leads", "leads", () => can("channels")],
+  ["site", "site", () => can("site")],
+  ["accounts", "accounts", () => isAdmin()]
+];
+function isAdmin() { return !!(session && session.role === "admin" && session.name === "yasser"); }
+function currentAccount() {
+  if (!session || session.role !== "staff") return null;
+  return (db.accounts || []).find(a => a.id === session.acct && a.active) || null;
+}
+function isStaff() { return isAdmin() || !!currentAccount(); }
+function can(p) {
+  if (isAdmin()) return true;
+  const a = currentAccount(); if (!a) return false;
+  const ps = Array.isArray(a.perms) ? a.perms : [];
+  if (p === "planView") return ps.includes("planView") || ps.includes("planEdit");
+  return ps.includes(p);
+}
+function need(p) { if (can(p)) return true; toast(t("denied")); return false; }
+function canVisa(src) { return src === "privates" ? (can("others") || can("planEdit")) : can("planEdit"); }
+function tabAllowed(k) { const f = ADMIN_TABS.find(x => x[0] === k); return !!(f && f[2]()); }
+function actorName() { if (isAdmin()) return "yasser"; const a = currentAccount(); return a ? a.user : ""; }
+
+/* Hachage des mots de passe : SHA-256 salé et itéré (crypto.subtle, repli JS si indisponible) */
+function sha256js(bytes) {
+  const primes = []; for (let n = 2; primes.length < 64; n++) if (primes.every(p => n % p)) primes.push(n);
+  const frac = x => ((x - Math.floor(x)) * 4294967296) >>> 0;
+  const K = primes.map(p => frac(Math.cbrt(p)));
+  const H = primes.slice(0, 8).map(p => frac(Math.sqrt(p)));
+  const l = bytes.length; const size = ((l + 9 + 63) >> 6) << 6;
+  const m = new Uint8Array(size); m.set(bytes); m[l] = 0x80;
+  const dv = new DataView(m.buffer); const bits = l * 8;
+  dv.setUint32(size - 4, bits >>> 0); dv.setUint32(size - 8, Math.floor(bits / 4294967296));
+  const w = new Uint32Array(64); const rotr = (x, n) => (x >>> n) | (x << (32 - n));
+  for (let o = 0; o < size; o += 64) {
+    for (let i = 0; i < 16; i++) w[i] = dv.getUint32(o + i * 4);
+    for (let i = 16; i < 64; i++) {
+      const s0 = rotr(w[i - 15], 7) ^ rotr(w[i - 15], 18) ^ (w[i - 15] >>> 3);
+      const s1 = rotr(w[i - 2], 17) ^ rotr(w[i - 2], 19) ^ (w[i - 2] >>> 10);
+      w[i] = (w[i - 16] + s0 + w[i - 7] + s1) >>> 0;
+    }
+    let [a, b, c, d, e, f, g, h] = H;
+    for (let i = 0; i < 64; i++) {
+      const t1 = (h + (rotr(e, 6) ^ rotr(e, 11) ^ rotr(e, 25)) + ((e & f) ^ (~e & g)) + K[i] + w[i]) >>> 0;
+      const t2 = ((rotr(a, 2) ^ rotr(a, 13) ^ rotr(a, 22)) + ((a & b) ^ (a & c) ^ (b & c))) >>> 0;
+      h = g; g = f; f = e; e = (d + t1) >>> 0; d = c; c = b; b = a; a = (t1 + t2) >>> 0;
+    }
+    [a, b, c, d, e, f, g, h].forEach((v, i) => { H[i] = (H[i] + v) >>> 0; });
+  }
+  return H.map(x => x.toString(16).padStart(8, "0")).join("");
+}
+function bufHex(buf) { return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, "0")).join(""); }
+async function sha256hex(str) {
+  const data = new TextEncoder().encode(str);
+  try { if (window.crypto && crypto.subtle && crypto.subtle.digest) return bufHex(await crypto.subtle.digest("SHA-256", data)); } catch (e) {}
+  return sha256js(data);
+}
+const PW_ROUNDS = 1000;
+async function hashPw(salt, pw) { let h = await sha256hex(salt + "|" + pw); for (let i = 1; i < PW_ROUNDS; i++) h = await sha256hex(salt + h); return h; }
+function newSalt() {
+  const a = new Uint8Array(16);
+  if (window.crypto && crypto.getRandomValues) crypto.getRandomValues(a); else for (let i = 0; i < 16; i++) a[i] = Math.floor(Math.random() * 256);
+  return bufHex(a);
+}
+async function makeCred(pw) { const salt = newSalt(); return { salt, hash: await hashPw(salt, pw), algo: "sha256-salt-x" + PW_ROUNDS }; }
+
+let editAcct = null;
+function permLabels(ps) { return PERMS.filter(([k]) => (ps || []).includes(k)).map(([, l]) => `<span class="pill lig">${t(l)}</span>`).join(" ") || `<span class="muted">—</span>`; }
+function adminAccounts() {
+  const a = editAcct ? db.accounts.find(x => x.id === editAcct) : null;
+  if (!a) editAcct = null;
+  const ps = a ? (a.perms || []) : ["planView"];
+  return `<form class="card" id="acctForm" autocomplete="off"><h3>${a ? t("acEdit") : t("acNew")}</h3>
+    <div class="row"><div><label>${t("acUser")}</label><input name="user" required value="${esc(a ? a.user : "")}" autocapitalize="none" spellcheck="false" autocomplete="off"></div>
+      <div><label>${t("acName")}</label><input name="name" value="${esc(a ? a.name : "")}"></div></div>
+    <div class="row"><div><label>${t("acPass")}</label><input name="pw" type="password" autocomplete="new-password" ${a ? "" : "required"}>${a ? `<p class="muted" style="margin:4px 0 0">${t("acKeepPw")}</p>` : ""}</div>
+      <div><label>${t("status")}</label><label class="chk"><input type="checkbox" name="active" ${!a || a.active ? "checked" : ""}> ${t("active")}</label></div></div>
+    <label>${t("acPerms")}</label><div class="perm-grid">${PERMS.map(([k, l]) => `<label class="chk"><input type="checkbox" name="perm" value="${k}" ${ps.includes(k) ? "checked" : ""}> ${t(l)}</label>`).join("")}</div>
+    <div class="cta"><button class="solid" type="submit">${t("save")}</button>${a ? ` <button class="ghost" type="button" id="acctCancel">${t("cancel")}</button>` : ""}</div>
+    <p class="hint" style="margin:12px 0 0">${t("acHint")}</p></form>
+  <div class="card" style="overflow:auto;margin-top:12px"><h3>${t("accounts")} · ${db.accounts.length + 1}</h3><table><thead><tr><th>${t("acUser")}</th><th>${t("acName")}</th><th>${t("acPerms")}</th><th>${t("status")}</th><th>${t("actions")}</th></tr></thead><tbody>
+    <tr><td><b>yasser</b></td><td>${t("role")}</td><td><span class="pill fed">${t("acAdmin")}</span></td><td>${t("active")}</td><td></td></tr>
+    ${db.accounts.map(x => `<tr><td><b>${esc(x.user)}</b></td><td>${esc(x.name)}</td><td>${permLabels(x.perms)}</td><td>${x.active ? t("active") : t("off")}</td><td class="nw"><button class="mini" type="button" data-acedit="${esc(x.id)}">${t("edit")}</button> <button class="mini" type="button" data-actoggle="${esc(x.id)}">${x.active ? t("off") : t("active")}</button> <button class="mini no" type="button" data-acdel="${esc(x.id)}">${t("del")}</button></td></tr>`).join("")}
+  </tbody></table></div>`;
+}
+function bindAccounts(body) {
+  if (!isAdmin()) return;
+  const form = body.querySelector("#acctForm");
+  const cancel = body.querySelector("#acctCancel");
+  if (cancel) cancel.onclick = () => { editAcct = null; renderAdmin(); };
+  if (form) form.onsubmit = async (e) => {
+    e.preventDefault();
+    if (!isAdmin()) return toast(t("denied"));
+    const fd = new FormData(form);
+    const user = String(fd.get("user") || "").trim().toLowerCase();
+    const name = String(fd.get("name") || "").trim();
+    const pw = String(fd.get("pw") || "").trim();
+    const perms = fd.getAll("perm").map(String).filter(p => PERMS.some(x => x[0] === p));
+    const active = !!form.querySelector("[name=active]").checked;
+    if (!/^[a-z0-9._-]{3,32}$/.test(user)) return toast(t("acBadUser"));
+    const cur = editAcct ? db.accounts.find(x => x.id === editAcct) : null;
+    if (user === "yasser" || db.accounts.some(x => x.user === user && x !== cur)) return toast(t("acExists"));
+    if ((!cur || pw) && pw.length < 6) return toast(t("acShortPw"));
+    const cred = pw ? await makeCred(pw) : null;
+    if (cur) Object.assign(cur, { user, name, perms, active, updated: new Date().toISOString() }, cred || {});
+    else db.accounts.push(Object.assign({ id: "a" + Date.now(), user, name, perms, active, created: new Date().toISOString() }, cred));
+    save(); editAcct = null; toast(t("acSaved")); renderAdmin();
+  };
+  body.querySelectorAll("[data-acedit]").forEach(b => b.onclick = () => { editAcct = b.dataset.acedit; renderAdmin(); const f = document.getElementById("acctForm"); if (f) f.scrollIntoView({ behavior: "smooth", block: "start" }); });
+  body.querySelectorAll("[data-actoggle]").forEach(b => b.onclick = () => {
+    if (!isAdmin()) return toast(t("denied"));
+    const a = db.accounts.find(x => x.id === b.dataset.actoggle); if (!a) return;
+    a.active = !a.active; save(); toast(t("acSaved")); renderAdmin();
+  });
+  body.querySelectorAll("[data-acdel]").forEach(b => b.onclick = () => {
+    if (!isAdmin()) return toast(t("denied"));
+    const a = db.accounts.find(x => x.id === b.dataset.acdel); if (!a || !confirm(t("acDel") + " " + a.user)) return;
+    db.accounts = db.accounts.filter(x => x.id !== a.id);
+    if (editAcct === a.id) editAcct = null;
+    save(); toast(t("acSaved")); renderAdmin();
+  });
+}
+function openMyPw() {
+  const a = currentAccount(); if (!a || !can("accounts")) return toast(t("denied"));
+  const m = openModal(`<form id="myPwForm"><h3>${t("myPw")} · ${esc(a.user)}</h3>
+    <label>${t("curPw")}</label><input type="password" name="cur" required autocomplete="current-password">
+    <label>${t("newPw")}</label><input type="password" name="pw" required autocomplete="new-password">
+    <div class="cta"><button class="solid" type="submit">${t("save")}</button> <button class="ghost" type="button" data-close>${t("cancel")}</button></div></form>`);
+  m.querySelector("#myPwForm").onsubmit = async (e) => {
+    e.preventDefault();
+    const fd = new FormData(e.target);
+    const acct = currentAccount(); if (!acct || !can("accounts")) return toast(t("denied"));
+    if ((await hashPw(acct.salt, String(fd.get("cur") || "").trim())) !== acct.hash) return toast(t("bad"));
+    const pw = String(fd.get("pw") || "").trim();
+    if (pw.length < 6) return toast(t("acShortPw"));
+    Object.assign(acct, await makeCred(pw), { updated: new Date().toISOString() });
+    save(); closeModal(); toast(t("pwChanged"));
+  };
+}
+
+/* ---------- Fenêtre modale ---------- */
+function openModal(html) {
+  closeModal();
+  const bg = document.createElement("div");
+  bg.className = "modal-bg"; bg.id = "modalBg";
+  bg.innerHTML = `<div class="modal" role="dialog" aria-modal="true">${html}</div>`;
+  bg.addEventListener("click", (e) => { if (e.target === bg || e.target.closest("[data-close]")) closeModal(); });
+  document.body.appendChild(bg);
+  document.body.classList.add("modal-open");
+  const f = bg.querySelector("input:not([type=hidden]), select, button");
+  if (f) try { f.focus({ preventScroll: true }); } catch (e) {}
+  return bg.querySelector(".modal");
+}
+function closeModal() { const m = document.getElementById("modalBg"); if (m) m.remove(); document.body.classList.remove("modal-open"); }
+
+/* ---------- Paiements : versements partiels, canal, restant ---------- */
+let payFilter = { canal: "", cat: "" };
+const PAY_METHODS = ["Espèces", "Virement", "CCP", "BaridiMob", "Chèque"];
+function num(v) {
+  if (typeof v === "number") return isFinite(v) ? v : 0;
+  const n = Number(String(v == null ? "" : v).replace(/\s/g, "").replace(",", ".").replace(/[^\d.\-]/g, ""));
+  return isFinite(n) ? n : 0;
+}
+function payPaid(p) { return (Array.isArray(p.entries) ? p.entries : []).reduce((s, e) => s + num(e.amount), 0); }
+function payRest(p) { return Math.max(0, num(p.due) - payPaid(p)); }
+function payCat(p) { if (payRest(p) <= 0) return "solde"; return payPaid(p) > 0 ? "partiel" : "impaye"; }
+function payClient(p) { return db.clients.find(x => x.id === p.clientId) || null; }
+function migratePayments() {
+  db.payments = (Array.isArray(db.payments) ? db.payments : []).filter(p => p && typeof p === "object").map((p, i) => {
+    if (!p.id) p.id = "p" + Date.now() + "-" + i;
+    p.due = Math.max(0, num(p.due != null ? p.due : (p.amount != null ? p.amount : p.montant)));
+    if (!Array.isArray(p.entries)) {
+      let paid = num(p.paid);
+      const st = String(p.status || "").toLowerCase();
+      if (!paid && /^(paye|payé|paid|recu|reçu|solde|soldé|ok|regle|réglé)$/.test(st)) paid = p.due;
+      p.entries = paid > 0 ? [{ id: p.id + "-e0", date: p.paidDate || p.date || dayISO(0), amount: paid, method: p.method || "", note: "", legacy: true }] : [];
+    }
+    p.entries = p.entries.filter(e => e && num(e.amount) > 0).map((e, j) => Object.assign({}, e, { id: e.id || p.id + "-e" + j, date: e.date || "", amount: num(e.amount), method: e.method || "", note: e.note || "" }));
+    p.paid = payPaid(p);
+    if (p.label == null) p.label = "";
+    return p;
+  });
+}
+function adminPay() {
+  const all = db.payments;
+  const today = dayISO(0);
+  const rows = all.filter(p => { const c = payClient(p); return (!payFilter.canal || (c ? c.code : "—") === payFilter.canal) && (!payFilter.cat || payCat(p) === payFilter.cat); })
+    .sort((a, b) => String(a.date || "").localeCompare(String(b.date || "")));
+  const tot = arr => arr.reduce((s, p) => { s.due += num(p.due); s.paid += payPaid(p); s.rest += payRest(p); return s; }, { due: 0, paid: 0, rest: 0 });
+  const g = tot(all), f = tot(rows);
+  const filtered = !!(payFilter.canal || payFilter.cat);
+  const codes = Array.from(new Set(db.clients.map(c => c.code))).sort();
+  const kpi = (o, cap) => `<div class="pay-kpis">${cap ? `<div class="muted pay-cap">${cap}</div>` : ""}<div class="kpi"><b>${da(o.due)}</b><span>${t("totDue")}</span></div><div class="kpi"><b>${da(o.paid)}</b><span>${t("totPaid")}</span></div><div class="kpi ${o.rest > 0 ? "warn" : ""}"><b>${da(o.rest)}</b><span>${t("totRest")}</span></div></div>`;
+  const body = rows.map(p => {
+    const c = payClient(p); const [cls, label] = payStatus(p); const rest = payRest(p);
+    const late = rest > 0 && p.date && p.date < today;
+    const ents = p.entries || [];
+    return `<tr class="${late ? "doc-exp" : ""}"><td><b>${esc(c ? c.name : "—")}</b></td><td><span class="pill lig code">${esc(c ? c.code : "—")}</span></td>
+      <td>${esc(p.label)}${p.method ? `<div class="muted">${esc(p.method)}</div>` : ""}${ents.length ? `<details class="pay-hist"><summary>${ents.length} ${t("versements")}</summary>${ents.map(e => `<div class="pay-ent"><span>${esc(e.date)} · ${da(e.amount)}${e.method ? " · " + esc(e.method) : ""}${e.note ? " · " + esc(e.note) : ""}</span><button class="mini no" type="button" data-entdel="${esc(p.id + "|" + e.id)}" title="${esc(t("del"))}">×</button></div>`).join("")}</details>` : ""}</td>
+      <td class="nw">${esc(p.date) || "—"}</td><td class="nw">${da(p.due)}</td><td class="nw">${da(payPaid(p))}</td><td class="nw"><b>${da(rest)}</b></td>
+      <td><span class="pill ${cls}">${label}</span>${late ? ` <span class="pill expire">${t("late")}</span>` : ""}</td>
+      <td class="nw"><button class="mini ok" type="button" data-encaisse="${esc(p.id)}" ${rest <= 0 ? "disabled" : ""}>${t("encaisse")}</button> <button class="mini" type="button" data-payedit="${esc(p.id)}">${t("edit")}</button> <button class="mini no" type="button" data-paydel="${esc(p.id)}">${t("del")}</button></td></tr>`;
+  }).join("");
+  return `<div class="card"><h3>${t("pay")}</h3><p class="sub">${t("paySub")}</p>
+    ${kpi(g, "")}${filtered ? kpi(f, t("filtered") + " · " + rows.length) : ""}
+    <div class="tools pay-filters"><div><label>${t("canal")}</label><select class="inline-sel" id="payCanal"><option value="">${t("allCanals")}</option>${codes.map(k => `<option value="${esc(k)}" ${payFilter.canal === k ? "selected" : ""}>${esc(k)}</option>`).join("")}</select></div>
+      <div><label>${t("status")}</label><select class="inline-sel" id="payCat"><option value="">${t("allStatus")}</option>${[["solde", "stSolde"], ["partiel", "stPartiel"], ["impaye", "stImpaye"]].map(([k, l]) => `<option value="${k}" ${payFilter.cat === k ? "selected" : ""}>${t(l)}</option>`).join("")}</select></div></div>
+    <div style="overflow:auto"><table class="pay-table"><thead><tr><th>${t("clients")}</th><th>${t("canal")}</th><th>${t("payLabel")}</th><th>${t("dueDate")}</th><th>${t("amtDue")}</th><th>${t("amtPaid")}</th><th>${t("amtRest")}</th><th>${t("status")}</th><th>${t("actions")}</th></tr></thead><tbody>${body}</tbody></table>${rows.length ? "" : `<p class="sub">${t("noPay")}</p>`}</div></div>
+  <form class="card" id="payForm" style="margin-top:12px"><h3>${t("newDue")}</h3><div class="row">
+      <div><label>${t("clients")}</label><select name="clientId">${db.clients.map(c => `<option value="${esc(c.id)}">${esc(c.name)} · ${esc(c.code)}</option>`).join("")}</select></div>
+      <div><label>${t("payLabel")}</label><input name="label" required></div>
+    </div><div class="row">
+      <div><label>${t("due")}</label><input name="due" type="number" min="0" step="any" required></div>
+      <div><label>${t("paid")}</label><input name="paid" type="number" min="0" step="any" value="0"></div>
+    </div><div class="row">
+      <div><label>${t("dueDate")}</label><input name="date" type="date" required></div>
+      <div><label>${t("method")}</label><select name="method">${PAY_METHODS.map(x => `<option>${x}</option>`).join("")}</select></div>
+    </div><div class="cta"><button class="solid navy" type="submit">${t("save")}</button></div></form>`;
+}
+function bindPay(body) {
+  if (!can("pay")) return;
+  const cs = body.querySelector("#payCanal"); if (cs) cs.onchange = () => { payFilter.canal = cs.value; renderAdmin(); };
+  const ct = body.querySelector("#payCat"); if (ct) ct.onchange = () => { payFilter.cat = ct.value; renderAdmin(); };
+  const form = body.querySelector("#payForm");
+  if (form) form.onsubmit = (e) => {
+    e.preventDefault();
+    if (!need("pay")) return;
+    const fd = new FormData(form);
+    const id = "p" + Date.now();
+    const due = Math.max(0, num(fd.get("due")));
+    const paid = Math.min(due, Math.max(0, num(fd.get("paid"))));
+    const p = { id, clientId: fd.get("clientId"), label: String(fd.get("label") || "").trim(), due, paid, date: fd.get("date"), method: fd.get("method"), entries: paid > 0 ? [{ id: id + "-e0", date: dayISO(0), amount: paid, method: fd.get("method") || "", note: "" }] : [] };
+    db.payments.push(p);
+    save(); toast(t("paySaved")); renderAdmin();
+  };
+  body.querySelectorAll("[data-encaisse]").forEach(b => b.onclick = () => openPayEntry(b.dataset.encaisse));
+  body.querySelectorAll("[data-payedit]").forEach(b => b.onclick = () => openPayEdit(b.dataset.payedit));
+  body.querySelectorAll("[data-paydel]").forEach(b => b.onclick = () => {
+    if (!need("pay") || !confirm(t("confirmDel"))) return;
+    db.payments = db.payments.filter(x => x.id !== b.dataset.paydel);
+    save(); toast(t("paySaved")); renderAdmin();
+  });
+  body.querySelectorAll("[data-entdel]").forEach(b => b.onclick = () => {
+    if (!need("pay")) return;
+    const [pid, eid] = b.dataset.entdel.split("|");
+    const p = db.payments.find(x => x.id === pid); if (!p || !confirm(t("confirmDelEntry"))) return;
+    p.entries = p.entries.filter(e => e.id !== eid); p.paid = payPaid(p);
+    save(); toast(t("paySaved")); renderAdmin();
+  });
+}
+function openPayEntry(id) {
+  if (!need("pay")) return;
+  const p = db.payments.find(x => x.id === id); if (!p) return;
+  const rest = payRest(p); const c = payClient(p);
+  const m = openModal(`<form id="entForm"><h3>${t("encaisse")} · ${esc(c ? c.name : "—")}</h3>
+    <p class="muted">${esc(c ? c.code : "")} · ${esc(p.label)} · ${t("amtRest")} : <b>${da(rest)}</b></p>
+    <div class="row"><div><label>${t("payDate")}</label><input type="date" name="date" required value="${dayISO(0)}"></div>
+      <div><label>${t("amount")}</label><input type="number" name="amount" min="0" step="any" required value="${rest}"></div></div>
+    <label>${t("method")}</label><select name="method">${PAY_METHODS.map(x => `<option ${x === p.method ? "selected" : ""}>${x}</option>`).join("")}</select>
+    <label>${t("note")}</label><input name="note">
+    <div class="cta"><button class="solid" type="submit">${t("save")}</button> <button class="ghost" type="button" data-close>${t("cancel")}</button></div></form>`);
+  m.querySelector("#entForm").onsubmit = (e) => {
+    e.preventDefault();
+    if (!need("pay")) return;
+    const fd = new FormData(e.target);
+    let amt = num(fd.get("amount")); const r = payRest(p);
+    if (amt <= 0) return toast(t("badAmount"));
+    const capped = amt > r; if (capped) amt = r;
+    p.entries = Array.isArray(p.entries) ? p.entries : [];
+    p.entries.push({ id: "e" + Date.now(), date: fd.get("date") || dayISO(0), amount: amt, method: fd.get("method") || "", note: String(fd.get("note") || "").trim(), by: actorName() });
+    p.paid = payPaid(p); p.method = fd.get("method") || p.method;
+    save(); closeModal(); toast(capped ? t("tooMuch") : t("paySaved")); renderAdmin();
+  };
+}
+function openPayEdit(id) {
+  if (!need("pay")) return;
+  const p = db.payments.find(x => x.id === id); if (!p) return;
+  const m = openModal(`<form id="payEditForm"><h3>${t("payEdit")}</h3>
+    <label>${t("clients")}</label><select name="clientId">${db.clients.map(c => `<option value="${esc(c.id)}" ${c.id === p.clientId ? "selected" : ""}>${esc(c.name)} · ${esc(c.code)}</option>`).join("")}</select>
+    <label>${t("payLabel")}</label><input name="label" required value="${esc(p.label)}">
+    <div class="row"><div><label>${t("amtDue")}</label><input type="number" name="due" min="0" step="any" required value="${num(p.due)}"></div>
+      <div><label>${t("dueDate")}</label><input type="date" name="date" value="${esc(p.date)}"></div></div>
+    <div class="cta"><button class="solid" type="submit">${t("save")}</button> <button class="ghost" type="button" data-close>${t("cancel")}</button></div></form>`);
+  m.querySelector("#payEditForm").onsubmit = (e) => {
+    e.preventDefault();
+    if (!need("pay")) return;
+    const fd = new FormData(e.target);
+    Object.assign(p, { clientId: fd.get("clientId"), label: String(fd.get("label") || "").trim(), due: Math.max(0, num(fd.get("due"))), date: fd.get("date") || "" });
+    p.paid = payPaid(p);
+    save(); closeModal(); toast(t("paySaved")); renderAdmin();
+  };
+}
+
+/* ---------- Migration défensive des données existantes ---------- */
+function normSlot(s) {
+  const v = String(s || "").trim().replace(/\s+/g, "").replace(/[-\u2010-\u2015\u2212]/g, "\u2013");
+  if (SLOTS.includes(v)) return v;
+  const hit = SLOTS.find(x => x.slice(0, 5) === v.slice(0, 5));
+  return hit || s;
+}
+function normDate(d) {
+  const s = String(d || "").trim();
+  if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
+  let m = s.match(/^(\d{4}-\d{2}-\d{2})T/); if (m) return m[1];
+  m = s.match(/^(\d{1,2})[\/.\-](\d{1,2})[\/.\-](\d{4})$/); if (m) return m[3] + "-" + m[2].padStart(2, "0") + "-" + m[1].padStart(2, "0");
+  return s;
+}
+function migrateV2() {
+  db.accounts = (Array.isArray(db.accounts) ? db.accounts : []).filter(a => a && typeof a === "object" && a.id && a.user && String(a.user).toLowerCase() !== "yasser");
+  db.accounts.forEach(a => { a.user = String(a.user).toLowerCase(); a.perms = Array.isArray(a.perms) ? a.perms : []; a.active = a.active !== false; });
+  const firstSpace = (db.site.spaces[0] || {}).id || "s1";
+  ["books", "privates"].forEach(list => {
+    db[list] = (Array.isArray(db[list]) ? db[list] : []).filter(x => x && typeof x === "object");
+    db[list].forEach((x, i) => {
+      if (!x.id) x.id = list.slice(0, 1) + Date.now() + "-" + i;
+      x.date = normDate(x.date); x.slot = normSlot(x.slot);
+      if (!x.space) x.space = firstSpace;
+      const st = String(x.status || "").toLowerCase();
+      if (!st) x.status = "attente";
+      else if (["valide", "validé", "visé", "ok", "accepte", "accepté"].includes(st)) x.status = "vise";
+    });
+  });
+  migratePayments();
+  try { save(); } catch (e) {}
+}
+
+/* ---------- Calendrier interactif (planning public + gestion) ---------- */
+const calPub = { view: "week", date: "", space: "" };
+const calAdm = { view: "week", date: "", space: "all" };
+function locale() { return lang === "ar" ? "ar-DZ" : lang === "en" ? "en-GB" : "fr-FR"; }
+function parseISO(s) { const [y, m, d] = String(s).split("-").map(Number); return new Date(y, (m || 1) - 1, d || 1, 12); }
+function addDays(s, n) { return dayISO(n, parseISO(s)); }
+function fmt(s, opts) { try { return new Intl.DateTimeFormat(locale(), opts).format(parseISO(s)); } catch (e) { return s; } }
+function weekStartISO(s) { const d = parseISO(s); return dayISO(-d.getDay(), d); }
+function monthStartISO(s) { const d = parseISO(s); return dayISO(0, new Date(d.getFullYear(), d.getMonth(), 1, 12)); }
+function addMonths(s, n) { const d = parseISO(s); return dayISO(0, new Date(d.getFullYear(), d.getMonth() + n, 1, 12)); }
+function itemsAt(date, slot, space, withPending) {
+  const ok = x => x && x.date === date && x.slot === slot && x.space === space && (x.status === "vise" || (withPending && x.status === "attente"));
+  return db.books.filter(ok).map(x => ({ src: "books", item: x })).concat(db.privates.filter(ok).map(x => ({ src: "privates", item: x })));
+}
+function itemWho(src, x) { if (src === "books") { const c = db.clients.find(k => k.id === x.clientId); return c ? c.name : "—"; } return x.name || t("typePrv"); }
+function isPrivItem(src, x) { if (src === "privates") return true; const c = db.clients.find(k => k.id === x.clientId); return !c || c.type === "prive"; }
+function cellInfo(date, slot, space, mgmt) {
+  if (!mgmt) { const s = publicSlot(date, slot, space); return { cls: s.cls, text: s.label + (s.who ? " · " + s.who : ""), busy: s.cls !== "free" }; }
+  const its = itemsAt(date, slot, space, true);
+  if (!its.length) return { cls: "free", text: t("free"), busy: false };
+  const v = its.find(x => x.item.status === "vise") || its[0];
+  const pend = v.item.status !== "vise";
+  return { cls: pend ? "wait" : isPrivItem(v.src, v.item) ? "resv" : "busy", text: itemWho(v.src, v.item) + (pend ? " · " + t("waiting") : "") + (its.length > 1 ? " +" + (its.length - 1) : "") + (v.item.seriesId ? " ↻" : ""), busy: true };
+}
+function cellsHTML(date, slot, spaces, showSpace, mgmt) {
+  return spaces.map(sp => { const s = cellInfo(date, slot, sp.id, mgmt); return `<button type="button" class="cell-line slot-btn" data-cell="${esc(date + "|" + slot + "|" + sp.id)}">${showSpace ? `<span class="cell-sp">${esc(L(sp).t)}</span>` : ""}<span class="pill ${s.cls}">${esc(s.text)}</span></button>`; }).join("");
+}
+function dayBusy(date, spaces, mgmt) { const out = []; SLOTS.forEach(sl => spaces.forEach(sp => { const s = cellInfo(date, sl, sp.id, mgmt); if (s.busy) out.push({ sl, sp, s }); })); return out; }
+function chipsHTML(list, all, max) {
+  return list.slice(0, max).map(x => `<span class="chip ${x.s.cls}">${esc(x.sl.slice(0, 5) + " " + (all ? L(x.sp).t + " · " : "") + x.s.text)}</span>`).join("") + (list.length > max ? `<span class="chip more">+${list.length - max}</span>` : "");
+}
+function dayCardHTML(d, spaces, all, mgmt, today) {
+  return `<div class="card plan-day ${d === today ? "today" : ""}" style="${d < today ? "opacity:.6" : ""}"><h3><button type="button" class="slot-btn day-link" data-calday="${d}">${esc(fmt(d, { weekday: "long", day: "numeric", month: "long" }))}</button></h3>
+    ${SLOTS.map(sl => `<div class="plan-slot"><b>${sl}</b><div>${cellsHTML(d, sl, spaces, all, mgmt)}</div></div>`).join("")}</div>`;
+}
+function calendarHTML(st, ctx) {
+  const active = db.site.spaces.filter(s => s.on);
+  if (st.space !== "all" && !active.some(s => s.id === st.space)) st.space = active.length ? active[0].id : "all";
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(st.date || "")) st.date = dayISO(0);
+  if (!["month", "week", "day"].includes(st.view)) st.view = "week";
+  const all = st.space === "all";
+  const spaces = all ? active : active.filter(s => s.id === st.space);
+  const mgmt = ctx === "adm" && can("planView");
+  const edit = can("planEdit");
+  const today = dayISO(0);
+  const rtl = lang === "ar";
+  let title = "", bodyH = "";
+  if (st.view === "month") {
+    const first = monthStartISO(st.date); const f = parseISO(first);
+    const dim = new Date(f.getFullYear(), f.getMonth() + 1, 0, 12).getDate();
+    const gs = weekStartISO(first);
+    const lead = Math.round((parseISO(first) - parseISO(gs)) / 86400000);
+    const days = Array.from({ length: Math.ceil((lead + dim) / 7) * 7 }, (_, i) => addDays(gs, i));
+    const mdays = Array.from({ length: dim }, (_, i) => addDays(first, i));
+    const cap = SLOTS.length * spaces.length;
+    title = fmt(first, { month: "long", year: "numeric" });
+    bodyH = `<div class="cal-month">${days.slice(0, 7).map(d => `<div class="cal-dow">${esc(fmt(d, { weekday: "short" }))}</div>`).join("")}
+      ${days.map(d => { const b = dayBusy(d, spaces, mgmt); const out = d.slice(0, 7) !== first.slice(0, 7); return `<button type="button" class="cal-day ${out ? "out" : ""} ${d === today ? "today" : ""} ${d < today ? "past" : ""}" data-calday="${d}" aria-label="${esc(fmt(d, { weekday: "long", day: "numeric", month: "long" }))}"><span class="num">${esc(fmt(d, { day: "numeric" }))}</span>${chipsHTML(b, all, 3)}<span class="cal-occ">${b.length}/${cap} ${t("occupied")}</span></button>`; }).join("")}</div>
+      <div class="cal-agenda">${mdays.map(d => { const b = dayBusy(d, spaces, mgmt); return `<button type="button" class="cal-ag ${d === today ? "today" : ""} ${d < today ? "past" : ""}" data-calday="${d}"><span class="cal-ag-d"><b>${esc(fmt(d, { day: "numeric" }))}</b><span>${esc(fmt(d, { weekday: "short" }))}</span></span><span class="cal-ag-c">${b.length ? chipsHTML(b, all, 4) : `<span class="muted">${t("allFree")}</span>`}</span></button>`; }).join("")}</div>`;
+  } else if (st.view === "day") {
+    const d = st.date;
+    title = fmt(d, { weekday: "long", day: "numeric", month: "long", year: "numeric" });
+    bodyH = `<div class="card plan-wide" style="overflow:auto"><table class="plan-table day-table"><thead><tr><th>${t("slot")}</th>${spaces.map(sp => `<th>${esc(L(sp).t)}</th>`).join("")}</tr></thead><tbody>
+      ${SLOTS.map(sl => `<tr><td>${sl}</td>${spaces.map(sp => `<td class="${d < today ? "past" : ""}">${cellsHTML(d, sl, [sp], false, mgmt)}</td>`).join("")}</tr>`).join("")}
+    </tbody></table></div><div class="plan-days">${dayCardHTML(d, spaces, all, mgmt, today)}</div>`;
+  } else {
+    const ws = weekStartISO(st.date);
+    const days = Array.from({ length: 7 }, (_, i) => addDays(ws, i));
+    title = `${t("weekOf")} ${fmt(days[0], { day: "numeric", month: "long" })} – ${fmt(days[6], { day: "numeric", month: "long", year: "numeric" })}`;
+    bodyH = `<div class="card plan-wide" style="overflow:auto"><table class="plan-table"><thead><tr><th>${t("slot")}</th>${days.map(d => `<th class="${d === today ? "today" : ""}"><button type="button" class="slot-btn day-link" data-calday="${d}">${esc(fmt(d, { weekday: "short", day: "numeric", month: "short" }))}</button></th>`).join("")}</tr></thead><tbody>
+      ${SLOTS.map(sl => `<tr><td>${sl}</td>${days.map(d => `<td class="${d < today ? "past" : ""}">${cellsHTML(d, sl, spaces, all, mgmt)}</td>`).join("")}</tr>`).join("")}
+    </tbody></table></div><div class="plan-days">${days.map(d => dayCardHTML(d, spaces, all, mgmt, today)).join("")}</div>`;
+  }
+  return `<div class="cal-head"><div class="seg" role="group">${[["month", "vMonth"], ["week", "vWeek"], ["day", "vDay"]].map(([k, l]) => `<button type="button" class="${st.view === k ? "on" : ""}" data-calview="${k}" aria-pressed="${st.view === k ? "true" : "false"}">${t(l)}</button>`).join("")}</div>
+    <div class="cal-nav"><button class="mini" type="button" data-calnav="-1" title="${esc(t("prev"))}" aria-label="${esc(t("prev"))}">${rtl ? "→" : "←"}</button><button class="mini" type="button" data-calnav="0">${t("today")}</button><button class="mini" type="button" data-calnav="1" title="${esc(t("next"))}" aria-label="${esc(t("next"))}">${rtl ? "←" : "→"}</button></div>
+    <b class="cal-title">${esc(title)}</b></div>
+    <div class="tabs">${active.map(s => `<button type="button" class="tab ${st.space === s.id ? "on" : ""}" data-cspace="${esc(s.id)}">${esc(L(s).t)}</button>`).join("")}<button type="button" class="tab ${all ? "on" : ""}" data-cspace="all">${t("allSpaces")}</button></div>
+    <div class="cal-legend"><span class="pill free">${t("free")}</span><span class="pill busy">${t("busy")}</span><span class="pill resv">${t("resv")}</span>${mgmt ? `<span class="pill wait">${t("waiting")}</span>` : ""}<span class="muted">${edit ? t("calEditHint") : t("calViewHint")}</span></div>
+    ${bodyH}`;
+}
+function bindCalendar(root, st, ctx) {
+  const re = () => (ctx === "pub" ? renderPlanning() : renderAdmin());
+  root.querySelectorAll("[data-calview]").forEach(b => b.onclick = () => { st.view = b.dataset.calview; re(); });
+  root.querySelectorAll("[data-calnav]").forEach(b => b.onclick = () => {
+    const n = Number(b.dataset.calnav);
+    if (!n) st.date = dayISO(0);
+    else if (st.view === "month") st.date = addMonths(st.date, n);
+    else st.date = addDays(st.date, st.view === "week" ? 7 * n : n);
+    re();
+  });
+  root.querySelectorAll("[data-cspace]").forEach(b => b.onclick = () => { st.space = b.dataset.cspace; re(); });
+  root.querySelectorAll("[data-calday]").forEach(b => b.onclick = () => { st.date = b.dataset.calday; st.view = "day"; re(); });
+  root.querySelectorAll("[data-cell]").forEach(b => b.onclick = (e) => { e.stopPropagation(); const [d, sl, sp] = b.dataset.cell.split("|"); calClick(d, sl, sp, ctx); });
+}
+function refreshAll() { renderPlanning(); renderAdmin(); }
+function calClick(date, slot, space, ctx) {
+  const edit = can("planEdit");
+  const mgmt = (ctx === "adm" && can("planView")) || edit;
+  const its = mgmt ? itemsAt(date, slot, space, true) : [];
+  if (edit && !its.length) return openSessionModal({ date, slot, space });
+  if (edit && its.length === 1) return openSessionModal({ src: its[0].src, id: its[0].item.id });
+  openDetailModal(date, slot, space, mgmt);
+}
+function openDetailModal(date, slot, space, mgmt) {
+  const edit = can("planEdit");
+  const active = db.site.spaces.filter(s => s.on);
+  const rows = active.map(sp => {
+    const s = cellInfo(date, slot, sp.id, mgmt);
+    const its = mgmt ? itemsAt(date, slot, sp.id, true) : [];
+    return `<div class="plan-slot ${sp.id === space ? "hl" : ""}"><b>${esc(L(sp).t)}</b><div><span class="pill ${s.cls}">${esc(s.text)}</span>
+      ${its.map(i => `<div class="muted">${esc(itemWho(i.src, i.item))} · ${i.item.status === "vise" ? t("ok") : t("waiting")} · ${esc(discName(i.item.disc))}${i.item.note ? " · " + esc(i.item.note) : ""}${edit ? ` <button class="mini" type="button" data-editsess="${i.src}|${esc(i.item.id)}">${t("edit")}</button>` : ""}</div>`).join("")}
+      ${edit && !its.some(i => i.item.status === "vise") ? `<div><button class="mini ok" type="button" data-newsess="${esc(sp.id)}">${t("add")}</button></div>` : ""}</div></div>`;
+  }).join("");
+  const m = openModal(`<h3>${t("sessDetail")}</h3><p class="sub">${esc(fmt(date, { weekday: "long", day: "numeric", month: "long", year: "numeric" }))} · <span class="slot-time">${esc(slot)}</span></p>${rows}
+    <div class="cta"><button class="ghost" type="button" data-close>${t("close")}</button></div>`);
+  m.querySelectorAll("[data-editsess]").forEach(b => b.onclick = () => { const [src, id] = b.dataset.editsess.split("|"); openSessionModal({ src, id }); });
+  m.querySelectorAll("[data-newsess]").forEach(b => b.onclick = () => openSessionModal({ date, slot, space: b.dataset.newsess }));
+}
+/* Dates d'une série : quotidienne, hebdomadaire (jours choisis), toutes les 2 semaines, mensuelle */
+const MAX_OCC = 366;
+function seriesDates(start, rep, days, endMode, until, count) {
+  if (rep === "none") return [start];
+  const out = [];
+  const limit = endMode === "count" ? Math.min(MAX_OCC, Math.max(0, Math.floor(count) || 0)) : MAX_OCC;
+  const end = endMode === "until" ? until : null;
+  const s = parseISO(start);
+  if (rep === "monthly") {
+    for (let k = 0; out.length < limit && k < 600; k++) {
+      const d = new Date(s.getFullYear(), s.getMonth() + k, s.getDate(), 12);
+      if (d.getDate() !== s.getDate()) continue;
+      const iso = dayISO(0, d); if (end && iso > end) break; out.push(iso);
+    }
+    return out;
+  }
+  const ws = parseISO(weekStartISO(start));
+  for (let i = 0; out.length < limit && i < 3700; i++) {
+    const d = new Date(s); d.setDate(s.getDate() + i);
+    const iso = dayISO(0, d); if (end && iso > end) break;
+    if (rep === "daily") { out.push(iso); continue; }
+    if (!days.includes(d.getDay())) continue;
+    if (rep === "biweekly" && Math.floor(Math.round((d - ws) / 86400000) / 7) % 2) continue;
+    out.push(iso);
+  }
+  return out;
+}
+function slotWho(date, slot, space, skipIds) {
+  const hit = itemsAt(date, slot, space, false).find(i => !(skipIds && skipIds.has(i.item.id)));
+  return hit ? itemWho(hit.src, hit.item) : "";
+}
+function showConflicts(box, list, okCount, okLabel, onOk) {
+  box.innerHTML = `<div class="conf-box"><b>${t("conflicts")} · ${list.length}</b><ul class="conf-list">${list.map(c => `<li>${esc(fmt(c.date, { weekday: "short", day: "numeric", month: "short", year: "numeric" }))} · <span class="slot-time">${esc(c.slot)}</span> · ${esc(spaceName(c.space))}${c.who ? " — " + esc(c.who) : ""}</li>`).join("")}</ul>
+    <div class="cta">${okCount ? `<button class="solid orange" type="button" id="confIgnore">${okLabel} (${okCount})</button>` : ""} <button class="ghost" type="button" id="confCancel">${t("cancelAll")}</button></div></div>`;
+  try { box.scrollIntoView({ block: "nearest" }); } catch (e) {}
+  const ig = box.querySelector("#confIgnore"); if (ig) ig.onclick = onOk;
+  box.querySelector("#confCancel").onclick = () => closeModal();
+}
+function createSessions(kind, base, dates, isSeries) {
+  if (!can("planEdit")) { toast(t("denied")); return 0; }
+  const stamp = Date.now();
+  const sid = isSeries ? "s" + stamp.toString(36) : "";
+  const code = kind === "privates" ? "PRV-" + String(stamp).slice(-4) : "";
+  dates.forEach((d, i) => {
+    const item = Object.assign({ id: (kind === "books" ? "b" : "p") + stamp + "-" + i }, base, { date: d, motif: "", by: actorName(), created: new Date().toISOString() });
+    if (sid) item.seriesId = sid;
+    if (code) item.code = code;
+    db[kind].push(item);
+  });
+  save();
+  return dates.length;
+}
+function openSessionModal(o) {
+  if (!need("planEdit")) return;
+  const editing = !!o.id;
+  const list = o.src === "privates" ? "privates" : "books";
+  const x = editing ? db[list].find(k => k.id === o.id) : null;
+  if (editing && !x) return;
+  const v = x || { date: o.date || dayISO(0), slot: o.slot || SLOTS[0], space: o.space || "", disc: "", people: 12, note: "", status: "vise", clientId: "", name: "", phone: "" };
+  const spacesOn = db.site.spaces.filter(s => s.on || s.id === v.space);
+  const discs = db.site.disciplines.filter(s => s.on || s.id === v.disc);
+  const clients = db.clients.filter(c => c.active || c.id === v.clientId);
+  const wdBase = weekStartISO(v.date);
+  const curWd = parseISO(v.date).getDay();
+  const series = x && x.seriesId ? db[list].filter(k => k.seriesId === x.seriesId) : [];
+  const m = openModal(`<form id="sessForm" novalidate><h3>${editing ? t("editSess") : t("newSess")}</h3>
+    ${editing ? `<p class="muted">${list === "books" ? t("kindChannel") : t("kindOther") + (x.code ? " · " + esc(x.code) : "")}${series.length ? ` · ${t("series")} : ${series.length}` : ""}</p>`
+      : `<div class="radio-line"><label class="chk"><input type="radio" name="kind" value="books" checked> ${t("kindChannel")}</label><label class="chk"><input type="radio" name="kind" value="privates"> ${t("kindOther")}</label></div>`}
+    <div data-kind="books" ${list === "books" ? "" : "hidden"}><label>${t("navChannels")}</label><select name="clientId">${clients.map(c => `<option value="${esc(c.id)}" ${c.id === v.clientId ? "selected" : ""}>${esc(c.name)} · ${esc(c.code)}</option>`).join("")}</select></div>
+    <div data-kind="privates" ${list === "privates" ? "" : "hidden"}><div class="row"><div><label>${t("fWho")}</label><input name="name" value="${esc(v.name)}"></div><div><label>${t("fPhone")}</label><input name="phone" value="${esc(v.phone)}"></div></div></div>
+    <div class="row"><div><label>${t("date")}</label><input type="date" name="date" required value="${esc(v.date)}"></div>
+      <div><label>${t("slot")}</label><select name="slot">${SLOTS.map(s => `<option ${s === v.slot ? "selected" : ""}>${s}</option>`).join("")}</select></div></div>
+    <div class="row"><div><label>${t("space")}</label><select name="space">${spacesOn.map(s => `<option value="${esc(s.id)}" ${s.id === v.space ? "selected" : ""}>${esc(L(s).t)}</option>`).join("")}</select></div>
+      <div><label>${t("disc")}</label><select name="disc">${discs.map(s => `<option value="${esc(s.id)}" ${s.id === v.disc ? "selected" : ""}>${esc(L(s).t)}</option>`).join("")}</select></div></div>
+    <div class="row"><div><label>${t("people")}</label><input type="number" name="people" min="1" value="${esc(v.people || 1)}"></div>
+      <div><label>${t("status")}</label><select name="status"><option value="vise" ${v.status === "vise" ? "selected" : ""}>${t("ok")}</option><option value="attente" ${v.status === "attente" ? "selected" : ""}>${t("waiting")}</option></select></div></div>
+    <label>${t("note")}</label><input name="note" value="${esc(v.note)}">
+    ${editing ? (series.length ? `<fieldset class="scope"><legend>${t("scope")}</legend><label class="chk"><input type="radio" name="scope" value="one" checked> ${t("scopeOne")}</label><label class="chk"><input type="radio" name="scope" value="all"> ${t("scopeAll")} (${series.length})</label></fieldset>` : "")
+      : `<label>${t("repeat")}</label><select name="rep"><option value="none">${t("repNone")}</option><option value="daily">${t("repDaily")}</option><option value="weekly">${t("repWeekly")}</option><option value="biweekly">${t("repBiweekly")}</option><option value="monthly">${t("repMonthly")}</option></select>
+      <div id="repBox" hidden>
+        <div id="wdBox"><label>${t("repDays")}</label><div class="wd-pick">${Array.from({ length: 7 }, (_, i) => `<label class="chk"><input type="checkbox" name="wd" value="${i}" ${i === curWd ? "checked" : ""}> ${esc(fmt(addDays(wdBase, i), { weekday: "short" }))}</label>`).join("")}</div></div>
+        <div class="row"><div><label>${t("repEnd")}</label><select name="endMode"><option value="count">${t("repCount")}</option><option value="until">${t("repUntil")}</option></select></div>
+          <div><div data-end="count"><label>${t("repCount")}</label><input type="number" name="count" min="1" max="${MAX_OCC}" value="4"></div><div data-end="until" hidden><label>${t("repUntil")}</label><input type="date" name="until" value="${addDays(v.date, 27)}"></div></div></div>
+        <p class="hint" id="repPreview" aria-live="polite"></p>
+      </div>`}
+    <div id="sessMsg"></div>
+    <div class="cta"><button class="solid" type="submit">${t("save")}</button>${editing ? ` <button class="mini no" type="button" id="sessDel">${t("del")}</button>` : ""} <button class="ghost" type="button" data-close>${t("cancel")}</button></div></form>`);
+  const form = m.querySelector("#sessForm");
+  const el = form.elements;
+  const kindNow = () => editing ? list : ((form.querySelector("[name=kind]:checked") || {}).value || "books");
+  const scopeNow = () => ((form.querySelector("[name=scope]:checked") || {}).value || "one");
+  const repDates = () => {
+    const start = el.date.value;
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(start)) return { dates: [], err: t("repNoDates") };
+    const rep = el.rep ? el.rep.value : "none";
+    if (rep === "none") return { dates: [start] };
+    const days = Array.from(form.querySelectorAll("[name=wd]:checked")).map(i => Number(i.value));
+    const endMode = el.endMode.value;
+    if (endMode === "until" && (!el.until.value || el.until.value < start)) return { dates: [], err: t("repBadEnd") };
+    const dates = seriesDates(start, rep, days.length ? days : [parseISO(start).getDay()], endMode, el.until.value, Number(el.count.value) || 0);
+    return dates.length ? { dates } : { dates, err: t("repNoDates") };
+  };
+  const sync = () => {
+    form.querySelectorAll("[data-kind]").forEach(d => { d.hidden = d.dataset.kind !== kindNow(); });
+    if (editing) return;
+    const rep = el.rep.value;
+    form.querySelector("#repBox").hidden = rep === "none";
+    form.querySelector("#wdBox").hidden = !(rep === "weekly" || rep === "biweekly");
+    form.querySelectorAll("[data-end]").forEach(d => { d.hidden = d.dataset.end !== el.endMode.value; });
+    if (rep !== "none") {
+      const r = repDates();
+      const conf = el.status.value === "vise" ? r.dates.filter(d => taken(d, el.slot.value, el.space.value)).length : 0;
+      form.querySelector("#repPreview").textContent = r.err ? r.err : `${r.dates.length} ${t("repPreview")}${r.dates.length ? " : " + fmt(r.dates[0], { day: "numeric", month: "short" }) + " → " + fmt(r.dates[r.dates.length - 1], { day: "numeric", month: "short", year: "numeric" }) : ""}${conf ? " · " + conf + " " + t("confCount") : ""}${r.dates.length >= MAX_OCC ? " (max " + MAX_OCC + ")" : ""}`;
+    }
+    form.querySelector("#sessMsg").innerHTML = "";
+  };
+  form.addEventListener("change", sync);
+  form.addEventListener("input", (e) => { if (e.target.name === "count" || e.target.name === "date" || e.target.name === "until") sync(); });
+  sync();
+  const readBase = () => {
+    const k = kindNow();
+    const base = { slot: el.slot.value, space: el.space.value, disc: el.disc.value, people: Math.max(1, Number(el.people.value) || 1), note: String(el.note.value || "").trim(), status: el.status.value === "attente" ? "attente" : "vise" };
+    if (k === "books") { if (!el.clientId.value) return null; base.clientId = el.clientId.value; }
+    else { base.name = String(el.name.value || "").trim(); base.phone = String(el.phone.value || "").trim(); if (!base.name) { toast(t("needName")); el.name.focus(); return null; } }
+    return base;
+  };
+  form.onsubmit = (e) => {
+    e.preventDefault();
+    if (!need("planEdit")) return;
+    const base = readBase(); if (!base) return;
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(el.date.value)) { el.date.focus(); return toast(t("repNoDates")); }
+    const msg = form.querySelector("#sessMsg");
+    if (editing) {
+      const scope = scopeNow();
+      const targets = scope === "all" && series.length ? series : [x];
+      const ids = new Set(targets.map(k => k.id));
+      const delta = Math.round((parseISO(el.date.value) - parseISO(x.date)) / 86400000);
+      const plan = targets.map(k => ({ k, date: scope === "all" ? addDays(k.date, delta) : el.date.value }));
+      const busy = p => base.status === "vise" && db.books.concat(db.privates).some(o => !ids.has(o.id) && o.status === "vise" && o.date === p.date && o.slot === base.slot && o.space === base.space);
+      const clash = plan.filter(busy);
+      const apply = (arr) => {
+        if (!can("planEdit")) return toast(t("denied"));
+        arr.forEach(p => Object.assign(p.k, base, { date: p.date, updated: new Date().toISOString(), by: actorName() }));
+        save(); closeModal(); refreshAll(); toast(t("sessSaved"));
+      };
+      if (!clash.length) return apply(plan);
+      const ok = plan.filter(p => !clash.includes(p));
+      return showConflicts(msg, clash.map(p => ({ date: p.date, slot: base.slot, space: base.space, who: slotWho(p.date, base.slot, base.space, ids) })), ok.length, t("applyEdit"), () => apply(ok));
+    }
+    const r = repDates();
+    if (r.err || !r.dates.length) return toast(r.err || t("repNoDates"));
+    const isSeries = el.rep.value !== "none";
+    const conflicts = base.status === "vise" ? r.dates.filter(d => taken(d, base.slot, base.space)) : [];
+    const doCreate = (dates) => { const n = createSessions(kindNow(), base, dates, isSeries); closeModal(); refreshAll(); toast(n + " " + t("sessCreated")); };
+    if (!conflicts.length) return doCreate(r.dates);
+    const ok = r.dates.filter(d => !conflicts.includes(d));
+    showConflicts(msg, conflicts.map(d => ({ date: d, slot: base.slot, space: base.space, who: slotWho(d, base.slot, base.space) })), ok.length, t("ignoreConf"), () => doCreate(ok));
+  };
+  const del = form.querySelector("#sessDel");
+  if (del) del.onclick = () => {
+    if (!need("planEdit")) return;
+    const all = scopeNow() === "all" && series.length;
+    const n = all ? series.length : 1;
+    if (!confirm(t("confirmDelSess") + " : " + n + " ?")) return;
+    db[list] = db[list].filter(k => all ? k.seriesId !== x.seriesId : k.id !== x.id);
+    save(); closeModal(); refreshAll(); toast(n + " " + t("sessDeleted"));
+  };
+}
+function adminPlan() { return calendarHTML(calAdm, "adm"); }
+
+migrateV2();
 document.getElementById("lang").onclick = (e) => { const b = e.target.closest("[data-lang]"); if (!b) return; lang = b.dataset.lang; localStorage.setItem("beb-lang", lang); applyStatic(); };
 document.getElementById("nav").onclick = (e) => { const b = e.target.closest("[data-go]"); if (!b) return; go(b.dataset.go); };
 document.body.addEventListener("click", (e) => { const b = e.target.closest("[data-go]"); if (!b || b.closest("#nav")) return; go(b.dataset.go); });
@@ -1164,7 +1890,7 @@ function go(v) { view = v; setMenu(false); applyStatic(); window.scrollTo({ top:
 function setMenu(open) { document.getElementById("nav").classList.toggle("open", open); document.getElementById("menuBtn").setAttribute("aria-expanded", open ? "true" : "false"); }
 document.getElementById("menuBtn").onclick = (e) => { e.stopPropagation(); setMenu(!document.getElementById("nav").classList.contains("open")); };
 document.addEventListener("click", (e) => { if (document.getElementById("nav").classList.contains("open") && !e.target.closest("#nav, #menuBtn")) setMenu(false); });
-document.addEventListener("keydown", (e) => { if (e.key === "Escape" && document.getElementById("nav").classList.contains("open")) { setMenu(false); document.getElementById("menuBtn").focus(); } });
+document.addEventListener("keydown", (e) => { if (e.key === "Escape" && document.getElementById("modalBg")) { closeModal(); return; } if (e.key === "Escape" && document.getElementById("nav").classList.contains("open")) { setMenu(false); document.getElementById("menuBtn").focus(); } });
 window.addEventListener("resize", () => { if (window.innerWidth > 1100) setMenu(false); });
 /* Libellés des colonnes pour l'affichage des tableaux en cartes sur téléphone */
 function labelTables() {
