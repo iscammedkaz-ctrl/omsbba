@@ -358,7 +358,7 @@
   <section class="panel" id="view-espace"><div id="clientApp"></div></section>
   <section class="panel" id="view-gestion"><div id="adminApp"></div></section>
 </main>
-<footer><div class="wrap" data-i18n="foot">Maquette K3CH · données de démonstration dans ce navigateur</div></footer>
+<footer><div class="wrap" data-i18n="foot">omsbeb · Salle omnisports de Bordj El Bahri</div></footer>
 <div class="toast" id="toast"></div>
 <script>
 const I18N = {
@@ -375,7 +375,7 @@ const I18N = {
     cTitle: "Ouvrir un canal", cSub: "Pour une fédération, une ligue ou un club. Les privés passent par Autres.",
     fOrg: "Structure", fType: "Type", fWho: "Nom", fPhone: "Téléphone", fMsg: "Besoin", fSend: "Envoyer au gérant",
     where: "Où", whereBody: "Cité Cosider, Bordj El Bahri, Alger. Horaires indicatifs 08:00–22:00.",
-    foot: "Maquette K3CH · données de démonstration dans ce navigateur · قاعة متعددة الرياضات برج البحري",
+    foot: "omsbeb · Salle omnisports de Bordj El Bahri · قاعة متعددة الرياضات برج البحري",
     typeFed: "Fédération", typeLig: "Ligue", typeClb: "Club", typeEcole: "Groupe scolaire", typePrv: "Autre client",
     d1t: "Football", d1p: "Plateau central, matchs et séances club.",
     d2t: "Basket", d2p: "Créneaux école et championnat.",
@@ -455,7 +455,7 @@ const I18N = {
     pvTitle: "حرفاء آخرون", pvSub: "عيد ميلاد، تدريب حر، كراء. ليست قناة الأندية ولا المجموعات المدرسية.",
     loginTitle: "الدخول إلى القناة", loginSub: "الرمز يسلّمه المسيّر. الخواص يتابعون رمزهم في أخرى.",
     code: "رمز القناة", pin: "الرقم السري", enter: "دخول", logout: "خروج",
-    demo: "تجربة · FED-ALGER / 1111 · LIG-ALGER / 2222 · CLB-BEB / 3333 · خاص PRV-DEMO / 4444",
+    demo: "عقد 2026. رمز القناة و PIN 2026 يسلمهما المسير.",
     myChannel: "قناتي", newReq: "طلب جديد", date: "التاريخ", slot: "الحصة", space: "الفضاء", disc: "الاختصاص", people: "العدد", note: "ملاحظة", send: "إيداع الطلب",
     status: "الحالة", none: "لا طلبات.", waiting: "في الانتظار", ok: "مؤشَّر", no: "مرفوض",
     pay: "الدفعات", paySub: "كل استحقاق مربوط بحريف. التصحيح للأدمن فقط.", payLabel: "السبب", due: "المطلوب (دج)", paid: "المدفوع (دج)", rest: "الباقي", dueDate: "الاستحقاق", method: "الطريقة", encaisse: "تحصيل", paySaved: "تم حفظ الدفعة.",
@@ -495,7 +495,7 @@ const I18N = {
     cTitle: "Open a channel", cSub: "For a federation, league or club. Private clients use Other.",
     fOrg: "Organisation", fType: "Type", fWho: "Name", fPhone: "Phone", fMsg: "Need", fSend: "Send to the manager",
     where: "Where", whereBody: "Cité Cosider, Bordj El Bahri, Algiers. Indicative hours 08:00–22:00.",
-    foot: "K3CH mock-up · demo data in this browser · قاعة متعددة الرياضات برج البحري",
+    foot: "omsbeb · Bordj El Bahri multi-sports hall · قاعة متعددة الرياضات برج البحري",
     typeFed: "Federation", typeLig: "League", typeClb: "Club", typeEcole: "School group", typePrv: "Other client",
     d1t: "Football", d1p: "Main court, matches and club sessions.",
     d2t: "Basketball", d2p: "School slots and league play.",
@@ -515,7 +515,7 @@ const I18N = {
     pvTitle: "Other clients", pvSub: "Birthday, free training, hire. Not a club or school-group channel.",
     loginTitle: "Enter the channel", loginSub: "Code issued by the manager. Private clients track their code under Other.",
     code: "Channel code", pin: "PIN", enter: "Enter", logout: "Leave",
-    demo: "Demo · FED-ALGER / 1111 · LIG-ALGER / 2222 · CLB-BEB / 3333 · private PRV-DEMO / 4444",
+    demo: "Contract 2026. Channel code and PIN 2026 are given by the manager.",
     myChannel: "My channel", newReq: "New request", date: "Date", slot: "Slot", space: "Space", disc: "Discipline", people: "Headcount", note: "Note", send: "Submit request",
     status: "Status", none: "No requests.", waiting: "Pending", ok: "Signed", no: "Refused",
     pay: "Payments", paySub: "Each due date is tied to a client. Only admin can correct it.", payLabel: "Reason", due: "Due (DZD)", paid: "Paid (DZD)", rest: "Left", dueDate: "Due date", method: "Method", encaisse: "Collect", paySaved: "Payment saved.",
@@ -859,7 +859,7 @@ function adminClients() {
     <div class="row"><div><label>${t("contact")}</label><input name="contact"></div><div><label>${t("phone")}</label><input name="phone"></div></div>
     <div class="cta"><button class="solid" type="submit">${t("save")}</button></div></form>
     <div class="card" style="overflow:auto;margin-top:12px"><table><thead><tr><th>${t("fType")}</th><th>${t("name")}</th><th>${t("code")}</th><th>${t("pin")}</th><th>${t("status")}</th><th></th></tr></thead><tbody>
-      ${db.clients.map(c => `<tr><td>${typePill(c.type)}</td><td>${c.name}<div class="muted">${c.contact || ""} ${c.phone || ""}</div></td><td>${c.code}</td><td><input class="inline-sel" data-pin="${c.id}" value="${String(c.pin || "").replace(/"/g, """)}" autocomplete="off"></td><td>${c.active ? t("active") : t("off")}</td><td class="nw"><button class="mini" type="button" data-savepin="${c.id}">${t("editPin")}</button> <button class="mini" type="button" data-toggle="${c.id}">${c.active ? t("off") : t("active")}</button></td></tr>`).join("")}
+      ${db.clients.map(c => `<tr><td>${typePill(c.type)}</td><td>${c.name}<div class="muted">${c.contact || ""} ${c.phone || ""}</div></td><td>${c.code}</td><td><input class="inline-sel" data-pin="${c.id}" value="${String(c.pin || "").replace(/"/g, "&quot;")}" autocomplete="off"></td><td>${c.active ? t("active") : t("off")}</td><td class="nw"><button class="mini" type="button" data-savepin="${c.id}">${t("editPin")}</button> <button class="mini" type="button" data-toggle="${c.id}">${c.active ? t("off") : t("active")}</button></td></tr>`).join("")}
     </tbody></table></div>`;
 }
 function adminLeads() {
