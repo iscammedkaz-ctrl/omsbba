@@ -11,6 +11,7 @@ const CONTRAT = [
   { type: "ecole", kind: "Groupe scolaire", name: "El Wouroud", code: "GS-ELWOUROUD" },
   { type: "ecole", kind: "Groupe scolaire", name: "Sabil El Nadjah", code: "GS-SABIL" },
   { type: "ecole", kind: "Groupe scolaire", name: "Ennour", code: "GS-ENNOUR" },
+  { type: "ecole", kind: "Groupe scolaire", name: "El Alam Essaghir", code: "GS-ALAM" },
   { type: "club", kind: "C.S.A", name: "AOAH", code: "CSA-AOAH" },
   { type: "club", kind: "C.S.A", name: "F.B.B.", code: "CSA-FBB" },
   { type: "club", kind: "C.S.A", name: "J.S.M.", code: "CSA-JSM" },

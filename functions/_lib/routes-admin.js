@@ -175,7 +175,7 @@ async function createClient(env, me, body) {
   await uniqueCode(data, c);
   const rec = {
     id: rid("c"), type: oneOf(body.type, TYPES, "type"), name: str(body.name, 80, { required: true, name: "nom" }), code: c,
-    kind: "", contrat: false, contact: str(body.contact, 80, { name: "contact" }), phone: str(body.phone, 30, { name: "téléphone" }),
+    kind: str(body.kind, 80, { name: "kind" }), contrat: body.contrat === true, contact: str(body.contact, 80, { name: "contact" }), phone: str(body.phone, 30, { name: "téléphone" }),
     active: true, cred: await hashSecret(cleanPin(body.pin)), created: nowISO(), rev: 1
   };
   await putRec(env, "client:" + rec.id, rec);
@@ -195,6 +195,8 @@ async function updateClient(env, me, id, body) {
   if (body.type !== undefined) next.type = oneOf(body.type, TYPES, "type");
   if (body.contact !== undefined) next.contact = str(body.contact, 80, { name: "contact" });
   if (body.phone !== undefined) next.phone = str(body.phone, 30, { name: "téléphone" });
+  if (body.kind !== undefined) next.kind = str(body.kind, 80, { name: "kind" });
+  if (body.contrat !== undefined) next.contrat = bool(body.contrat, "contrat");
   const out = bump(next);
   await putRec(env, "client:" + id, out);
   const rev = await touch(env);

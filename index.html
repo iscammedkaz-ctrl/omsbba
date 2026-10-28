@@ -421,6 +421,14 @@
   }
   .section-intro .sub { margin: 0; max-width: 640px; }
   .quick-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+
+  .staff-link {
+    background: none; border: none; color: rgba(232,242,236,.55); font: inherit; font-size: 11px;
+    cursor: pointer; text-decoration: underline; padding: 0; margin: 0;
+  }
+  .staff-link:hover { color: #E8F2EC; }
+  nav.main button[data-go="gestion"][hidden] { display: none !important; }
+
   .view-chip {
     display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 800;
     color: var(--orange); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 8px;
@@ -487,7 +495,7 @@
       <button type="button" data-go="autres" data-i18n="navOther">Autres</button>
       <button type="button" data-go="contact" data-i18n="navContact">Contact</button>
       <button type="button" data-go="espace" data-i18n="navClient">Espace client</button>
-      <button type="button" class="solid" data-go="gestion" data-i18n="navAdmin">Gestion</button>
+      <button type="button" class="solid" data-go="gestion" data-i18n="navAdmin" id="navGestion" hidden>Gestion</button>
     </nav>
     <div class="lang" id="lang">
       <button type="button" data-lang="ar">ع</button>
@@ -507,21 +515,13 @@
         <div class="cta">
           <button class="solid" type="button" data-go="espace" data-i18n="ctaBook">Réserver sur mon canal</button>
           <button class="ghost-cta" type="button" data-go="canaux" data-i18n="ctaChannel">Ouvrir un canal</button>
-          <button class="solid orange" type="button" data-go="espaces" data-i18n="ctaSpaces">Voir les espaces</button>
         </div>
-        <ul class="journey" aria-label="Parcours">
-          <li><button type="button" data-go="salle"><span class="n">1</span><span data-i18n="navHall">Accueil</span></button></li>
-          <li><button type="button" data-go="espaces"><span class="n">2</span><span data-i18n="navSpaces">Espaces</span></button></li>
-          <li><button type="button" data-go="canaux"><span class="n">3</span><span data-i18n="navChannels">Canaux</span></button></li>
-          <li><button type="button" data-go="contact"><span class="n">4</span><span data-i18n="navContact">Contact</span></button></li>
-          <li><button type="button" data-go="espace"><span class="n">5</span><span data-i18n="navClient">Espace client</span></button></li>
-        </ul>
       </div>
       <div class="hero-card"><img src="logo.jpg" alt=""><div class="rule"></div></div>
     </div>
     <div class="stats">
       <div class="stat"><b>4</b><span data-i18n="st1">types de clients</span></div>
-      <div class="stat"><b>6</b><span data-i18n="st2">créneaux / jour</span></div>
+      <div class="stat"><b>7</b><span data-i18n="st2">créneaux / jour</span></div>
       <div class="stat"><b id="spaceCount">4</b><span data-i18n="st3">espaces</span></div>
     </div>
     <aside class="tutelle" id="tutelleHero" aria-label="Sous tutelle">
@@ -549,10 +549,6 @@
         <h2 id="spacesTitle"></h2>
         <p class="sub" id="spacesSub"></p>
       </div>
-      <div class="quick-actions">
-        <button class="ghost-cta" type="button" data-go="salle" data-i18n="navPlan">Planning</button>
-        <button class="solid" type="button" data-go="espace" data-i18n="ctaBook">Réserver</button>
-      </div>
     </div>
     <div class="grid" id="spaces"></div>
     <div class="empty-state" id="spacesEmpty" hidden><b data-i18n="emptySpaces">Aucun espace</b></div>
@@ -569,10 +565,6 @@
       <div>
         <h2 data-i18n="chTitle">Un canal par structure</h2>
         <p class="sub" data-i18n="chSub">La fédération, la ligue et le club ne partagent pas la même file.</p>
-      </div>
-      <div class="quick-actions">
-        <button class="solid" type="button" data-go="contact" data-i18n="ctaChannel">Ouvrir un canal</button>
-        <button class="ghost-cta" type="button" data-go="espace" data-i18n="navClient">Espace client</button>
       </div>
     </div>
     <div class="grid grid-3" id="channels"></div>
@@ -649,7 +641,7 @@
         <div class="t-sub" data-i18n="tutelleSub">OPOW · Wilaya d'Alger</div>
       </div>
     </aside>
-    <div class="copy">omsbeb · Bordj El Bahri</div>
+    <div class="copy">omsbeb · Bordj El Bahri · <button type="button" class="staff-link" data-go="gestion" data-i18n="navAdmin">Gestion</button></div>
   </footer>
 </main>
 <footer><div class="wrap" data-i18n="foot">omsbeb · Salle omnisports de Bordj El Bahri</div></footer>
@@ -867,7 +859,7 @@ const I18N = {
     docsHint: "Documents are stored on the server and available from every management device (1.5 MB max per file)."
   }
 };
-const SLOTS = ["08:00–10:00", "10:00–12:00", "14:00–16:00", "16:00–18:00", "18:00–20:00", "20:00–22:00"];
+const SLOTS = ["08:30–10:00", "10:00–11:30", "13:00–14:30", "15:30–16:30", "16:30–18:30", "18:30–19:30", "19:30–21:30"];
 const LANGS = ["fr", "ar", "en"];
 /* ---------- v2 : libellés comptes, paiements, calendrier ---------- */
 const I18N_V2 = {
@@ -1189,7 +1181,8 @@ function applyStatic() {
   document.querySelectorAll("[data-i18n]").forEach(el => { const k = el.getAttribute("data-i18n"); if (I18N[lang][k]) el.textContent = I18N[lang][k]; });
   document.querySelectorAll("#lang button").forEach(b => { b.classList.toggle("on", b.dataset.lang === lang); b.setAttribute("aria-pressed", b.dataset.lang === lang ? "true" : "false"); });
   document.querySelectorAll("nav.main button").forEach(b => b.classList.toggle("active", b.dataset.go === view));
-  document.querySelectorAll(".journey button").forEach(b => b.classList.toggle("on", b.dataset.go === view));
+  const navGestion = document.getElementById("navGestion");
+  if (navGestion) navGestion.hidden = !isStaff();
   document.querySelectorAll(".panel").forEach(p => p.classList.toggle("on", p.id === "view-" + view && !(p.id === "view-autres" && db.site && db.site.showAutres === false)));
   renderNet();
   document.getElementById("brandSub").textContent = t("brandSub");
@@ -1235,10 +1228,9 @@ function renderCards() {
     el.onclick = pick;
     el.onkeydown = e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pick(); } };
   });
-  const chCards = ["ch1","ch2","ch3"].map((id, i) => `<article class="card"><div class="ico ${i === 2 ? "o" : ""}">${esc(t(id + "t").slice(0, 1))}</div><h3>${esc(t(id + "t"))}</h3><p>${esc(t(id + "p"))}</p></article>`).join("")
-    + pubClients.filter(c => c.type === "club" || c.type === "ecole").map(c => `<article class="card"><div class="ico">${esc(typeLabel(c.type).slice(0, 1))}</div><h3>${esc(c.name)}</h3><p>${esc(typeLabel(c.type))}</p></article>`).join("");
-  document.getElementById("channels").innerHTML = chCards;
-  const ce = document.getElementById("channelsEmpty"); if (ce) ce.hidden = true; /* types always shown */
+  const chList = pubClients.filter(c => c.type === "club" || c.type === "ecole");
+  document.getElementById("channels").innerHTML = chList.map((c, i) => `<article class="card"><div class="ico ${i % 2 ? "o" : ""}">${esc(typeLabel(c.type).slice(0, 1))}</div><h3>${esc(c.name)}</h3><p>${esc((c.kind || typeLabel(c.type)) + (c.contrat ? "" : ""))}</p></article>`).join("");
+  const ce = document.getElementById("channelsEmpty"); if (ce) ce.hidden = chList.length > 0;
   const contrat = document.getElementById("contratList");
   if (contrat) contrat.innerHTML = pubClients.filter(c => c.contrat).map(c => `<article class="card"><div class="ico">${esc((c.kind || typeLabel(c.type)).slice(0, 1))}</div><h3>${esc(c.name)}</h3><p>${esc(c.kind || typeLabel(c.type))}</p></article>`).join("");
   document.getElementById("blocs").innerHTML = (db.site.blocs || []).filter(b => b.on).map(b => `<article class="card" style="margin-top:12px"><h3>${esc(L(b).t)}</h3><p>${esc(L(b).p)}</p></article>`).join("");
@@ -1360,7 +1352,7 @@ function renderAdmin() {
       if (!r) return;
       auth.admin = { token: r.token, exp: r.exp }; saveAuth();
       try { await loadAdmin(); } catch (er) { delete auth.admin; saveAuth(); return fail(er); }
-      renderAdmin(); renderPlanning(); renderBadges();
+      applyStatic(); renderAdmin(); renderPlanning(); renderBadges();
     };
     return;
   }
@@ -1589,14 +1581,14 @@ function renderPlanning() {
 }
 /* Wall-style global week grid (Accueil) — columns match salle paper schedule */
 const WALL_COLS = [
-  { id: "m1", label: "08:30–10:00", match: ["08:00–10:00", "08:30–10:00"] },
-  { id: "m2", label: "10:00–11:30", match: ["10:00–12:00", "10:00–11:30"] },
+  { id: "m1", label: "08:30–10:00", match: ["08:30–10:00"] },
+  { id: "m2", label: "10:00–11:30", match: ["10:00–11:30"] },
   { id: "br", label: "", break: true },
-  { id: "a1", label: "13:00–15:30", match: ["14:00–16:00", "13:00–15:30", "13:00–15:00"] },
+  { id: "a1", label: "13:00–14:30", match: ["13:00–14:30"] },
   { id: "a2", label: "15:30–16:30", match: ["15:30–16:30"] },
-  { id: "a3", label: "16:30–18:30", match: ["16:00–18:00", "16:30–18:30"] },
-  { id: "e1", label: "18:30–19:30", match: ["18:00–20:00", "18:30–19:30"] },
-  { id: "e2", label: "19:30–21:30", match: ["20:00–22:00", "19:30–21:30"] }
+  { id: "a3", label: "16:30–18:30", match: ["16:30–18:30"] },
+  { id: "e1", label: "18:30–19:30", match: ["18:30–19:30"] },
+  { id: "e2", label: "19:30–21:30", match: ["19:30–21:30"] }
 ];
 function wallMapSlot(slot) {
   const s = String(slot || "");

@@ -1,6 +1,6 @@
 // Utilitaires communs : erreurs HTTP, validation stricte, crypto (WebCrypto uniquement).
 
-export const SLOTS = ["08:00–10:00", "10:00–12:00", "14:00–16:00", "16:00–18:00", "18:00–20:00", "20:00–22:00"];
+export const SLOTS = ["08:30–10:00", "10:00–11:30", "13:00–14:30", "15:30–16:30", "16:30–18:30", "18:30–19:30", "19:30–21:30"];
 export const STATUSES = ["attente", "vise", "refuse"];
 export const TYPES = ["federation", "ligue", "club", "ecole", "prive"];
 export const PERMS = ["suivi", "pay", "planView", "planEdit", "channels", "others", "site", "accounts", "export"];
