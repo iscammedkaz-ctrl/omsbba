@@ -316,13 +316,136 @@
   .spin { display: inline-block; width: 14px; height: 14px; border: 2px solid var(--line); border-top-color: var(--teal); border-radius: 50%; vertical-align: -2px; animation: spin .8s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
 
+  
+  /* wall schedule (accueil) — match printed weekly grid */
+  #homePlanWrap.wall-wrap {
+    margin-top: 18px; padding: 0; border: 2px solid var(--navy); border-radius: 12px; overflow: hidden;
+    background: #fff; border-left: 2px solid var(--navy); box-shadow: var(--shadow);
+  }
+  html[dir="rtl"] #homePlanWrap.wall-wrap { border-right: 2px solid var(--navy); border-left: 2px solid var(--navy); }
+  .wall-head {
+    display: grid; grid-template-columns: 110px 1fr minmax(160px, 1.1fr); gap: 10px; align-items: center;
+    padding: 12px 14px; background: linear-gradient(180deg, #f7faf8, #eef5f0); border-bottom: 2px solid var(--navy);
+  }
+  .wall-head img { width: 88px; height: auto; object-fit: contain; background: #fff; border-radius: 8px; padding: 4px; }
+  .wall-head .wall-center { text-align: center; }
+  .wall-head .rep { font-size: 12px; font-weight: 800; color: var(--navy); line-height: 1.35; }
+  .wall-head .wall-right { text-align: end; font-size: 12px; font-weight: 700; color: var(--navy); line-height: 1.35; }
+  .wall-title {
+    margin: 0; padding: 10px 14px; text-align: center; font-size: clamp(15px, 2.2vw, 20px);
+    font-weight: 900; color: var(--navy); text-transform: none; letter-spacing: 0; border-bottom: 1px solid var(--line);
+    background: #fff;
+  }
+  .wall-toolbar {
+    display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between;
+    padding: 10px 12px; background: #071E36; color: #E8F2EC;
+  }
+  .wall-toolbar .cal-nav { display: flex; gap: 6px; }
+  .wall-toolbar .mini { background: rgba(255,255,255,.08); color: #fff; border-color: rgba(255,255,255,.25); }
+  .wall-toolbar .mini.on, .wall-toolbar .mini:hover { background: var(--lime); color: #071E36; border-color: transparent; }
+  .wall-toolbar .wall-week { font-weight: 800; font-size: 14px; }
+  .wall-filters { display: flex; flex-wrap: wrap; gap: 6px; }
+  .wall-filters .tab { background: rgba(255,255,255,.08); color: #E8F2EC; border-color: rgba(255,255,255,.2); padding: 6px 10px; font-size: 12px; }
+  .wall-filters .tab.on { background: var(--lime); color: #071E36; box-shadow: none; }
+  .wall-scroll { overflow: auto; -webkit-overflow-scrolling: touch; }
+  table.wall-grid {
+    width: 100%; min-width: 920px; border-collapse: collapse; table-layout: fixed; font-size: 12px; background: #fff;
+  }
+  table.wall-grid th, table.wall-grid td {
+    border: 1px solid #1a1a1a; text-align: center; vertical-align: middle; padding: 6px 4px; min-width: 88px;
+  }
+  table.wall-grid thead th {
+    background: #f3f3f3; color: #111; font-weight: 800; font-size: 11px; line-height: 1.25; position: sticky; top: 0; z-index: 2;
+  }
+  table.wall-grid th.wall-day-h, table.wall-grid td.wall-day {
+    min-width: 92px; width: 92px; font-weight: 900; background: #f7f7f7; color: var(--navy);
+    position: sticky; inset-inline-start: 0; z-index: 3;
+  }
+  table.wall-grid thead th.wall-day-h { z-index: 4; }
+  table.wall-grid td.wall-break, table.wall-grid th.wall-break {
+    background: #e5e5e5; color: #444; font-weight: 800; min-width: 54px; width: 54px; writing-mode: horizontal-tb;
+  }
+  table.wall-grid td.wall-cell { background: #fff; cursor: pointer; transition: background .12s; }
+  table.wall-grid td.wall-cell:hover { background: #F4FFE0; outline: 2px solid var(--orange); outline-offset: -2px; }
+  table.wall-grid td.wall-cell.past { opacity: .55; }
+  table.wall-grid td.wall-cell.today-col { box-shadow: inset 0 0 0 2px rgba(184,240,0,.55); }
+  .wall-who { display: block; font-weight: 800; color: #111; line-height: 1.25; overflow-wrap: anywhere; }
+  .wall-who + .wall-who { margin-top: 4px; padding-top: 4px; border-top: 1px dashed #ccc; }
+  .wall-sp { display: block; font-size: 10px; font-weight: 700; color: #666; }
+  .wall-empty { color: #bbb; font-weight: 700; }
+  .wall-legend { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding: 8px 12px 12px; background: #fafafa; border-top: 1px solid var(--line); font-size: 12px; }
+  @media (max-width: 720px) {
+    .wall-head { grid-template-columns: 72px 1fr; }
+    .wall-head .wall-right { grid-column: 1 / -1; text-align: start; }
+    .wall-title { font-size: 14px; padding: 8px 10px; }
+  }
+
+  
+  /* client UX v4 — clearer public journey */
+  .journey {
+    display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 18px; padding: 0; list-style: none;
+  }
+  .journey button {
+    border: 1px solid var(--line); background: #fff; color: var(--navy); font-weight: 800;
+    border-radius: 999px; padding: 8px 14px; cursor: pointer; font-size: 13px;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .journey button .n {
+    width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center;
+    background: var(--lime); color: #071E36; font-size: 12px; font-weight: 900;
+  }
+  .journey button.on, .journey button:hover {
+    border-color: var(--orange); box-shadow: 0 0 0 2px rgba(255,107,0,.18);
+  }
+  nav.main button[data-go="planning"],
+  nav.main button[data-go="gestion"] {
+    opacity: .72; font-weight: 600;
+  }
+  nav.main button[data-go="gestion"].solid {
+    background: transparent; color: #E8F2EC; border: 1px solid rgba(255,255,255,.35);
+    box-shadow: none; text-transform: none; letter-spacing: 0; padding: 8px 12px; font-weight: 700;
+  }
+  .hero .cta .solid { min-height: 46px; }
+  .hero .cta .ghost-cta {
+    border: 2px solid var(--navy); background: transparent; color: var(--navy);
+    border-radius: 999px; padding: 11px 18px; font-weight: 800; cursor: pointer;
+  }
+  .empty-state {
+    margin: 14px 0; padding: 18px 16px; border-radius: 14px; text-align: center;
+    background: #F7FBF8; border: 1px dashed var(--line); color: var(--muted);
+  }
+  .empty-state b { display: block; color: var(--navy); font-size: 16px; margin-bottom: 6px; }
+  .section-intro {
+    display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end; justify-content: space-between;
+    margin: 0 0 12px;
+  }
+  .section-intro .sub { margin: 0; max-width: 640px; }
+  .quick-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  .view-chip {
+    display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 800;
+    color: var(--orange); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 8px;
+  }
+  @media (max-width: 860px) {
+    .journey { gap: 6px; }
+    .journey button { font-size: 12px; padding: 7px 10px; }
+    .hero .cta { flex-direction: column; align-items: stretch; }
+    .hero .cta .solid, .hero .cta .ghost-cta { width: 100%; text-align: center; }
+  }
+  @media (max-width: 640px) {
+    table.wall-grid { min-width: 780px; font-size: 11px; }
+    .wall-toolbar { flex-direction: column; align-items: stretch; }
+    .wall-filters { width: 100%; overflow-x: auto; flex-wrap: nowrap; padding-bottom: 4px; }
+    .wall-filters .tab { flex: none; white-space: nowrap; }
+  }
+
   /* sporty v3 + tutelle */
   .card.space-pick { cursor: pointer; transition: transform .15s ease, box-shadow .15s ease, border-color .15s; border-top-color: var(--teal); }
   .card.space-pick:hover { transform: translateY(-2px); box-shadow: 0 16px 40px rgba(7,30,54,.16); }
   .card.space-pick.on { border-color: var(--orange); border-top-color: var(--orange); box-shadow: 0 0 0 2px rgba(255,107,0,.25), var(--shadow); }
-  #homePlanWrap, #spacePlanWrap { margin-top: 22px; padding: 16px; border-radius: 16px; background: linear-gradient(180deg, rgba(7,30,54,.04), rgba(255,255,255,.9)); border: 1px solid var(--line); border-left: 5px solid var(--orange); }
-  html[dir="rtl"] #homePlanWrap, html[dir="rtl"] #spacePlanWrap { border-left: 1px solid var(--line); border-right: 5px solid var(--orange); }
-  #homePlanWrap h2, #spacePlanWrap h2 { margin-top: 0; }
+  #spacePlanWrap { margin-top: 22px; padding: 16px; border-radius: 16px; background: linear-gradient(180deg, rgba(7,30,54,.04), rgba(255,255,255,.9)); border: 1px solid var(--line); border-left: 5px solid var(--orange); }
+  html[dir="rtl"] #spacePlanWrap { border-left: 1px solid var(--line); border-right: 5px solid var(--orange); }
+  #spacePlanWrap h2 { margin-top: 0; }
+  #homePlanWrap.wall-wrap { margin-top: 18px; }
   .ghost-btn { color: var(--navy) !important; border: 2px solid var(--navy); background: transparent !important; font-weight: 800; border-radius: 999px; padding: 8px 14px; cursor: pointer; }
   header.top .menu-toggle, header.top .burger { color: #fff; }
   .tutelle {
@@ -383,8 +506,16 @@
         <p class="lead" id="heroLead"></p>
         <div class="cta">
           <button class="solid" type="button" data-go="espace" data-i18n="ctaBook">Réserver sur mon canal</button>
-          <button class="solid orange" type="button" data-go="salle" data-scroll="contrat" data-i18n="ctaPrivate">Via Contrat</button>
+          <button class="ghost-cta" type="button" data-go="canaux" data-i18n="ctaChannel">Ouvrir un canal</button>
+          <button class="solid orange" type="button" data-go="espaces" data-i18n="ctaSpaces">Voir les espaces</button>
         </div>
+        <ul class="journey" aria-label="Parcours">
+          <li><button type="button" data-go="salle"><span class="n">1</span><span data-i18n="navHall">Accueil</span></button></li>
+          <li><button type="button" data-go="espaces"><span class="n">2</span><span data-i18n="navSpaces">Espaces</span></button></li>
+          <li><button type="button" data-go="canaux"><span class="n">3</span><span data-i18n="navChannels">Canaux</span></button></li>
+          <li><button type="button" data-go="contact"><span class="n">4</span><span data-i18n="navContact">Contact</span></button></li>
+          <li><button type="button" data-go="espace"><span class="n">5</span><span data-i18n="navClient">Espace client</span></button></li>
+        </ul>
       </div>
       <div class="hero-card"><img src="logo.jpg" alt=""><div class="rule"></div></div>
     </div>
@@ -401,15 +532,8 @@
         <div class="t-sub" data-i18n="tutelleSub">OPOW · Wilaya d'Alger</div>
       </div>
     </aside>
-    <div id="homePlanWrap">
-      <h2 data-i18n="planTitle">Planning de la salle</h2>
-      <p class="sub" data-i18n="planSub">Seuls les créneaux visés par le gérant apparaissent. Les demandes en attente ne sont pas affichées.</p>
+    <div id="homePlanWrap" class="wall-wrap">
       <div id="homePlan"></div>
-    </div>
-    <div id="contrat">
-      <h2>Contrat 2026</h2>
-      <p class="sub">Comptes déjà ouverts. Clubs : pièces du courrier OPOW, saison 2026/2027. Groupes scolaires : les mêmes, plus la copie du RC et l’agrément.</p>
-      <div class="grid grid-3" id="contratList"></div>
     </div>
     <div id="discBlock">
       <h2 id="discTitle"></h2>
@@ -419,9 +543,19 @@
     <div id="blocs"></div>
   </section>
   <section class="panel" id="view-espaces">
-    <h2 id="spacesTitle"></h2>
-    <p class="sub" id="spacesSub"></p>
+    <div class="view-chip" data-i18n="navSpaces">Espaces</div>
+    <div class="section-intro">
+      <div>
+        <h2 id="spacesTitle"></h2>
+        <p class="sub" id="spacesSub"></p>
+      </div>
+      <div class="quick-actions">
+        <button class="ghost-cta" type="button" data-go="salle" data-i18n="navPlan">Planning</button>
+        <button class="solid" type="button" data-go="espace" data-i18n="ctaBook">Réserver</button>
+      </div>
+    </div>
     <div class="grid" id="spaces"></div>
+    <div class="empty-state" id="spacesEmpty" hidden><b data-i18n="emptySpaces">Aucun espace</b></div>
     <div id="spacePlanWrap">
       <h2 id="spacePlanTitle" data-i18n="spacePlanTitle">Planning de l'espace</h2>
       <p class="sub" data-i18n="spacePlanSub">Choisissez une salle ci-dessus pour voir son planning seul.</p>
@@ -430,9 +564,19 @@
   </section>
   <section class="panel" id="view-planning"><div id="planApp"></div></section>
   <section class="panel" id="view-canaux">
-    <h2 data-i18n="chTitle">Un canal par structure</h2>
-    <p class="sub" data-i18n="chSub">La fédération, la ligue et le club ne partagent pas la même file.</p>
+    <div class="view-chip" data-i18n="navChannels">Canaux</div>
+    <div class="section-intro">
+      <div>
+        <h2 data-i18n="chTitle">Un canal par structure</h2>
+        <p class="sub" data-i18n="chSub">La fédération, la ligue et le club ne partagent pas la même file.</p>
+      </div>
+      <div class="quick-actions">
+        <button class="solid" type="button" data-go="contact" data-i18n="ctaChannel">Ouvrir un canal</button>
+        <button class="ghost-cta" type="button" data-go="espace" data-i18n="navClient">Espace client</button>
+      </div>
+    </div>
     <div class="grid grid-3" id="channels"></div>
+    <div class="empty-state" id="channelsEmpty" hidden><b data-i18n="emptyChannels">Aucun canal</b></div>
   </section>
   <section class="panel" id="view-autres">
     <h2 data-i18n="pvTitle">Autres réservations</h2>
@@ -467,6 +611,7 @@
     </div>
   </section>
   <section class="panel" id="view-contact">
+    <div class="view-chip" data-i18n="navContact">Contact</div>
     <h2 data-i18n="cTitle">Ouvrir un canal</h2>
     <p class="sub" data-i18n="cSub">Pour une fédération, une ligue ou un club. Les privés passent par Autres.</p>
     <div class="grid grid-2">
@@ -513,10 +658,12 @@
 const I18N = {
   fr: {
     brand: "قاعة متعددة الرياضات برج البحري", brandSub: "omsbeb · Bordj El Bahri",
-    navHall: "La salle", navSpaces: "Espaces", navChannels: "Canaux", navOther: "Autres clients", navContact: "Contact", navClient: "Espace client", navAdmin: "Gestion",
+    navHall: "Accueil", navSpaces: "Espaces", navChannels: "Canaux", navOther: "Autres clients", navContact: "Contact", navClient: "Espace client", navAdmin: "Gestion",
     kicker: "Bordj El Bahri · Alger", h1: "La salle des clubs, des ligues et des privés.",
     lead: "Plateau, dojo et salle polyvalente à la cité Cosider. Les structures ont un canal. Les clients privés réservent à part. Le gérant vise.",
-    ctaBook: "Réserver sur mon canal", ctaPrivate: "Via Contrat",
+    ctaBook: "Réserver sur mon canal", ctaPrivate: "Via Contrat", ctaChannel: "Ouvrir un canal", ctaSpaces: "Voir les espaces",
+    emptyPlanTitle: "Aucun créneau visé cette semaine", emptyPlanBody: "Dès qu’un club ou une école est validé, il apparaît ici.",
+    emptySpaces: "Aucun espace publié pour le moment.", emptyChannels: "Aucun canal public listé. Demandez l’ouverture via Contact.",
     st1: "types de clients", st2: "créneaux / jour", st3: "espaces",
     discTitle: "Disciplines", discSub: "Le logo porte le plateau. La salle ouverte en 2022 accueille aussi le combat et la préparation.",
     spacesTitle: "Espaces à réserver", spacesSub: "Un créneau = un espace. Le visa du gérant ne retient que des places disponibles, club ou privé.",
@@ -561,6 +708,12 @@ const I18N = {
     navPlan: "Planning", planTitle: "Planning de la salle", planSub: "Seuls les créneaux visés par le gérant apparaissent. Les demandes en attente ne sont pas affichées.",
     spacePlanTitle: "Planning de l'espace", spacePlanSub: "Choisissez une salle ci-dessus pour voir son planning seul.",
     tutelleLabel: "Sous tutelle", tutelleName: "Office Du Parc OmniSport Wilaya d'Alger", tutelleSub: "OPOW · Wilaya d'Alger",
+    wallTitle: "Programme hebdomadaire temporaire — salle multisports · saison 2026/2027",
+    wallRep: "République Algérienne Démocratique et Populaire",
+    wallOrg: "Office Du Parc OmniSport Wilaya d'Alger",
+    wallHall: "Salle multisports Nassim El Bahr · Bordj El Bahri",
+    wallBreak: "Pause",
+    wallHint: "Cliquer une case pour le détail. Filtrer par espace si besoin.",
     free: "Libre", busy: "Occupé", resv: "Réservé", prevWeek: "Semaine précédente", nextWeek: "Semaine suivante", thisWeek: "Cette semaine", weekOf: "Semaine du", allSpaces: "Tous les espaces",
     suivi: "Suivi clients", pickClient: "Choisir un client", noClients: "Aucun client.", toFix: "document(s) manquant(s) ou expiré(s)",
     upcoming: "À venir", past: "Passé", total: "Total", source: "Source", srcChannel: "Canal", srcPriv: "Autres (même téléphone)",
@@ -578,7 +731,9 @@ const I18N = {
     navHall: "القاعة", navSpaces: "الفضاءات", navChannels: "القنوات", navOther: "حرفاء آخرون", navContact: "اتصال", navClient: "فضاء الحريف", navAdmin: "التسيير",
     kicker: "برج البحري · الجزائر العاصمة", h1: "قاعة الأندية والرابطات والحرفاء الخواص.",
     lead: "ملعب وقاعة قتال وقاعة متعددة بحي كوسيدار. الهياكل لها قناة. الخواص يحجزون على حدة. المسيّر يؤشّر.",
-    ctaBook: "احجز عبر قناتي", ctaPrivate: "عبر العقد",
+    ctaBook: "احجز عبر قناتي", ctaPrivate: "عبر العقد", ctaChannel: "فتح قناة", ctaSpaces: "عرض الفضاءات",
+    emptyPlanTitle: "لا حصص مؤشّرة هذا الأسبوع", emptyPlanBody: "عند تأشير نادي أو مدرسة تظهر هنا.",
+    emptySpaces: "لا فضاءات منشورة حالياً.", emptyChannels: "لا قنوات معروضة. اطلب الفتح عبر الاتصال.",
     st1: "أنواع الحرفاء", st2: "حصص في اليوم", st3: "فضاءات",
     discTitle: "الاختصاصات", discSub: "الشعار يحمل القاعة. القاعة المفتوحة سنة 2022 تستقبل أيضا القتال والتحضير.",
     spacesTitle: "فضاءات الحجز", spacesSub: "حصة واحدة = فضاء واحد. التأشيرة تمنع الازدواج، ناديا كان أو خاصا.",
@@ -623,6 +778,12 @@ const I18N = {
     navPlan: "الرزنامة", planTitle: "رزنامة القاعة", planSub: "تظهر فقط الحصص المؤشَّرة من طرف المسيّر. الطلبات قيد الانتظار لا تظهر.",
     spacePlanTitle: "تخطيط الفضاء", spacePlanSub: "اختر قاعة أعلاه لعرض تخطيطها وحدها.",
     tutelleLabel: "تحت الوصاية", tutelleName: "ديوان الحظيرة متعددة الرياضات لولاية الجزائر", tutelleSub: "OPOW · ولاية الجزائر",
+    wallTitle: "البرنامج الأسبوعي المؤقت لقاعة متعددة الرياضات · الموسم الرياضي 2026/2027",
+    wallRep: "الجمهورية الجزائرية الديمقراطية الشعبية",
+    wallOrg: "ديوان الحظيرة متعددة الرياضات لولاية الجزائر",
+    wallHall: "القاعة المتعددة الرياضات نسيم البحر · برج البحري",
+    wallBreak: "استراحة",
+    wallHint: "انقر على خانة للتفاصيل. يمكن التصفية حسب الفضاء.",
     free: "شاغر", busy: "مشغول", resv: "محجوز", prevWeek: "الأسبوع السابق", nextWeek: "الأسبوع التالي", thisWeek: "هذا الأسبوع", weekOf: "أسبوع", allSpaces: "كل الفضاءات",
     suivi: "متابعة الحرفاء", pickClient: "اختر حريفا", noClients: "لا يوجد حرفاء.", toFix: "وثيقة ناقصة أو منتهية الصلاحية",
     upcoming: "القادمة", past: "السابقة", total: "المجموع", source: "المصدر", srcChannel: "القناة", srcPriv: "أخرى (نفس الهاتف)",
@@ -637,10 +798,12 @@ const I18N = {
   },
   en: {
     brand: "قاعة متعددة الرياضات برج البحري", brandSub: "omsbeb · Bordj El Bahri",
-    navHall: "The hall", navSpaces: "Spaces", navChannels: "Channels", navOther: "Other clients", navContact: "Contact", navClient: "Client area", navAdmin: "Management",
+    navHall: "Home", navSpaces: "Spaces", navChannels: "Channels", navOther: "Other clients", navContact: "Contact", navClient: "Client area", navAdmin: "Management",
     kicker: "Bordj El Bahri · Algiers", h1: "The hall for clubs, leagues and private clients.",
     lead: "Court, dojo and multi-use room in Cité Cosider. Bodies have a channel. Private clients book apart. The manager signs off.",
-    ctaBook: "Book on my channel", ctaPrivate: "Via Contract",
+    ctaBook: "Book on my channel", ctaPrivate: "Via Contract", ctaChannel: "Open a channel", ctaSpaces: "See spaces",
+    emptyPlanTitle: "No signed-off slots this week", emptyPlanBody: "Approved club or school sessions will show up here.",
+    emptySpaces: "No spaces published yet.", emptyChannels: "No public channels listed. Request opening via Contact.",
     st1: "client types", st2: "slots / day", st3: "spaces",
     discTitle: "Disciplines", discSub: "The mark carries the court. The hall opened in 2022 also hosts combat sports and conditioning.",
     spacesTitle: "Spaces you can book", spacesSub: "One slot = one space. A visa blocks a double booking, club or private.",
@@ -685,6 +848,12 @@ const I18N = {
     navPlan: "Schedule", planTitle: "Hall schedule", planSub: "Only slots signed off by the manager are shown. Pending requests are not displayed.",
     spacePlanTitle: "Space schedule", spacePlanSub: "Pick a hall above to see its schedule alone.",
     tutelleLabel: "Under tutelage", tutelleName: "Office Du Parc OmniSport Wilaya d'Alger", tutelleSub: "OPOW · Wilaya of Algiers",
+    wallTitle: "Temporary weekly schedule — multi-sport hall · season 2026/2027",
+    wallRep: "People's Democratic Republic of Algeria",
+    wallOrg: "Office Du Parc OmniSport Wilaya d'Alger",
+    wallHall: "Multi-sport hall Nassim El Bahr · Bordj El Bahri",
+    wallBreak: "Break",
+    wallHint: "Tap a cell for details. Filter by space if needed.",
     free: "Free", busy: "Taken", resv: "Booked", prevWeek: "Previous week", nextWeek: "Next week", thisWeek: "This week", weekOf: "Week of", allSpaces: "All spaces",
     suivi: "Client follow-up", pickClient: "Pick a client", noClients: "No clients.", toFix: "missing or expired document(s)",
     upcoming: "Upcoming", past: "Past", total: "Total", source: "Source", srcChannel: "Channel", srcPriv: "Other (same phone)",
@@ -1020,6 +1189,7 @@ function applyStatic() {
   document.querySelectorAll("[data-i18n]").forEach(el => { const k = el.getAttribute("data-i18n"); if (I18N[lang][k]) el.textContent = I18N[lang][k]; });
   document.querySelectorAll("#lang button").forEach(b => { b.classList.toggle("on", b.dataset.lang === lang); b.setAttribute("aria-pressed", b.dataset.lang === lang ? "true" : "false"); });
   document.querySelectorAll("nav.main button").forEach(b => b.classList.toggle("active", b.dataset.go === view));
+  document.querySelectorAll(".journey button").forEach(b => b.classList.toggle("on", b.dataset.go === view));
   document.querySelectorAll(".panel").forEach(p => p.classList.toggle("on", p.id === "view-" + view && !(p.id === "view-autres" && db.site && db.site.showAutres === false)));
   renderNet();
   document.getElementById("brandSub").textContent = t("brandSub");
@@ -1059,13 +1229,16 @@ function renderCards() {
   const activeSpaces = db.site.spaces.filter(s => s.on);
   if (!calSpace.space || !activeSpaces.some(s => s.id === calSpace.space)) calSpace.space = activeSpaces[0] ? activeSpaces[0].id : "";
   document.getElementById("spaces").innerHTML = activeSpaces.map((s, i) => `<article class="card space-pick ${calSpace.space === s.id ? "on" : ""}" data-space-pick="${esc(s.id)}" role="button" tabindex="0"><div class="ico ${i % 2 ? "o" : ""}">${i + 1}</div><h3>${esc(L(s).t)}</h3><p>${esc(L(s).p)}</p></article>`).join("");
+  const se = document.getElementById("spacesEmpty"); if (se) se.hidden = activeSpaces.length > 0;
   document.querySelectorAll("[data-space-pick]").forEach(el => {
     const pick = () => { calSpace.space = el.dataset.spacePick; renderCards(); renderSpacePlan(); };
     el.onclick = pick;
     el.onkeydown = e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pick(); } };
   });
-  document.getElementById("channels").innerHTML = ["ch1","ch2","ch3"].map((id, i) => `<article class="card"><div class="ico ${i === 2 ? "o" : ""}">${esc(t(id + "t").slice(0, 1))}</div><h3>${esc(t(id + "t"))}</h3><p>${esc(t(id + "p"))}</p></article>`).join("")
+  const chCards = ["ch1","ch2","ch3"].map((id, i) => `<article class="card"><div class="ico ${i === 2 ? "o" : ""}">${esc(t(id + "t").slice(0, 1))}</div><h3>${esc(t(id + "t"))}</h3><p>${esc(t(id + "p"))}</p></article>`).join("")
     + pubClients.filter(c => c.type === "club" || c.type === "ecole").map(c => `<article class="card"><div class="ico">${esc(typeLabel(c.type).slice(0, 1))}</div><h3>${esc(c.name)}</h3><p>${esc(typeLabel(c.type))}</p></article>`).join("");
+  document.getElementById("channels").innerHTML = chCards;
+  const ce = document.getElementById("channelsEmpty"); if (ce) ce.hidden = true; /* types always shown */
   const contrat = document.getElementById("contratList");
   if (contrat) contrat.innerHTML = pubClients.filter(c => c.contrat).map(c => `<article class="card"><div class="ico">${esc((c.kind || typeLabel(c.type)).slice(0, 1))}</div><h3>${esc(c.name)}</h3><p>${esc(c.kind || typeLabel(c.type))}</p></article>`).join("");
   document.getElementById("blocs").innerHTML = (db.site.blocs || []).filter(b => b.on).map(b => `<article class="card" style="margin-top:12px"><h3>${esc(L(b).t)}</h3><p>${esc(L(b).p)}</p></article>`).join("");
@@ -1414,13 +1587,120 @@ function renderPlanning() {
   root.innerHTML = `<h2>${t("planTitle")}</h2><p class="sub">${t("planSub")}</p>` + calendarHTML(calPub, "pub");
   bindCalendar(root, calPub, "pub");
 }
+/* Wall-style global week grid (Accueil) — columns match salle paper schedule */
+const WALL_COLS = [
+  { id: "m1", label: "08:30–10:00", match: ["08:00–10:00", "08:30–10:00"] },
+  { id: "m2", label: "10:00–11:30", match: ["10:00–12:00", "10:00–11:30"] },
+  { id: "br", label: "", break: true },
+  { id: "a1", label: "13:00–15:30", match: ["14:00–16:00", "13:00–15:30", "13:00–15:00"] },
+  { id: "a2", label: "15:30–16:30", match: ["15:30–16:30"] },
+  { id: "a3", label: "16:30–18:30", match: ["16:00–18:00", "16:30–18:30"] },
+  { id: "e1", label: "18:30–19:30", match: ["18:00–20:00", "18:30–19:30"] },
+  { id: "e2", label: "19:30–21:30", match: ["20:00–22:00", "19:30–21:30"] }
+];
+function wallMapSlot(slot) {
+  const s = String(slot || "");
+  const hits = WALL_COLS.filter(c => !c.break && c.match.some(m => m === s || s.replace(/-/g, "–") === m.replace(/-/g, "–")));
+  if (hits.length) return hits.map(c => c.id);
+  // soft map by start hour
+  const h = parseInt(s.slice(0, 2), 10);
+  if (h === 8) return ["m1"];
+  if (h === 10) return ["m2"];
+  if (h === 13 || h === 14) return ["a1"];
+  if (h === 15) return ["a2"];
+  if (h === 16) return ["a3"];
+  if (h === 18) return ["e1"];
+  if (h === 19 || h === 20) return ["e2"];
+  return [];
+}
+function wallSunday(iso) {
+  const d = parseISO(iso || dayISO(0));
+  return dayISO(-d.getDay(), d);
+}
+function wallEntries(date, colId, spaceFilter) {
+  const col = WALL_COLS.find(c => c.id === colId);
+  if (!col || col.break) return [];
+  const out = [];
+  const seen = new Set();
+  (pubPlan || []).forEach(x => {
+    if (x.d !== date) return;
+    if (spaceFilter && spaceFilter !== "all" && x.sp !== spaceFilter) return;
+    const ids = wallMapSlot(x.s);
+    if (!ids.includes(colId)) return;
+    // avoid double-count when one backend slot maps to multiple wall cols — prefer first match only for a2/a3/e1 conflicts
+    const key = x.d + "|" + x.s + "|" + x.sp + "|" + (x.w || "") + "|" + x.k;
+    if (seen.has(key)) return;
+    // If slot maps to several cols, only show in the best (first) col
+    if (ids[0] !== colId) return;
+    seen.add(key);
+    out.push(x);
+  });
+  return out;
+}
 function renderHomePlan() {
   const root = document.getElementById("homePlan");
   if (!root || !pubReady) return;
   if (view !== "salle") return;
-  calHome.space = "all";
-  root.innerHTML = calendarHTML(calHome, "home");
-  bindCalendar(root, calHome, "home");
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(calHome.date || "")) calHome.date = dayISO(0);
+  if (!calHome.space) calHome.space = "all";
+  const active = db.site.spaces.filter(s => s.on);
+  const sun = wallSunday(calHome.date);
+  const days = Array.from({ length: 7 }, (_, i) => addDays(sun, i));
+  const today = dayISO(0);
+  const rtl = lang === "ar";
+  const weekLbl = `${fmt(days[0], { day: "numeric", month: "short" })} – ${fmt(days[6], { day: "numeric", month: "short", year: "numeric" })}`;
+  const head = `<div class="wall-head">
+      <img src="opow-logo.png" alt="OPOW" width="88" height="56" loading="lazy">
+      <div class="wall-center"><div class="rep">${esc(t("wallRep"))}</div></div>
+      <div class="wall-right"><div>${esc(t("wallOrg"))}</div><div>${esc(t("wallHall"))}</div></div>
+    </div>
+    <h2 class="wall-title">${esc(t("wallTitle"))}</h2>
+    <div class="wall-toolbar">
+      <div class="cal-nav">
+        <button class="mini" type="button" data-wallnav="-1" aria-label="${esc(t("prev"))}">${rtl ? "→" : "←"}</button>
+        <button class="mini" type="button" data-wallnav="0">${esc(t("today"))}</button>
+        <button class="mini" type="button" data-wallnav="1" aria-label="${esc(t("next"))}">${rtl ? "←" : "→"}</button>
+      </div>
+      <div class="wall-week">${esc(t("weekOf"))} ${esc(weekLbl)}</div>
+      <div class="wall-filters">
+        <button type="button" class="tab ${calHome.space === "all" ? "on" : ""}" data-wallspace="all">${esc(t("allSpaces"))}</button>
+        ${active.map(s => `<button type="button" class="tab ${calHome.space === s.id ? "on" : ""}" data-wallspace="${esc(s.id)}">${esc(L(s).t)}</button>`).join("")}
+      </div>
+    </div>`;
+  const thead = `<tr><th class="wall-day-h">${esc(lang === "ar" ? "اليوم" : lang === "en" ? "Day" : "Jour")}</th>${WALL_COLS.map(c => c.break ? `<th class="wall-break">${esc(t("wallBreak"))}</th>` : `<th>${esc(c.label)}</th>`).join("")}</tr>`;
+  const body = days.map(d => {
+    const dayName = fmt(d, { weekday: "long" });
+    const cells = WALL_COLS.map(c => {
+      if (c.break) return `<td class="wall-break">${esc(t("wallBreak"))}</td>`;
+      const ents = wallEntries(d, c.id, calHome.space);
+      const cls = ["wall-cell", d < today ? "past" : "", d === today ? "today-col" : ""].filter(Boolean).join(" ");
+      // pick a representative backend slot for detail click
+      const slotHint = (c.match && c.match[0]) || "";
+      const spHint = ents[0] ? ents[0].sp : (active[0] ? active[0].id : "");
+      const inner = ents.length
+        ? ents.map(e => `<span class="wall-who">${esc(e.w || t(e.k === "busy" ? "busy" : "resv"))}${calHome.space === "all" && e.sp ? `<span class="wall-sp">${esc(spaceName(e.sp))}</span>` : ""}</span>`).join("")
+        : `<span class="wall-empty">·</span>`;
+      return `<td class="${cls}" data-wallcell="${esc(d + "|" + slotHint + "|" + spHint)}">${inner}</td>`;
+    }).join("");
+    return `<tr><td class="wall-day"><button type="button" class="slot-btn day-link" data-wallday="${d}" style="font-weight:900">${esc(dayName)}<div class="muted">${esc(fmt(d, { day: "numeric", month: "short" }))}</div></button></td>${cells}</tr>`;
+  }).join("");
+  let weekCount = 0;
+  days.forEach(d => WALL_COLS.forEach(c => { if (!c.break) weekCount += wallEntries(d, c.id, calHome.space).length; }));
+  const emptyBanner = weekCount ? "" : `<div class="empty-state"><b>${esc(t("emptyPlanTitle"))}</b><span>${esc(t("emptyPlanBody"))}</span></div>`;
+  root.innerHTML = head + emptyBanner + `<div class="wall-scroll"><table class="wall-grid"><thead>${thead}</thead><tbody>${body}</tbody></table></div>
+    <div class="wall-legend"><span class="pill free">${esc(t("free"))}</span><span class="pill busy">${esc(t("busy"))}</span><span class="pill resv">${esc(t("resv"))}</span><span class="muted">${esc(t("wallHint"))}</span></div>`;
+  root.querySelectorAll("[data-wallnav]").forEach(b => b.onclick = () => {
+    const n = Number(b.dataset.wallnav);
+    if (!n) calHome.date = dayISO(0);
+    else calHome.date = addDays(wallSunday(calHome.date), 7 * n);
+    renderHomePlan();
+  });
+  root.querySelectorAll("[data-wallspace]").forEach(b => b.onclick = () => { calHome.space = b.dataset.wallspace; renderHomePlan(); });
+  root.querySelectorAll("[data-wallday]").forEach(b => b.onclick = () => { calHome.date = b.dataset.wallday; /* stay on wall week view */ renderHomePlan(); });
+  root.querySelectorAll("[data-wallcell]").forEach(b => b.onclick = () => {
+    const [d, sl, sp] = b.dataset.wallcell.split("|");
+    if (d && sl && sp) openDetailModal(d, sl, sp, false);
+  });
 }
 function renderSpacePlan() {
   const root = document.getElementById("spacePlan");
