@@ -45,7 +45,7 @@ export const SEED_SITE = {
   "showDisc": true,
   "showSpaces": true,
   "showChannels": true,
-  "showAutres": true,
+  "showAutres": false,
   "disciplines": [
     {
       "id": "d1",
