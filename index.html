@@ -495,7 +495,7 @@
       <button type="button" data-go="autres" data-i18n="navOther">Autres</button>
       <button type="button" data-go="contact" data-i18n="navContact">Contact</button>
       <button type="button" data-go="espace" data-i18n="navClient">Espace client</button>
-      <button type="button" class="solid" data-go="gestion" data-i18n="navAdmin" id="navGestion" hidden>Gestion</button>
+      <button type="button" class="solid" data-go="gestion" data-i18n="navAdmin" id="navGestion">Gestion</button>
     </nav>
     <div class="lang" id="lang">
       <button type="button" data-lang="ar">ع</button>
@@ -1182,7 +1182,7 @@ function applyStatic() {
   document.querySelectorAll("#lang button").forEach(b => { b.classList.toggle("on", b.dataset.lang === lang); b.setAttribute("aria-pressed", b.dataset.lang === lang ? "true" : "false"); });
   document.querySelectorAll("nav.main button").forEach(b => b.classList.toggle("active", b.dataset.go === view));
   const navGestion = document.getElementById("navGestion");
-  if (navGestion) navGestion.hidden = !isStaff();
+  // navGestion toujours visible (login dans #adminApp)
   document.querySelectorAll(".panel").forEach(p => p.classList.toggle("on", p.id === "view-" + view && !(p.id === "view-autres" && db.site && db.site.showAutres === false)));
   renderNet();
   document.getElementById("brandSub").textContent = t("brandSub");
