@@ -82,27 +82,49 @@ export async function loadAll(env) {
   return data;
 }
 
-/* ---------- limitation de débit (compteur KV avec TTL) ---------- */
+/* ---------- limitation de débit (mémoire isolat + KV TTL, best-effort) ---------- */
+/* Compteur mémoire : reste actif si le quota KV put() journalier est épuisé (sinon login → 500). */
+const memRl = new Map();
+function rlBlocked(cur, now, limit) {
+  if (!cur || now >= cur.t0 + cur.w) return null;
+  if (cur.n < limit) return null;
+  const e = new HttpError(429, "rate_limited", "Trop de tentatives. Réessayez plus tard.");
+  e.retryAfter = Math.max(1, cur.t0 + cur.w - now);
+  return e;
+}
 export async function rlCheck(env, key, limit) {
-  const cur = await kv(env).get("rl:" + key, "json");
-  if (!cur) return;
   const now = Math.floor(Date.now() / 1000);
-  if (now >= cur.t0 + cur.w) return;
-  if (cur.n >= limit) {
-    const e = new HttpError(429, "rate_limited", "Trop de tentatives. Réessayez plus tard.");
-    e.retryAfter = Math.max(1, cur.t0 + cur.w - now);
-    throw e;
+  const memHit = rlBlocked(memRl.get(key), now, limit);
+  if (memHit) throw memHit;
+  try {
+    const cur = await kv(env).get("rl:" + key, "json");
+    const kvHit = rlBlocked(cur, now, limit);
+    if (kvHit) throw kvHit;
+  } catch (e) {
+    if (e instanceof HttpError) throw e;
+    console.error("rlCheck KV get failed", e && e.message || e);
   }
 }
 export async function rlHit(env, key, windowS) {
   const now = Math.floor(Date.now() / 1000);
-  const cur = await kv(env).get("rl:" + key, "json");
+  const prev = memRl.get(key);
   let rec;
-  if (cur && now < cur.t0 + cur.w) rec = { n: cur.n + 1, t0: cur.t0, w: cur.w };
+  if (prev && now < prev.t0 + prev.w) rec = { n: prev.n + 1, t0: prev.t0, w: prev.w };
   else rec = { n: 1, t0: now, w: windowS };
-  const ttl = Math.max(60, rec.t0 + rec.w - now);
-  await kv(env).put("rl:" + key, JSON.stringify(rec), { expirationTtl: ttl });
+  memRl.set(key, rec);
+  try {
+    const cur = await kv(env).get("rl:" + key, "json");
+    if (cur && now < cur.t0 + cur.w) rec = { n: Math.max(rec.n, cur.n + 1), t0: cur.t0, w: cur.w };
+    else rec = { n: Math.max(rec.n, 1), t0: now, w: windowS };
+    memRl.set(key, rec);
+    const ttl = Math.max(60, rec.t0 + rec.w - now);
+    await kv(env).put("rl:" + key, JSON.stringify(rec), { expirationTtl: ttl });
+  } catch (e) {
+    console.error("rlHit KV put failed (best-effort)", e && e.message || e);
+  }
 }
 export async function rlClear(env, key) {
-  await kv(env).delete("rl:" + key);
+  memRl.delete(key);
+  try { await kv(env).delete("rl:" + key); }
+  catch (e) { console.error("rlClear KV delete failed", e && e.message || e); }
 }
