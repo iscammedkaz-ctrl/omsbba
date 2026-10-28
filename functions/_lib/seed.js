@@ -1,12 +1,11 @@
-// Données initiales : insérées une seule fois, au premier appel, si le KV est vide (meta:seeded absent).
-// Les PIN / mot de passe ci-dessous n'existent que dans ce code serveur ; ils sont HACHÉS (PBKDF2) avant d'aller en KV.
+// Données initiales : une seule fois si D1 vide (meta.seeded absent ET pas de site).
+// PIN / mot de passe seed hachés (PBKDF2) avant écriture. Ne jamais ré-écraser une migration.
 import { SEED_SITE } from "./seed-site.js";
 import { hashSecret, nowISO, ADMIN_USER } from "./util.js";
-import { kv, putRec, inChunks, touch } from "./store.js";
+import { getMeta, setMeta, putRec, getRec, inChunks, touch, db } from "./store.js";
 
 const SEED_PIN = "2026";
 const SEED_ADMIN_PASSWORD = "yasse2026";
-// Ordre et identifiants identiques à l'ancien index.html (c1…c13) pour que l'import des anciennes données s'aligne.
 const CONTRAT = [
   { type: "ecole", kind: "Groupe scolaire", name: "El Wouroud", code: "GS-ELWOUROUD" },
   { type: "ecole", kind: "Groupe scolaire", name: "Sabil El Nadjah", code: "GS-SABIL" },
@@ -28,10 +27,16 @@ const DOC_BASE = ["demande", "agrement", "assurance", "convprev", "convention", 
 let seededMemo = false;
 export async function ensureSeed(env) {
   if (seededMemo) return;
-  const store = kv(env);
-  if (await store.get("meta:seeded")) { seededMemo = true; return; }
+  if (await getMeta(env, "seeded")) { seededMemo = true; return; }
+  // Déjà migré / peuplé sans flag : ne pas écraser.
+  const existing = await db(env).prepare("SELECT id FROM site WHERE id = 'site'").first();
+  if (existing) {
+    await setMeta(env, "seeded", nowISO());
+    seededMemo = true;
+    return;
+  }
   const now = nowISO();
-  const pinCred = await hashSecret(SEED_PIN); // un seul calcul : sel partagé pour les PIN d'origine
+  const pinCred = await hashSecret(SEED_PIN);
   const adminCred = await hashSecret(SEED_ADMIN_PASSWORD);
   const writes = [];
   const add = (key, rec) => writes.push([key, rec]);
@@ -46,11 +51,10 @@ export async function ensureSeed(env) {
       add("doc:" + did, { id: did, clientId: id, type, name: "", date: "2026-10-09", expiry: "2027-06-30", status: "manquant", note: "", file: null, created: now, rev: 1 });
     });
   });
-  // Ne jamais écraser une clé déjà présente (deux premiers appels simultanés).
   await inChunks(writes, 20, async ([key, rec]) => {
-    if (await store.get(key) == null) await putRec(env, key, rec);
+    if (await getRec(env, key) == null) await putRec(env, key, rec);
   });
-  await store.put("meta:seeded", now);
+  await setMeta(env, "seeded", now);
   await touch(env);
   seededMemo = true;
 }

@@ -3,7 +3,7 @@ import {
   HttpError, bad, str, obj, arr, bool, oneOf, int, money, date, isDate, slotOf, phone, code as cleanCode, pin as cleanPin, password as cleanPassword,
   nowISO, rid, randDigits, digits, hashSecret, verifySecret, credOf, SLOTS, TYPES, PERMS, DOC_TYPES, DOC_STATUS, ADMIN_USER, todayISO
 } from "./util.js";
-import { loadAll, getRec, putRec, delKey, touch, getRev, inChunks, kv, rlCheck, rlHit, rlClear, invalidate } from "./store.js";
+import { loadAll, getRec, putRec, delKey, touch, getRev, inChunks, putBlob, getBlob, rlCheck, rlHit, rlClear, invalidate } from "./store.js";
 import { issueAdminToken, requireAdmin, need, has, needAdmin, meOf } from "./auth.js";
 import { cleanSite, stripCred, clientForAdmin, occupancy, findConflicts, conflictError, cleanSessionBase } from "./domain.js";
 import { ipOf } from "./routes-public.js";
@@ -328,7 +328,7 @@ async function createDoc(env, me, body) {
     date: date(body.date, "date", { optional: true }), expiry: date(body.expiry, "expiration", { optional: true }), status: oneOf(body.status, DOC_STATUS, "statut"),
     note: str(body.note, 300, { name: "note" }), file: f ? f.meta : null, created: nowISO(), rev: 1
   };
-  if (f) await kv(env).put("docfile:" + id, f.data);
+  if (f) await putBlob(env, "docfile:" + id, f.data);
   await putRec(env, "doc:" + id, rec);
   const rev = await touch(env);
   return { ok: true, doc: rec, rev };
@@ -348,7 +348,7 @@ async function updateDoc(env, me, id, body) {
   if (body.note !== undefined) next.note = str(body.note, 300, { name: "note" });
   if (body.file) {
     const f = cleanFile(body.file);
-    await kv(env).put("docfile:" + id, f.data);
+    await putBlob(env, "docfile:" + id, f.data);
     next.file = f.meta;
   } else if (body.removeFile === true) {
     await delKey(env, "docfile:" + id);
@@ -370,7 +370,7 @@ async function getDocFile(env, me, id) {
   need(me, "suivi");
   const doc = await getRec(env, "doc:" + id);
   if (!doc || !doc.file) throw notFound("fichier");
-  const data = await kv(env).get("docfile:" + id);
+  const data = await getBlob(env, "docfile:" + id);
   if (!data) throw notFound("fichier");
   return { name: doc.file.name, mime: doc.file.mime, data };
 }
@@ -621,7 +621,7 @@ async function importLegacy(env, me, body) {
   if (body.site && typeof body.site === "object" && data.site.rev === 1) {
     try { const s = cleanSite(body.site); put("site", { ...s, rev: 2, updated: nowISO(), by: me.user }); stats.site = true; } catch (e) { /* site ignoré s'il est invalide */ }
   }
-  await inChunks(files, 5, ([k, v]) => kv(env).put(k, v));
+  await inChunks(files, 5, ([k, v]) => putBlob(env, k, v));
   await inChunks(writes, 25, ([k, r]) => putRec(env, k, r));
   const rev = await touch(env);
   return { ok: true, stats, clientMap: map, rev };

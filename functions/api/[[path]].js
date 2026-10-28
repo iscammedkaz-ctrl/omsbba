@@ -38,7 +38,7 @@ export async function onRequest({ request, env }) {
 
     const [a, b, c] = segs;
     if (a === "health" && !b && method === "GET") {
-      return json({ ok: true, kv: !!(env.BEB && env.BEB.get), authSecret: typeof env.AUTH_SECRET === "string" && env.AUTH_SECRET.length >= 16 });
+      return json({ ok: true, d1: !!(env.DB && env.DB.prepare), kv: !!(env.BEB && env.BEB.get), authSecret: typeof env.AUTH_SECRET === "string" && env.AUTH_SECRET.length >= 16 });
     }
     await ensureSeed(env);
     if (a === "public" && !b && method === "GET") return json(await getPublic(env));
