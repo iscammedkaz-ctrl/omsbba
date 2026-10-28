@@ -472,7 +472,28 @@
   footer.site-foot .tutelle { margin: 0; flex: 1 1 280px; box-shadow: none; }
   footer.site-foot .copy { font-size: 12px; color: rgba(232,242,236,.7); }
 
-</style>
+  /* Responsive polish PC + mobile */
+  html, body { overflow-x: hidden; }
+  img { max-width: 100%; height: auto; }
+  .wall-scroll, .plan-wide, .card[style*="overflow:auto"] { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .plan-table th:first-child, .plan-table td:first-child, .wall-grid th:first-child, .wall-grid td:first-child { position: sticky; inset-inline-start: 0; background: white; z-index: 1; }
+  input, select, textarea { max-width: 100%; box-sizing: border-box; }
+  @media (min-width: 1400px) { .wrap { max-width: 1320px; } h1 { font-size: 48px; } }
+  @media (max-width: 860px) {
+    input:not([type=checkbox]):not([type=radio]), select, textarea { width: 100%; min-height: 46px; }
+    form .solid, form .ghost { width: 100%; }
+    .tabs { display: flex; overflow-x: auto; flex-wrap: nowrap; gap: 6px; scrollbar-width: none; }
+    .tabs .tab { flex: none; }
+    .grid { gap: 12px; }
+  }
+  @media (max-width: 640px) {
+    .wrap { padding-inline: 14px; }
+    h1 { font-size: clamp(26px, 8vw, 32px); line-height: 1.15; }
+    h2 { font-size: 22px; }
+    .hero-card { max-width: 100%; }
+    .cta { flex-wrap: wrap; gap: 8px; }
+    footer { padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px)); }
+  }</style>
 </head>
 <body>
 <div class="busybar" id="busyBar" aria-hidden="true"></div>
