@@ -82,9 +82,10 @@ export async function loadAll(env) {
   return data;
 }
 
-/* ---------- limitation de débit (mémoire isolat + KV TTL, best-effort) ---------- */
-/* Compteur mémoire : reste actif si le quota KV put() journalier est épuisé (sinon login → 500). */
+/* ---------- limitation de débit (Cache API colo + mémoire + KV, best-effort) ---------- */
+/* Si le quota KV put() journalier est épuisé, Cache API + mémoire conservent le rate-limit sans 500. */
 const memRl = new Map();
+const rlReq = (key) => new Request("https://omsbeb-rl.internal/" + encodeURIComponent(key));
 function rlBlocked(cur, now, limit) {
   if (!cur || now >= cur.t0 + cur.w) return null;
   if (cur.n < limit) return null;
@@ -92,10 +93,39 @@ function rlBlocked(cur, now, limit) {
   e.retryAfter = Math.max(1, cur.t0 + cur.w - now);
   return e;
 }
+async function rlCacheGet(key) {
+  try {
+    const res = await caches.default.match(rlReq(key));
+    if (!res) return null;
+    return await res.json();
+  } catch (e) { return null; }
+}
+async function rlCachePut(key, rec) {
+  try {
+    const ttl = Math.max(60, rec.t0 + rec.w - Math.floor(Date.now() / 1000));
+    await caches.default.put(rlReq(key), new Response(JSON.stringify(rec), {
+      headers: { "content-type": "application/json", "cache-control": "max-age=" + ttl }
+    }));
+  } catch (e) { console.error("rl cache put failed", e && e.message || e); }
+}
+async function rlCacheDel(key) {
+  try { await caches.default.delete(rlReq(key)); } catch (e) { /* ignore */ }
+}
+function rlMerge(a, b, now, windowS) {
+  const cands = [a, b].filter((x) => x && now < x.t0 + x.w);
+  if (!cands.length) return { n: 1, t0: now, w: windowS };
+  const t0 = Math.min(...cands.map((x) => x.t0));
+  const w = cands[0].w || windowS;
+  const n = Math.max(...cands.map((x) => x.n)) + 1;
+  return { n, t0, w };
+}
 export async function rlCheck(env, key, limit) {
   const now = Math.floor(Date.now() / 1000);
   const memHit = rlBlocked(memRl.get(key), now, limit);
   if (memHit) throw memHit;
+  const cacheCur = await rlCacheGet(key);
+  const cacheHit = rlBlocked(cacheCur, now, limit);
+  if (cacheHit) throw cacheHit;
   try {
     const cur = await kv(env).get("rl:" + key, "json");
     const kvHit = rlBlocked(cur, now, limit);
@@ -107,16 +137,15 @@ export async function rlCheck(env, key, limit) {
 }
 export async function rlHit(env, key, windowS) {
   const now = Math.floor(Date.now() / 1000);
-  const prev = memRl.get(key);
-  let rec;
-  if (prev && now < prev.t0 + prev.w) rec = { n: prev.n + 1, t0: prev.t0, w: prev.w };
-  else rec = { n: 1, t0: now, w: windowS };
+  const cacheCur = await rlCacheGet(key);
+  let rec = rlMerge(memRl.get(key), cacheCur, now, windowS);
   memRl.set(key, rec);
+  await rlCachePut(key, rec);
   try {
     const cur = await kv(env).get("rl:" + key, "json");
     if (cur && now < cur.t0 + cur.w) rec = { n: Math.max(rec.n, cur.n + 1), t0: cur.t0, w: cur.w };
-    else rec = { n: Math.max(rec.n, 1), t0: now, w: windowS };
     memRl.set(key, rec);
+    await rlCachePut(key, rec);
     const ttl = Math.max(60, rec.t0 + rec.w - now);
     await kv(env).put("rl:" + key, JSON.stringify(rec), { expirationTtl: ttl });
   } catch (e) {
@@ -125,6 +154,7 @@ export async function rlHit(env, key, windowS) {
 }
 export async function rlClear(env, key) {
   memRl.delete(key);
+  await rlCacheDel(key);
   try { await kv(env).delete("rl:" + key); }
   catch (e) { console.error("rlClear KV delete failed", e && e.message || e); }
 }
